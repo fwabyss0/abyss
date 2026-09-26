@@ -27,62 +27,68 @@
     });
   })();
 
-  // skills
-    (function skills() {
-      var host = $('#skillsGrid');
-      if (!host) return;
-      SKILLS.forEach(function (sk, i) {
-        var el = document.createElement('article');
-        el.className = 'skill glass';
-      
-        // Determine if this is the Programming card with JavaScript highlight
-        var isProgramming = sk.name === 'Programming';
-        var jsHighlight = isProgramming && sk.tags.includes('JavaScript');
-      
-        var tagsHTML = sk.tags.map(function (tag, j) {
-          var isHighlight = jsHighlight && tag === 'JavaScript';
-          var highlightClass = isHighlight ? ' js-highlight' : '';
-        
-          // Map tag to icon class
-          var iconClass = '';
-          switch(tag) {
-            case 'Python': iconClass = 'devicon-devicon-plain'; break;
-            case 'JavaScript': iconClass = 'devicon-javascript-plain'; break;
-            case 'HTML': iconClass = 'devicon-html5-plain'; break;
-            case 'CSS': iconClass = 'devicon-css3-plain'; break;
-            case 'TensorFlow': iconClass = 'devicon-tensorflow-plain'; break;
-            case 'Neural Networks': iconClass = 'devicon-database'; break; // fallback
-            case 'Data Science': iconClass = 'devicon-chart'; break; // fallback
-            case 'Deep Learning': iconClass = 'devicon-brain'; break; // fallback
-            case 'VS Code': iconClass = 'devicon-vscode-line'; break;
-            case 'GitHub': iconClass = 'devicon-github-line'; break;
-            case 'Git': iconClass = 'devicon-git-line'; break;
-            case 'DevTools': iconClass = 'devicon-chrome-line'; break;
-            case 'Video Editing': iconClass = 'devicon-youtube'; break; // fallback
-            case 'UI/UX Design': iconClass = 'devicon-paint-brush'; break; // fallback
-            case 'Photography': iconClass = 'devicon-camera'; break; // fallback
-            case 'Communication': iconClass = 'devicon-comment-discussion'; break; // fallback
-            default: iconClass = 'devicon-code'; break;
-          }
-        
-          var percentBadge = isHighlight ? ' <span class="percent-badge">65%</span>' : '';
-          return '<span class="skill-tag ' + highlightClass + '"><i class="' + iconClass + '"></i> ' + tag + percentBadge + '</span>';
-        }).join('');
-      
-        el.innerHTML =
-          '<h3 class="skill-title">' + sk.name + '</h3>' +
-          '<div class="skill-list">' + tagsHTML + '</div>';
-        
-        host.appendChild(el);
-      
-        // pointer-tracked glow
-        el.addEventListener('pointermove', function (e) {
-          var r = el.getBoundingClientRect();
-          el.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
-          el.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
-        });
+  // skills — category cards with chip-level hover percentage and moving border
+  (function skills() {
+    var host = $('#skillsGrid');
+    if (!host) return;
+
+    var icons = {
+      Python: 'devicon-python-plain', JavaScript: 'devicon-javascript-plain',
+      HTML: 'devicon-html5-plain', CSS: 'devicon-css3-plain',
+      TensorFlow: 'devicon-tensorflow-plain', 'VS Code': 'devicon-vscode-line',
+      GitHub: 'devicon-github-line', Git: 'devicon-git-line', DevTools: 'devicon-chrome-line'
+    };
+    var variants = ['skill-cat-teal', 'skill-cat-purple', 'skill-cat-yellow', 'skill-cat-pink'];
+
+    SKILLS.forEach(function (sk, i) {
+      var card = document.createElement('article');
+      card.className = 'skill-cat glass ' + variants[i % variants.length];
+      var chips = sk.tags.map(function (tag) {
+        var icon = icons[tag] || 'devicon-code-plain';
+        var pct = Math.max(40, Math.min(99, sk.level - Math.max(0, sk.tags.indexOf(tag) * 3)));
+        return '<span class="sc-wrap" data-level="' + pct + '">' +
+          '<span class="sc-border" aria-hidden="true"><span class="sc-border-inner"></span></span>' +
+          '<span class="sc" tabindex="0" role="button" aria-label="' + tag + ', proficiency ' + pct + ' percent">' +
+            '<i class="' + icon + '" aria-hidden="true"></i>' + tag +
+          '</span>' +
+        '</span>';
+      }).join('');
+
+      card.innerHTML =
+        '<div class="skill-cat-header">' +
+          '<span class="skill-cat-icon" aria-hidden="true">0' + (i + 1) + '</span>' +
+          '<h3 class="skill-cat-title">' + sk.name + '</h3>' +
+        '</div>' +
+        '<div class="sc-row">' + chips + '</div>';
+      host.appendChild(card);
+
+      card.querySelectorAll('.sc-wrap').forEach(function (wrap) {
+        var chip = wrap.querySelector('.sc');
+        var border = wrap.querySelector('.sc-border');
+        var pct = wrap.getAttribute('data-level');
+
+        function openChip() {
+          border.classList.add('visible');
+          chip.classList.add('sc-active');
+          var label = document.createElement('span');
+          label.className = 'sc-pct-label';
+          label.textContent = pct + '%';
+          chip.appendChild(label);
+          border.style.background = 'conic-gradient(from -90deg, var(--violet) 0 ' + pct + '%, rgba(255,255,255,.08) ' + pct + '% 100%)';
+        }
+        function closeChip() {
+          border.classList.remove('visible');
+          chip.classList.remove('sc-active');
+          var label = chip.querySelector('.sc-pct-label');
+          if (label) label.remove();
+        }
+        wrap.addEventListener('pointerenter', openChip);
+        wrap.addEventListener('pointerleave', closeChip);
+        chip.addEventListener('focus', openChip);
+        chip.addEventListener('blur', closeChip);
       });
-    })();
+    });
+  })();
 
   // projects
   // The card is a <div>, not an <a>, so it can legally contain BOTH the live

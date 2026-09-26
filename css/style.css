@@ -1118,150 +1118,203 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 
 /* ============================================================
-   SKILLS
+   SKILLS — card grid with hover percentage + conic border
    ============================================================ */
+.skills {
+  padding: 6rem 0;
+  background: var(--bg);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+/* Skills card grid */
 .skills__grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.6rem;
 }
-.skill {
+
+.skill-cat {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 1.8rem 1.6rem;
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), border-color 0.3s var(--ease);
   position: relative;
-  padding: 1.6rem 1.5rem 1.5rem;
-  border-radius: var(--r);
   overflow: hidden;
-  transition: border-color .4s var(--ease), transform .4s var(--ease), box-shadow .4s var(--ease);
-}
-/* the light that follows the cursor inside the card — cool white, barely there.
-   JS keeps writing --mx / --my, so the interaction is unchanged. */
-.skill::before {
-  content: ''; position: absolute; inset: 0;
-  background: var(--sheen);
-  opacity: 0; transition: opacity .45s var(--ease);
-  pointer-events: none;
-}
-/* corner ticks on hover: 1px, not brackets */
-.skill::after {
-  content: ''; position: absolute; inset: 6px; border-radius: 6px;
-  background:
-    linear-gradient(rgba(255,255,255,.35), rgba(255,255,255,.35)) top left / 9px 1px no-repeat,
-    linear-gradient(rgba(255,255,255,.35), rgba(255,255,255,.35)) top left / 1px 9px no-repeat,
-    linear-gradient(rgba(255,255,255,.35), rgba(255,255,255,.35)) bottom right / 9px 1px no-repeat,
-    linear-gradient(rgba(255,255,255,.35), rgba(255,255,255,.35)) bottom right / 1px 9px no-repeat;
-  opacity: 0; transition: opacity .4s var(--ease);
-  pointer-events: none;
-}
-.skill:hover, .skill:focus-within {
-  transform: translateY(-3px);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, .42), var(--glass-inset);
-}
-.skill:hover::before, .skill:focus-within::before,
-.skill:hover::after,  .skill:focus-within::after { opacity: 1; }
-
-.skill__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: .8rem; }
-.skill__name { font-size: 1.08rem; font-weight: 600; letter-spacing: -.01em; line-height: 1.25; }
-.skill__idx { font-family: var(--mono); font-size: .64rem; color: var(--ink-3); }
-
-.skill__note {
-  font-size: .88rem; color: var(--ink-3); line-height: 1.55;
-  margin-bottom: 1.2rem; min-height: 2.7em;
-  transition: color .35s var(--ease);
-}
-.skill:hover .skill__note { color: var(--ink-2); }
-
-.skill__tags { display: flex; flex-wrap: wrap; gap: .3rem; margin-bottom: 1.1rem; }
-.skill__tags span {
-  font-family: var(--mono); font-size: .6rem; letter-spacing: .06em;
-  color: var(--ink-3);
-  padding: .18rem .42rem;
-  border: 1px solid var(--line); border-radius: var(--r-xs);
 }
 
-.skill__meter { display: flex; align-items: center; gap: .8rem; }
-.skill__bar {
-  flex: 1; height: 2px;
-  background: rgba(255, 255, 255, .07);
-  border-radius: 2px; overflow: hidden; position: relative;
-}
-.skill__bar i {
-  display: block; height: 100%; width: 0;
-  background: linear-gradient(90deg, rgba(255,255,255,.45), rgba(255,255,255,.92));
-  transition: width 1s var(--ease);
-}
-.skill:hover .skill__bar i, .skill:focus-within .skill__bar i { width: var(--lvl); }
-.skill__pct {
-  font-family: var(--mono); font-size: .78rem; font-weight: 700;
-  color: var(--ink-3); min-width: 2.6em; text-align: right;
-  transition: color .3s var(--ease);
-}
-.skill:hover .skill__pct, .skill:focus-within .skill__pct { color: var(--ink); }
-/* count the number up only when opened */
-.skill__pct { opacity: .45; }
-.skill:hover .skill__pct, .skill:focus-within .skill__pct { opacity: 1; }
-
-/* JavaScript highlight effect for skills card */
-.js-highlight {
-  position: relative;
-}
-.js-highlight::before {
+.skill-cat::before {
   content: '';
   position: absolute;
-  inset: 0;
-  border: 2px solid #FFEB3B;
-  border-radius: 4px;
+  top: -30px; right: -30px;
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  opacity: 0.08;
+  transition: opacity 0.3s;
   pointer-events: none;
-  animation: jsPulse 2s ease-in-out infinite;
-}
-.js-highlight .percent-badge {
-  position: absolute;
-  top: -8px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #FFEB3B;
-  color: #000;
-  font-size: 0.6rem;
-  font-weight: 700;
-  padding: 2px 6px;
-  border-radius: 10px;
-  white-space: nowrap;
+  background: radial-gradient(circle, var(--violet) 0%, transparent 70%);
 }
 
-/* Skill tag styling */
-.skill-tag {
+.skill-cat:hover { transform: translateY(-5px); }
+.skill-cat:hover::before { opacity: 0.14; }
+
+/* Category accent variants — all use violet/pink from current theme */
+.skill-cat-teal,
+.skill-cat-yellow {
+  border-color: rgba(167, 139, 250, 0.18);
+}
+.skill-cat-purple,
+.skill-cat-pink {
+  border-color: rgba(195, 155, 176, 0.18);
+}
+
+.skill-cat-teal:hover,
+.skill-cat-yellow:hover {
+  border-color: rgba(167, 139, 250, 0.4);
+  box-shadow: 0 12px 40px rgba(167, 139, 250, 0.08);
+}
+.skill-cat-purple:hover,
+.skill-cat-pink:hover {
+  border-color: rgba(195, 155, 176, 0.4);
+  box-shadow: 0 12px 40px rgba(195, 155, 176, 0.08);
+}
+
+.skill-cat-header {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1.2rem;
+}
+
+.skill-cat-icon {
+  width: 42px; height: 42px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+}
+
+.skill-cat-teal .skill-cat-icon,
+.skill-cat-yellow .skill-cat-icon {
+  color: var(--ink);
+  border-color: rgba(245, 245, 246, 0.2);
+}
+.skill-cat-purple .skill-cat-icon,
+.skill-cat-pink .skill-cat-icon {
+  color: var(--violet);
+  border-color: rgba(167, 139, 250, 0.2);
+}
+
+.skill-cat-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0;
+}
+
+/* 2×2 grid for skill chips inside each card */
+.sc-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem;
+}
+
+.sc-wrap {
+  position: relative;
+  display: flex;
+  border-radius: 12px;
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+
+.sc-wrap:hover {
+  transform: scale(1.12) translateY(-8px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+/* Skill chip — minimal, no default border */
+.sc {
+  position: relative;
+  z-index: 2;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.55rem 0.5rem;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  background: var(--bg-3);
+  color: var(--ink);
+  cursor: pointer;
+  width: 100%;
+  user-select: none;
+  border: none;
+  transition: box-shadow 0.3s var(--ease);
+}
+
+.sc.sc-active {
+  box-shadow: 0 0 12px rgba(255,255,255,0.05);
+}
+
+.sc i {
+  color: var(--violet);
+  font-size: 1rem;
+}
+
+/* Percentage label above chip on hover */
+.sc-pct-label {
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.68rem;
   font-family: var(--mono);
-  font-size: 0.75rem;
-  color: var(--ink-2);
-  background: var(--surface);
+  font-weight: 700;
+  white-space: nowrap;
+  z-index: 10;
+  background: var(--bg);
+  padding: 0.12rem 0.45rem;
+  border-radius: 5px;
   border: 1px solid var(--line);
-  border-radius: var(--r-xs);
-  padding: 4px 8px;
-  transition: all 0.25s var(--ease);
-}
-.skill-tag:hover {
-  color: #fff;
-  border-color: var(--line-2);
-  background: var(--surface-hi);
-  transform: translateY(-2px);
-}
-.skill-tag i {
-  font-size: 0.9rem;
-  width: 1em;
-  text-align: center;
+  pointer-events: none;
+  animation: pctFadeIn 0.25s var(--ease) forwards;
 }
 
-/* JavaScript pulse animation */
-@keyframes jsPulse {
-  0%, 100% { opacity: 0.7; }
-  50% { opacity: 1; }
+@keyframes pctFadeIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(4px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
 
-/* keyboard/AT users get the value without hovering */
+/* Conic-gradient border that acts as the chip border */
+.sc-border {
+  position: absolute;
+  inset: -4px;
+  border-radius: 14px;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.2s var(--ease);
+}
+
+.sc-border.visible {
+  opacity: 1;
+}
+
+.sc-border-inner {
+  position: absolute;
+  inset: 2px;
+  background: var(--bg-3);
+  border-radius: 12px;
+  z-index: 1;
+}
+
+/* keyboard/AT users */
 @media (hover: none) {
-  .skill .skill__bar i { width: var(--lvl); }
-  .skill__pct { opacity: 1; }
+  .sc-wrap { transform: none; }
 }
 
 /* ============================================================
