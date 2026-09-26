@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<title>Alish Shrestha — AI Student • Web Developer • Creator</title>
+<meta name="description" content="The interactive voxel portfolio of Alish Shrestha — AI student, web developer and creator. Explore the village to read about me, my skills, experience, projects and contact.">
+<meta name="author" content="Alish Shrestha">
+<meta name="theme-color" content="#63a8e8">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Alish Shrestha — AI Student • Web Developer • Creator">
+<meta property="og:description" content="An explorable voxel world portfolio. Walk into a building to read a section.">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%2360983e'/><rect y='6' width='16' height='10' fill='%23865f43'/></svg>">
+</head>
+<body>
+
+<!-- the 3D world -->
+<canvas id="scene"></canvas>
+
+<!-- all UI lives here -->
+<div id="ui"></div>
+
+<!-- ============================================================
+     No-JS fallback: the portfolio content is also plain HTML below,
+     so the site is fully readable (and crawlable) without WebGL or JS.
+     Hidden as soon as the world boots.
+     ============================================================ -->
+<main id="fallback">
+  <h1>ALISH SHRESTHA</h1>
+  <p class="role">AI STUDENT • WEB DEVELOPER • CREATOR</p>
+  <p>This portfolio is a 3D voxel world. Your browser could not start WebGL, so here is the same content in plain text.</p>
+  <p><a href="https://github.com/fwabyss0">GitHub</a> ·
+     <a href="https://www.linkedin.com/in/alish-shrestha-4276b8379/">LinkedIn</a> ·
+     <a href="https://www.instagram.com/aliisshhhhhh/">Instagram</a> ·
+     <a href="https://www.facebook.com/alish.shrestha.138982/">Facebook</a> ·
+     <a href="https://wa.me/9779826328462">WhatsApp</a></p>
+</main>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "./js/vendor/three.module.min.js"
+  }
+}
+</script>
+<script type="module">
+  // Boot inside try/catch: if WebGL or the network is unavailable we simply
+  // leave the plain-HTML fallback visible instead of a blank page.
+  import('./js/main.js')
+    .then(m => document.body.classList.add('world-ready'))
+    .catch(err => {
+      console.error('[portfolio] world failed to start:', err);
+      document.body.classList.add('world-failed');
+    });
+</script>
+
+</body>
+</html>
