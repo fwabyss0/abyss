@@ -1617,10 +1617,12 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 
 /* ============================================================
    RESPONSIVE
+   Matched to old portfolio responsive behavior
    ============================================================ */
-@media (max-width: 1080px) {
+@media (max-width: 1024px) {
   .about__grid { grid-template-columns: 1fr; }
   .contact__grid { grid-template-columns: 1fr; }
+  .skills__grid { gap: 1.2rem; }
 }
 
 @media (max-width: 900px) {
@@ -1630,6 +1632,15 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   .hero { padding-block: 7rem 5.5rem; }
   .hero__scroll { display: none; }
   .hero__ticker { font-size: .6rem; }
+  .work__grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .skills__grid { grid-template-columns: 1fr; gap: 1rem; }
+  .section { padding-block: 4rem; }
+  .sec-head__title { font-size: 1.7rem; }
+  .about__grid { gap: 1.75rem; }
+  .about__side { max-width: 100%; }
 }
 
 @media (max-width: 620px) {
@@ -1640,19 +1651,14 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   .hero__socials a { padding: .5rem .7rem; font-size: .68rem; }
 }
 
-@media (max-width: 420px) {
-  /* small phones: shrink display type so the whole hero fits one screen */
-  .hero__title { font-size: clamp(2.6rem, min(15.5vw, 17vh), 12.5rem); }
+@media (max-width: 480px) {
+  .wrap { padding-inline: 16px; }
+  .hero__title { font-size: clamp(2.1rem, min(15.5vw, 17vh), 12.5rem); }
   .hero__role { gap: .4rem .5rem; letter-spacing: .1em; font-size: .76rem; }
-  .hero__role i { display: none; }              /* bullets wrap badly; spacing implies them */
+  .hero__role i { display: none; }
   .hero__lede { font-size: .9rem; }
   .hero__socials { gap: .3rem; }
   .hero__socials a { padding: .45rem; font-size: .74rem; }
-  .hero__socials a span { display: none; }
-  .hero__socials a::before {
-    content: attr(aria-label);
-    font-size: .6rem; letter-spacing: .06em; text-transform: uppercase;
-  }
   .pill { font-size: .6rem; padding: .32rem .6rem; }
 }
 
