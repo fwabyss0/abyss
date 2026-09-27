@@ -34,6 +34,27 @@ const SOCIALS = [
   { label: 'Email',     handle: 'shrestaalish444@gmail.com', href: 'mailto:shrestaalish444@gmail.com',            accent: '#4ade80' }
 ];
 
+/* ============================================================
+   MUSIC — the player's track list.
+
+   HOW TO ADD YOUR OWN SONGS
+   1. Put the audio files in the audio/ folder at the repo root
+      (create it if it does not exist). MP3 works everywhere;
+      .m4a and .ogg are fine too if you prefer them.
+   2. Point `src` at the filename, e.g. 'audio/track-01.mp3'.
+   3. Set `title` and `artist` to whatever you want shown.
+
+   Until you add real files the player ships with no tracks and
+   simply shows its resting frame — it will not error, and it will
+   not download anything.
+
+   Note: only upload audio you own or have the right to publish.
+   Adding songs ripped from streaming services is copyright
+   infringement, and Spotify links are not usable here because
+   their player cannot stream silently or autoplay.
+   ========================================================== */
+const TRACKS = [];
+
 const STACK = [
   'JavaScript', 'TypeScript', 'Python', 'React', 'Next.js', 'Node.js',
   'HTML5', 'CSS3', 'Tailwind', 'Three.js', 'Git', 'Figma', 'Pandas',
@@ -118,17 +139,6 @@ const PROJECTS = [
     accent: '#4ade80',
     href: 'https://github.com/fwabyss0/Protfolio.git',
     repo: 'https://github.com/fwabyss0/Protfolio.git',
-    featured: false
-  },
-  {
-    title: 'Voxel World Portfolio',
-    tag: 'THREE.JS / WEBGL',
-    year: '2026',
-    blurb: 'An explorable 3D voxel world that turns this portfolio into a place — walk into a building to read a section, with a plain-HTML fallback for browsers without WebGL.',
-    stack: ['JavaScript', 'Three.js', 'WebGL', 'HTML5'],
-    accent: '#e4e4e7',
-    href: 'voxel/index.html',
-    repo: 'https://github.com/fwabyss0/Protfolio',
     featured: false
   }
 ];

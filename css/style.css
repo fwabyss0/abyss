@@ -1597,51 +1597,119 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   .btn { padding: .85rem 1.2rem; font-size: .82rem; }
 }
 
-/* ---------- chatbot ---------- */
-#chatbot-trigger {
+/* ---------- music player ----------
+   Sits in the bottom-right corner the chatbot used to occupy, and is built
+   from the same glass primitive as every other panel so it reads as part of
+   the site rather than a bolted-on widget. */
+.player {
   position: fixed; right: 1.35rem; bottom: 1.35rem; z-index: 80;
-  width: 3.25rem; height: 3.25rem; border: 1px solid rgba(167,139,250,.42);
-  border-radius: 50%; display: grid; place-items: center; cursor: pointer;
-  color: var(--ink); background: rgba(12,10,18,.88); backdrop-filter: blur(16px);
-  box-shadow: 0 12px 30px rgba(0,0,0,.4), 0 0 0 4px rgba(167,139,250,.06);
-  transition: transform .25s ease, border-color .25s ease, color .25s ease;
+  display: flex; align-items: center; gap: .7rem;
+  padding: .55rem .55rem .55rem .95rem;
+  color: var(--ink);
+  background: rgba(12,10,18,.88); backdrop-filter: blur(16px);
+  border: 1px solid rgba(167,139,250,.28); border-radius: 100px;
+  box-shadow: 0 12px 30px rgba(0,0,0,.4), 0 0 0 4px rgba(167,139,250,.05);
+  transition: border-color .3s var(--ease), box-shadow .3s var(--ease);
 }
-#chatbot-trigger:hover, #chatbot-trigger.active { transform: translateY(-3px); color: var(--violet); border-color: var(--violet); }
-#chatbot-trigger svg { width: 1.3rem; height: 1.3rem; }
-#chatbot-window {
-  position: fixed; right: 1.35rem; bottom: 5.35rem; z-index: 79;
-  width: min(22rem, calc(100vw - 2rem)); height: min(31rem, calc(100vh - 7rem));
-  display: flex; flex-direction: column; overflow: hidden; opacity: 0; pointer-events: none;
-  transform: translateY(12px) scale(.97); transform-origin: bottom right;
-  border: 1px solid var(--line-2); border-radius: 1rem; background: rgba(10,10,12,.94);
-  backdrop-filter: blur(20px); box-shadow: 0 22px 70px rgba(0,0,0,.6);
-  transition: opacity .25s ease, transform .25s ease;
+.player:hover, .player:focus-within {
+  border-color: rgba(167,139,250,.5);
+  box-shadow: 0 12px 30px rgba(0,0,0,.4), 0 0 18px rgba(167,139,250,.12);
 }
-#chatbot-window.active { opacity: 1; pointer-events: auto; transform: none; }
-.chat-header { display:flex; align-items:center; justify-content:space-between; padding:1rem 1.1rem; border-bottom:1px solid var(--line); }
-.chat-header-info { display:flex; flex-direction:column; gap:.2rem; }
-.chat-bot-name { color:var(--ink); font-weight:600; letter-spacing:.04em; }
-.chat-bot-status { color:var(--violet); font: .62rem var(--mono); text-transform:uppercase; letter-spacing:.12em; }
-#chat-close { border:0; background:none; color:var(--ink-2); font-size:1.4rem; cursor:pointer; }
-.chat-messages { flex:1; overflow:auto; padding:1rem; display:flex; flex-direction:column; gap:.65rem; }
-.chat-msg { max-width:88%; font-size:.8rem; line-height:1.55; }
-.chat-msg .msg-content { padding:.65rem .75rem; border:1px solid var(--line); border-radius:.7rem; }
-.chat-msg.bot { align-self:flex-start; color:var(--ink-2); }
-.chat-msg.bot .msg-content { background:rgba(255,255,255,.035); }
-.chat-msg.user { align-self:flex-end; color:var(--ink); }
-.chat-msg.user .msg-content { background:rgba(167,139,250,.14); border-color:rgba(167,139,250,.25); }
-.chat-input-area { display:flex; gap:.5rem; padding:.75rem; border-top:1px solid var(--line); }
-#chat-input { min-width:0; flex:1; border:1px solid var(--line-2); border-radius:.55rem; padding:.65rem .7rem; color:var(--ink); background:rgba(255,255,255,.04); outline:none; }
-#chat-input:focus { border-color:var(--violet); }
-#chat-send { width:2.35rem; border:1px solid rgba(167,139,250,.35); border-radius:.55rem; color:var(--ink); background:rgba(167,139,250,.14); cursor:pointer; }
-#chat-send:hover { color:var(--violet); }
+
+/* The round play/pause button. */
+.player__btn {
+  flex: none;
+  width: 2.6rem; height: 2.6rem;
+  display: grid; place-items: center;
+  border: 1px solid rgba(167,139,250,.4); border-radius: 50%;
+  color: var(--ink);
+  background: rgba(167,139,250,.14);
+  cursor: pointer;
+  transition: background .25s var(--ease), color .25s var(--ease), transform .25s var(--ease);
+}
+.player__btn:hover { background: rgba(167,139,250,.24); color: #fff; transform: scale(1.06); }
+.player__btn svg { width: 1.05rem; height: 1.05rem; fill: currentColor; }
+/* Play and pause are the same button in two states; only one is shown. */
+.player__btn .i-pause { display: none; }
+.player.is-playing .player__btn .i-pause { display: block; }
+.player.is-playing .player__btn .i-play { display: none; }
+
+/* Track name, artist, and the seek bar — the whole middle is one flex row
+   so long titles ellipsize instead of pushing the button off the pill. */
+.player__meta {
+  display: flex; flex-direction: column; gap: .3rem;
+  min-width: 0; width: 11rem;
+}
+.player__now { min-width: 0; }
+.player__title, .player__artist {
+  display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.player__title { font-size: .76rem; font-weight: 600; }
+.player__artist { font-size: .64rem; color: var(--ink-3); }
+
+.player__bar {
+  position: relative;
+  height: 3px; border-radius: 2px;
+  background: rgba(255,255,255,.12);
+  cursor: pointer;
+}
+.player__fill {
+  position: absolute; inset: 0 auto 0 0;
+  width: 0; border-radius: inherit;
+  background: linear-gradient(90deg, rgba(167,139,250,.6), rgba(167,139,250,1));
+  box-shadow: 0 0 8px rgba(167,139,250,.5);
+}
+.player__bar:hover .player__fill { box-shadow: 0 0 12px rgba(167,139,250,.7); }
+
+.player__time {
+  flex: none;
+  font: .62rem var(--mono); color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Volume lives behind a second small button so the pill stays compact. */
+.player__vol {
+  flex: none; width: 1.5rem; height: 1.5rem;
+  display: grid; place-items: center;
+  border: 0; background: none; color: var(--ink-3);
+  cursor: pointer; font: .68rem var(--mono);
+  transition: color .25s var(--ease);
+}
+.player__vol:hover { color: var(--ink); }
+.player__volwrap { position: relative; display: grid; place-items: center; }
+/* A real range input, visually collapsed until hover/focus, so it stays
+   keyboard- and screen-reader-accessible instead of being a div fake. */
+.player__volrange {
+  position: absolute; right: 1.9rem; bottom: 50%;
+  width: 5.5rem; height: 1.6rem;
+  transform: translateY(50%) scaleX(0);
+  transform-origin: right center;
+  opacity: 0; pointer-events: none;
+  transition: transform .3s var(--ease), opacity .3s var(--ease);
+}
+.player__volwrap:hover .player__volrange,
+.player__volrange:focus-visible {
+  transform: translateY(50%) scaleX(1);
+  opacity: 1; pointer-events: auto;
+}
+.player__volrange input {
+  width: 100%; height: 100%;
+  accent-color: var(--violet);
+  cursor: pointer;
+}
+
+@media (max-width: 480px) {
+  .player { right: 1rem; bottom: 1rem; gap: .55rem; padding: .5rem .5rem .5rem .8rem; }
+  .player__meta { width: 7.5rem; }
+  .player__time, .player__vol { display: none; }
+}
 
 /* print — just the content, none of the theatre */
 @media print {
   body { background: #fff; color: #000; }
   body::before, .grain, .scanlines, .cursor, .progress,
   .nav, .menu, .hero__field, .hero__ticker, .hero__scroll, .totop,
-  #chatbot-trigger, #chatbot-window { display: none !important; }
+  .player { display: none !important; }
   .section { padding-block: 1.5rem; }
   [data-reveal], .stagger > * { opacity: 1 !important; transform: none !important; }
   a { text-decoration: underline; }

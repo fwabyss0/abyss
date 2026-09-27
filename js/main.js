@@ -13,57 +13,34 @@
   var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
   /* ==========================================================
-     1. BUILD THE CONTENT FROM data.js
+     1. CONTENT + INTERACTIVITY
+
+     Projects, skills, education, experience, contact links and the tool
+     tags are all written out as real HTML in index.html so search engines
+     can read them without executing JavaScript. The blocks below therefore
+     do NOT build those sections — they only attach the behaviour that
+     cannot live in markup: the chip hover ring, the rail measurement, and
+     the generative card previews.
+
+     Consequence for editing: data.js is no longer the only place the copy
+     lives. The HTML is what Google sees, so changing a project, skill,
+     school or job means editing BOTH index.html and the matching array
+     here — the arrays are still read for the rail's done-flags.
      ========================================================== */
 
-  // stack tags
-  (function stack() {
-    var host = $('#stackTags');
-    if (!host) return;
-    STACK.forEach(function (t) {
-      var s = document.createElement('span');
-      s.textContent = t;
-      host.appendChild(s);
-    });
-  })();
-
-  // skills — category cards; hovering or focusing a chip lifts it and draws a
-  // conic ring to the chip's own percentage.
+  // skills — attach the conic ring to chips that are already in the DOM
   (function skills() {
     var host = $('#skillsGrid');
     if (!host) return;
 
-    SKILL_CATS.forEach(function (cat, i) {
-      var card = document.createElement('article');
-      card.className = 'skill-cat glass';
-      var chips = cat.skills.map(function (sk) {
-        return '<span class="sc-wrap">' +
-          '<span class="sc-border" aria-hidden="true"><span class="sc-border-inner"></span></span>' +
-          '<span class="sc" tabindex="0" role="button" ' +
-            'style="--cc:' + sk.color + '" ' +
-            'data-percent="' + sk.percent + '" ' +
-            'aria-label="' + sk.name + ', proficiency ' + sk.percent + ' percent">' +
-            '<i class="' + sk.icon + '" aria-hidden="true"></i>' + sk.name +
-          '</span>' +
-        '</span>';
-      }).join('');
-
-      card.innerHTML =
-        '<div class="skill-cat-header">' +
-          '<span class="skill-cat-icon" aria-hidden="true">0' + (i + 1) + '</span>' +
-          '<h3 class="skill-cat-title">' + cat.name + '</h3>' +
-        '</div>' +
-        '<div class="sc-row">' + chips + '</div>';
-      host.appendChild(card);
-
-      // Touch devices fire synthetic hover with no ring to show, so the whole
-      // interaction is gated on a real pointer.
-      if (!fine) return;
-
-      card.querySelectorAll('.sc-wrap').forEach(function (wrap) {
+    // Touch devices fire synthetic hover with no ring to show, so the whole
+    // interaction is gated on a real pointer.
+    if (fine) {
+      host.querySelectorAll('.sc-wrap').forEach(function (wrap) {
         var chip = wrap.querySelector('.sc');
         var border = wrap.querySelector('.sc-border');
-        var pct = wrap.querySelector('.sc').getAttribute('data-percent');
+        if (!chip || !border) return;
+        var pct = chip.getAttribute('data-percent');
 
         function openChip() {
           if (chip.classList.contains('sc-active')) return;
@@ -88,88 +65,180 @@
         chip.addEventListener('focus', openChip);
         chip.addEventListener('blur', closeChip);
       });
-    });
+    }
   })();
 
-  // projects
-  // The card is a <div>, not an <a>, so it can legally contain BOTH the live
-  // link and a source link — nested <a> elements are invalid HTML.
+
+  // projects — cards are static HTML; only the generative preview is ours
   (function projects() {
     var host = $('#projectsGrid');
     if (!host) return;
-    PROJECTS.forEach(function (p, i) {
-      var external = /^https?:/i.test(p.href);
-      var card = document.createElement('article');
-      card.className = 'proj glass' + (p.featured ? ' proj--feature' : '');
-      card.style.setProperty('--accent', p.accent);
-      card.innerHTML =
-        '<div class="proj__preview" aria-hidden="true"><canvas></canvas></div>' +
-        '<div class="proj__top">' +
-          '<span class="proj__tag" style="color:' + p.accent + '"></span>' +
-          '<span class="proj__year"></span>' +
-        '</div>' +
-        '<div class="proj__body">' +
-          '<h3 class="proj__title"></h3>' +
-          '<p class="proj__blurb"></p>' +
-          '<div class="proj__stack">' +
-            p.stack.map(function (s) { return '<span></span>'; }).join('') +
-          '</div>' +
-          '<div class="proj__links">' +
-            '<a class="proj__btn proj__btn--demo" data-live href="' + p.href + '"' +
-              (external ? ' target="_blank" rel="noopener noreferrer"' : '') + '>' +
-              '<span>Demo</span>' +
-              '<svg viewBox="0 0 24 24" aria-hidden="true">' +
-                '<path d="M7 17 17 7M9 7h8v8"/>' +
-              '</svg>' +
-              '<span class="sr">Open the live ' + p.title + ' demo</span>' +
-            '</a>' +
-            (p.repo
-              ? '<a class="proj__btn proj__btn--repo" data-repo href="' + p.repo + '" target="_blank" rel="noopener noreferrer">' +
-                '<span>GitHub</span>' +
-                '<svg viewBox="0 0 24 24" aria-hidden="true">' +
-                '<path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.9a3.4 3.4 0 0 0-.9-2.6c3-.3 6.2-1.5 6.2-6.7A5.2 5.2 0 0 0 19.9 4 4.9 4.9 0 0 0 19.8 1S18.7.6 16 2.5a13.4 13.4 0 0 0-7 0C6.3.6 5.2 1 5.2 1A4.9 4.9 0 0 0 5.1 4a5.2 5.2 0 0 0-1.4 3.6c0 5.2 3.2 6.4 6.2 6.7a3.4 3.4 0 0 0-.9 2.6V21"/>' +
-                '</svg>' +
-                '<span class="sr"> source code for ' + p.title + '</span>' +
-              '</a>'
-              : '') +
-          '</div>' +
-        '</div>' +
-        '<span class="proj__glowline" style="background:linear-gradient(90deg,' + p.accent + ',transparent)"></span>';
 
-      card.querySelector('.proj__tag').textContent = p.tag;
-      card.querySelector('.proj__year').textContent = p.year;
-      card.querySelector('.proj__title').textContent = p.title;
-      card.querySelector('.proj__blurb').textContent = p.blurb;
-      $$('.proj__stack span', card).forEach(function (s, j) { s.textContent = p.stack[j]; });
-
-      host.appendChild(card);
-      startPreview(card.querySelector('.proj__preview canvas'), p.accent, i);
+    // The preview is a purely decorative layer, so it is the one part that
+    // still has to be created in JS. Walk the cards that are already in the
+    // document and start a canvas for each, using the accent inline style as
+    // the colour source so the HTML and the canvas can never disagree.
+    $$('.proj', host).forEach(function (card, i) {
+      var canvas = card.querySelector('.proj__preview canvas');
+      if (!canvas) return;
+      var accent = card.style.getPropertyValue('--accent') || '#ffffff';
+      startPreview(canvas, accent, i);
     });
   })();
 
-  // timeline lists
-  // `done` marks a completed stage: the rail runs solid through it and fades
-  // over whatever is still in progress. A list with no completed stages keeps
-  // the neutral rail, so Experience never claims progress it hasn't made.
+  /* ==========================================================
+     MUSIC PLAYER
+
+     A single <audio> element driven by the TRACKS list in data.js.
+     Three deliberate constraints:
+
+     - Nothing autoplays. Browsers block it, and unsolicited audio is
+       hostile. Playback starts only on a real click.
+     - The list is walked in order, then loops. There is no visible
+       playlist, because the pill only has room for the current
+       track; the next/prev behaviour is on the button and keys.
+     - With no tracks configured the whole thing stays at its
+       resting frame and downloads nothing.
+     ========================================================== */
+  (function player() {
+    var root = $('#player');
+    if (!root) return;
+
+    var audio = $('#playerAudio');
+    var toggle = $('#playerToggle');
+    var titleEl = $('#playerTitle');
+    var artistEl = $('#playerArtist');
+    var timeEl = $('#playerTime');
+    var bar = $('#playerBar');
+    var fill = $('#playerFill');
+    var volume = $('#playerVolume');
+    if (!audio || !toggle) return;
+
+    var tracks = (typeof TRACKS !== 'undefined' && TRACKS.length) ? TRACKS : [];
+    var index = -1;
+    var seeking = false;
+
+    // No tracks: show a truthful resting state and stop. Nothing is fetched.
+    if (!tracks.length) {
+      titleEl.textContent = 'No tracks yet';
+      artistEl.textContent = 'add files to audio/';
+      toggle.disabled = true;
+      toggle.style.opacity = '.45';
+      toggle.style.cursor = 'not-allowed';
+      toggle.setAttribute('aria-disabled', 'true');
+      bar.setAttribute('aria-disabled', 'true');
+      bar.style.pointerEvents = 'none';
+      return;
+    }
+
+    function fmt(sec) {
+      if (!isFinite(sec) || sec < 0) sec = 0;
+      var m = Math.floor(sec / 60);
+      var s = Math.floor(sec % 60);
+      return m + ':' + (s < 10 ? '0' : '') + s;
+    }
+
+    function load(i, autoplay) {
+      index = (i + tracks.length) % tracks.length;
+      var t = tracks[index];
+      audio.src = t.src;
+      titleEl.textContent = t.title || 'Untitled';
+      artistEl.textContent = t.artist || '';
+      audio.load();
+      if (autoplay) {
+        // A play() rejection here is expected (autoplay policy) and is
+        // swallowed deliberately — the button simply stays in its off state.
+        var p = audio.play();
+        if (p && p.catch) p.catch(function () {});
+      }
+    }
+
+    function paint() {
+      var dur = audio.duration;
+      var pct = (dur && isFinite(dur)) ? (audio.currentTime / dur) * 100 : 0;
+      if (!seeking) fill.style.width = pct + '%';
+      bar.setAttribute('aria-valuenow', Math.round(pct));
+      bar.setAttribute('aria-valuetext', fmt(audio.currentTime) + ' of ' + fmt(dur));
+      timeEl.textContent = fmt(audio.currentTime) + ' / ' + fmt(dur);
+    }
+
+    toggle.addEventListener('click', function () {
+      if (index < 0) { load(0, true); return; }
+      if (audio.paused) {
+        var p = audio.play();
+        if (p && p.catch) p.catch(function () {});
+      } else {
+        audio.pause();
+      }
+    });
+
+    audio.addEventListener('play', function () {
+      root.classList.add('is-playing');
+      toggle.setAttribute('aria-pressed', 'true');
+      toggle.setAttribute('aria-label', 'Pause music');
+    });
+    audio.addEventListener('pause', function () {
+      root.classList.remove('is-playing');
+      toggle.setAttribute('aria-pressed', 'false');
+      toggle.setAttribute('aria-label', 'Play music');
+    });
+    audio.addEventListener('timeupdate', paint);
+    audio.addEventListener('loadedmetadata', paint);
+    audio.addEventListener('ended', function () { load(index + 1, true); });
+    // A missing file should not leave the UI claiming to play.
+    audio.addEventListener('error', function () {
+      root.classList.remove('is-playing');
+      toggle.setAttribute('aria-pressed', 'false');
+      titleEl.textContent = 'Track unavailable';
+      artistEl.textContent = tracks[index] ? (tracks[index].title || '') : '';
+    });
+
+    // Seek by click, and by keyboard because the bar is a slider.
+    function seekFromEvent(e) {
+      var r = bar.getBoundingClientRect();
+      var x = (e.clientX != null ? e.clientX : 0) - r.left;
+      var ratio = Math.max(0, Math.min(1, x / r.width));
+      if (audio.duration && isFinite(audio.duration)) {
+        audio.currentTime = ratio * audio.duration;
+      }
+      paint();
+    }
+    bar.addEventListener('pointerdown', function (e) {
+      if (!audio.duration) return;
+      seeking = true;
+      seekFromEvent(e);
+      function move(ev) { seekFromEvent(ev); }
+      function up() {
+        seeking = false;
+        window.removeEventListener('pointermove', move);
+        window.removeEventListener('pointerup', up);
+      }
+      window.addEventListener('pointermove', move);
+      window.addEventListener('pointerup', up);
+    });
+    bar.addEventListener('keydown', function (e) {
+      if (!audio.duration) return;
+      var d = audio.duration;
+      if (e.key === 'ArrowRight') { audio.currentTime = Math.min(d, audio.currentTime + 5); paint(); e.preventDefault(); }
+      if (e.key === 'ArrowLeft') { audio.currentTime = Math.max(0, audio.currentTime - 5); paint(); e.preventDefault(); }
+    });
+
+    if (volume) {
+      audio.volume = Number(volume.value) / 100;
+      volume.addEventListener('input', function () {
+        audio.volume = Number(volume.value) / 100;
+      });
+    }
+
+    // Show the first track's name at rest without playing it.
+    load(0, false);
+    audio.pause();
+  })();
+
+  // timeline lists — static HTML; only the progress rail is measured here
   function timeline(hostSel, items) {
     var host = $(hostSel);
     if (!host) return;
-    items.forEach(function (it) {
-      var li = document.createElement('li');
-      if (it.done) li.className = 'tl__item--done';
-      li.innerHTML =
-        '<span class="tl__period"></span>' +
-        '<h4 class="tl__title"></h4>' +
-        '<p class="tl__org"></p>' +
-        '<p class="tl__place"></p>' +
-        '<p class="tl__note"></p>';
-      li.querySelector('.tl__period').textContent = it.period;
-      li.querySelector('.tl__title').textContent = it.title;
-      li.querySelector('.tl__org').textContent = it.org;
-      li.querySelector('.tl__place').textContent = it.place;
-      li.querySelector('.tl__note').textContent = it.note;
-      host.appendChild(li);
-    });
     if (items.some(function (it) { return it.done; })) {
       host.classList.add('tl--progress');
       // The solid part of the rail must end at the last completed dot, not at
@@ -187,31 +256,10 @@
   timeline('#eduList', EDUCATION);
   timeline('#expList', EXPERIENCE);
 
-  // contact links
+  // contact links — static HTML; nothing to build
   (function contact() {
     var host = $('#contactLinks');
     if (!host) return;
-    SOCIALS.forEach(function (s) {
-      var li = document.createElement('li');
-      var a = document.createElement('a');
-      a.href = s.href;
-      a.target = '_blank';
-      a.rel = 'noopener noreferrer';
-      a.style.setProperty('--c', s.accent);
-      a.setAttribute('aria-label', s.label + ' — ' + s.handle + ' (opens in a new tab)');
-      a.innerHTML =
-        '<span class="cl__icon" aria-hidden="true"></span>' +
-        '<span class="cl__text">' +
-          '<span class="cl__label"></span>' +
-          '<span class="cl__handle"></span>' +
-        '</span>' +
-        '<span class="cl__arrow" aria-hidden="true">↗</span>';
-      a.querySelector('.cl__icon').textContent = s.label.charAt(0);
-      a.querySelector('.cl__label').textContent = s.label;
-      a.querySelector('.cl__handle').textContent = s.handle;
-      li.appendChild(a);
-      host.appendChild(li);
-    });
   })();
 
   // footer year + live clock
