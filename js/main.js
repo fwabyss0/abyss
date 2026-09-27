@@ -710,93 +710,8 @@
     }
   });
 
-  // mark the document as ready (drives the preloader below)
-  document.body.classList.add('is-ready');
-
   /* ==========================================================
-     11. PRELOADER — real progress, with a hard failsafe
-     ========================================================== */
-  (function loader() {
-    var el = $('#loader');
-    if (!el) return;
-    var bar = $('#loaderBar');
-    var pctEl = $('#loaderPct');
-    var statusEl = $('#loaderStatus');
-    var ring = $('.loader__ring circle', el);
-
-    // reduced motion skips the whole thing — it would be a flash of nothing
-    if (reduced) { el.classList.add('is-done'); document.documentElement.classList.add('is-loaded'); return; }
-
-    var shown = 0;          // what the UI currently displays
-    var target = 0;         // how much is genuinely loaded
-    var done = false;
-
-    function paint() {
-      // ease the displayed value toward the target so it never jumps
-      shown += (target - shown) * 0.12;
-      if (target - shown < 0.4) shown = target;
-      var v = Math.round(shown);
-      if (bar) bar.style.width = v + '%';
-      if (pctEl) pctEl.textContent = v;
-      if (ring) ring.style.strokeDashoffset = String(119.4 * (1 - shown / 100));
-      if (!done && shown < 99.5) requestAnimationFrame(paint);
-    }
-    requestAnimationFrame(paint);
-
-    function setTarget(v, label) {
-      target = Math.max(target, Math.min(100, v));
-      if (label && statusEl) statusEl.textContent = label;
-    }
-
-    // Track the assets that actually gate first paint: the portrait (largest
-    // above-the-fold image) and the two stylesheets/scripts.
-    var tracked = 0, settled = 0;
-    function settle() { if (++settled >= tracked) setTarget(100, 'Ready'); }
-
-    var imgs = ['assets/alish-900.jpg', 'assets/alish-900.webp', 'assets/alish-1100.webp'];
-    tracked = imgs.length;
-    imgs.forEach(function (src) {
-      var im = new Image();
-      im.onload = im.onerror = settle;
-      im.src = src;
-    });
-
-    // Cap the crawl at 90% until the window load event proves we're really done.
-    setTarget(28, 'Booting');
-    if (document.readyState === 'complete') {
-      setTarget(90, 'Finishing');
-      settle();
-    } else {
-      setTimeout(function () { setTarget(72, 'Loading'); }, 260);
-      window.addEventListener('load', function () {
-        setTarget(100, 'Ready');
-        // safety: if an image never fires, still finish
-        setTimeout(function () { setTarget(100, 'Ready'); }, 1200);
-      });
-    }
-
-    function finish() {
-      if (done) return;
-      done = true;
-      target = 100; shown = 100;
-      if (bar) bar.style.width = '100%';
-      if (pctEl) pctEl.textContent = '100';
-      if (ring) ring.style.strokeDashoffset = '0';
-      setTimeout(function () {
-        el.classList.add('is-done');
-        document.documentElement.classList.add('is-loaded');
-        // take it out of the tab order / hit-testing entirely once it's gone
-        setTimeout(function () { el.setAttribute('hidden', ''); }, 700);
-      }, 260);
-    }
-
-    // The failsafe: however slow or broken the assets are, the page opens.
-    setTimeout(finish, 6000);
-    window.addEventListener('load', function () { setTimeout(finish, 500); });
-  })();
-
-  /* ==========================================================
-     12. HERO BLINKER — frequent flicker on the name lines
+     11. HERO BLINKER — frequent flicker on the name lines
      ========================================================== */
   (function blinker() {
     var lines = $$('.hero__title .line');
@@ -806,7 +721,7 @@
   })();
 
   /* ==========================================================
-     13. ABOUT HIGHLIGHTER — as the paragraph scrolls up through
+     12. ABOUT HIGHLIGHTER — as the paragraph scrolls up through
          the viewport, each marked term wipes its accent band in
          left-to-right, in document order. Leaving the viewport
          resets the terms so the sweep replays on the way back in.

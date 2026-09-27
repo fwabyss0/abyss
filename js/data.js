@@ -31,8 +31,7 @@ const SOCIALS = [
   { label: 'LinkedIn',  handle: 'alish-shrestha', href: 'https://www.linkedin.com/in/alish-shrestha-4276b8379/',  accent: '#38bdf8' },
   { label: 'Instagram', handle: '@aliisshhhhhh',  href: 'https://www.instagram.com/aliisshhhhhh/',              accent: '#f472b6' },
   { label: 'Facebook',  handle: 'alish.shrestha', href: 'https://www.facebook.com/alish.shrestha.138982/',        accent: '#60a5fa' },
-  { label: 'Email',     handle: 'shrestaalish444@gmail.com', href: 'mailto:shrestaalish444@gmail.com',            accent: '#4ade80' },
-  { label: 'CV',        handle: 'Download CV',    href: 'assets/cv.pdf',                                       accent: '#a78bfa' }
+  { label: 'Email',     handle: 'shrestaalish444@gmail.com', href: 'mailto:shrestaalish444@gmail.com',            accent: '#4ade80' }
 ];
 
 const STACK = [
