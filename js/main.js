@@ -27,29 +27,23 @@
     });
   })();
 
-  // skills — category cards with chip-level hover percentage and moving border
+  // skills — category cards; hovering or focusing a chip lifts it and draws a
+  // conic ring to the chip's own percentage.
   (function skills() {
     var host = $('#skillsGrid');
     if (!host) return;
 
-    var icons = {
-      Python: 'devicon-python-plain', JavaScript: 'devicon-javascript-plain',
-      HTML: 'devicon-html5-plain', CSS: 'devicon-css3-plain',
-      TensorFlow: 'devicon-tensorflow-plain', 'VS Code': 'devicon-vscode-line',
-      GitHub: 'devicon-github-line', Git: 'devicon-git-line', DevTools: 'devicon-chrome-line'
-    };
-    var variants = ['skill-cat-teal', 'skill-cat-purple', 'skill-cat-yellow', 'skill-cat-pink'];
-
-    SKILLS.forEach(function (sk, i) {
+    SKILL_CATS.forEach(function (cat, i) {
       var card = document.createElement('article');
-      card.className = 'skill-cat glass ' + variants[i % variants.length];
-      var chips = sk.tags.map(function (tag) {
-        var icon = icons[tag] || 'devicon-code-plain';
-        var pct = Math.max(40, Math.min(99, sk.level - Math.max(0, sk.tags.indexOf(tag) * 3)));
-        return '<span class="sc-wrap" data-level="' + pct + '">' +
+      card.className = 'skill-cat glass';
+      var chips = cat.skills.map(function (sk) {
+        return '<span class="sc-wrap">' +
           '<span class="sc-border" aria-hidden="true"><span class="sc-border-inner"></span></span>' +
-          '<span class="sc" tabindex="0" role="button" aria-label="' + tag + ', proficiency ' + pct + ' percent">' +
-            '<i class="' + icon + '" aria-hidden="true"></i>' + tag +
+          '<span class="sc" tabindex="0" role="button" ' +
+            'style="--cc:' + sk.color + '" ' +
+            'data-percent="' + sk.percent + '" ' +
+            'aria-label="' + sk.name + ', proficiency ' + sk.percent + ' percent">' +
+            '<i class="' + sk.icon + '" aria-hidden="true"></i>' + sk.name +
           '</span>' +
         '</span>';
       }).join('');
@@ -57,31 +51,38 @@
       card.innerHTML =
         '<div class="skill-cat-header">' +
           '<span class="skill-cat-icon" aria-hidden="true">0' + (i + 1) + '</span>' +
-          '<h3 class="skill-cat-title">' + sk.name + '</h3>' +
+          '<h3 class="skill-cat-title">' + cat.name + '</h3>' +
         '</div>' +
         '<div class="sc-row">' + chips + '</div>';
       host.appendChild(card);
 
+      // Touch devices fire synthetic hover with no ring to show, so the whole
+      // interaction is gated on a real pointer.
+      if (!fine) return;
+
       card.querySelectorAll('.sc-wrap').forEach(function (wrap) {
         var chip = wrap.querySelector('.sc');
         var border = wrap.querySelector('.sc-border');
-        var pct = wrap.getAttribute('data-level');
+        var pct = wrap.querySelector('.sc').getAttribute('data-percent');
 
         function openChip() {
-          border.classList.add('visible');
-          chip.classList.add('sc-active');
+          if (chip.classList.contains('sc-active')) return;
           var label = document.createElement('span');
           label.className = 'sc-pct-label';
           label.textContent = pct + '%';
           chip.appendChild(label);
-          border.style.background = 'conic-gradient(from -90deg, var(--violet) 0 ' + pct + '%, rgba(255,255,255,.08) ' + pct + '% 100%)';
+          chip.classList.add('sc-active');
+          border.classList.add('visible');
+          border.style.background =
+            'conic-gradient(from -90deg, var(--cc) 0 ' + pct + '%, rgba(255,255,255,.08) ' + pct + '% 100%)';
         }
         function closeChip() {
-          border.classList.remove('visible');
           chip.classList.remove('sc-active');
+          border.classList.remove('visible');
           var label = chip.querySelector('.sc-pct-label');
           if (label) label.remove();
         }
+
         wrap.addEventListener('pointerenter', openChip);
         wrap.addEventListener('pointerleave', closeChip);
         chip.addEventListener('focus', openChip);
@@ -147,11 +148,15 @@
   })();
 
   // timeline lists
+  // `done` marks a completed stage: the rail runs solid through it and fades
+  // over whatever is still in progress. A list with no completed stages keeps
+  // the neutral rail, so Experience never claims progress it hasn't made.
   function timeline(hostSel, items) {
     var host = $(hostSel);
     if (!host) return;
     items.forEach(function (it) {
       var li = document.createElement('li');
+      if (it.done) li.className = 'tl__item--done';
       li.innerHTML =
         '<span class="tl__period"></span>' +
         '<h4 class="tl__title"></h4>' +
@@ -165,6 +170,19 @@
       li.querySelector('.tl__note').textContent = it.note;
       host.appendChild(li);
     });
+    if (items.some(function (it) { return it.done; })) {
+      host.classList.add('tl--progress');
+      // The solid part of the rail must end at the last completed dot, not at
+      // some guessed percentage: items vary in height, so measure instead.
+      var last = host.querySelector('.tl__item--done:last-of-type');
+      if (last) {
+        requestAnimationFrame(function () {
+          var dot = last.getBoundingClientRect().top - host.getBoundingClientRect().top + 3;
+          var total = host.getBoundingClientRect().height;
+          if (total > 0) host.style.setProperty('--done-to', (dot / total * 100).toFixed(1) + '%');
+        });
+      }
+    }
   }
   timeline('#eduList', EDUCATION);
   timeline('#expList', EXPERIENCE);
@@ -790,7 +808,8 @@
   /* ==========================================================
      13. ABOUT HIGHLIGHTER — as the paragraph scrolls up through
          the viewport, each marked term wipes its accent band in
-         left-to-right, in document order.
+         left-to-right, in document order. Leaving the viewport
+         resets the terms so the sweep replays on the way back in.
      ========================================================== */
   (function aboutHi() {
     var para = $('[data-hi]');
@@ -799,26 +818,29 @@
     if (!terms.length) return;
 
     function lightAll() { terms.forEach(function (t) { t.classList.add('is-lit'); }); }
+    function unlightAll() { terms.forEach(function (t) { t.classList.remove('is-lit'); }); }
 
     // No animation wanted: show the finished state immediately.
     if (reduced || !('IntersectionObserver' in window)) { lightAll(); return; }
 
-    var started = false;
+    var timers = [];
 
     function schedule() {
-      if (started) return;
-      started = true;
+      unlightAll();
+      timers.forEach(clearTimeout);
+      timers = [];
       // stagger each term so they wipe in one after another
       terms.forEach(function (t, i) {
-        setTimeout(function () { t.classList.add('is-lit'); }, 160 + i * 230);
+        timers.push(setTimeout(function () { t.classList.add('is-lit'); }, 160 + i * 230));
       });
     }
 
     // Fire when the paragraph is well inside the viewport, so the highlight
-    // is actually being *scrolled into*, not already off the top.
+    // is actually being *scrolled into*, not already off the top. On exit the
+    // terms go dark again, so scrolling back up replays the whole sweep.
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
-        if (en.isIntersecting) { schedule(); io.unobserve(en.target); }
+        if (en.isIntersecting) { schedule(); } else { unlightAll(); }
       });
     }, { threshold: 0.35, rootMargin: '0px 0px -18% 0px' });
     io.observe(para);

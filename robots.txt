@@ -1,0 +1,6 @@
+Sitemap: https://www.sthaalish.com.np/sitemap.xml
+User-agent: *
+Allow: /
+Disallow: /node_modules/
+Disallow: /.git/
+Disallow: /_reference_old_portfolio_DO_NOT_EDIT/

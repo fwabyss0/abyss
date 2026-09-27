@@ -41,11 +41,50 @@ const STACK = [
   'NumPy', 'scikit-learn', 'PostgreSQL', 'Vite'
 ];
 
-const SKILLS = [
-  { name: 'Programming', level: 90, note: 'Python, JavaScript, HTML, CSS', tags: ['Python', 'JavaScript', 'HTML', 'CSS'] },
-  { name: 'AI & ML', level: 85, note: 'TensorFlow, Neural Networks, Data Science, Deep Learning', tags: ['TensorFlow', 'Neural Networks', 'Data Science', 'Deep Learning'] },
-  { name: 'Tools', level: 80, note: 'VS Code, GitHub, Git, DevTools', tags: ['VS Code', 'GitHub', 'Git', 'DevTools'] },
-  { name: 'Creative', level: 75, note: 'Video Editing, UI/UX Design, Photography, Communication', tags: ['Video Editing', 'UI/UX Design', 'Photography', 'Communication'] }
+/* Skill categories. Each technology carries its own honest proficiency number
+   — hover or focus a chip to see it. `color` is the technology's own brand
+   colour: it drives both the icon and the conic ring that sweeps the chip's
+   border up to that percentage. On a near-black page these read as small
+   jewels of colour, which is the point. */
+const SKILL_CATS = [
+  {
+    name: 'Programming',
+    skills: [
+      { name: 'Python',     percent: 70, icon: 'devicon-python-plain',        color: '#3776ab' },
+      { name: 'JavaScript', percent: 65, icon: 'devicon-javascript-plain',    color: '#f7df1e' },
+      { name: 'HTML',       percent: 85, icon: 'devicon-html5-plain',         color: '#e34f26' },
+      { name: 'CSS',        percent: 80, icon: 'devicon-css3-plain',          color: '#1572b6' }
+    ]
+  },
+  {
+    name: 'AI & ML',
+    skills: [
+      { name: 'TensorFlow',      percent: 55, icon: 'devicon-tensorflow-original', color: '#ff6f00' },
+      { name: 'Neural Networks', percent: 50, icon: 'devicon-pytorch-original',     color: '#ee4c2c' },
+      { name: 'Data Science',    percent: 60, icon: 'devicon-pandas-plain',         color: '#14f1d9' },
+      { name: 'Deep Learning',   percent: 50, icon: 'devicon-scikitlearn-plain',    color: '#b5ff6d' }
+    ]
+  },
+  {
+    name: 'Tools',
+    skills: [
+      { name: 'VS Code',        percent: 90, icon: 'devicon-vscode-plain',        color: '#007acc' },
+      { name: 'GitHub',         percent: 75, icon: 'devicon-github-plain',       color: '#e6edf3' },
+      { name: 'Git',            percent: 70, icon: 'devicon-git-plain',          color: '#f05032' },
+      { name: 'DevTools',       percent: 65, icon: 'devicon-chrome-plain',       color: '#4caf50' },
+      { name: 'Android Studio', percent: 10, icon: 'devicon-androidstudio-plain', color: '#a4c639' },
+      { name: 'Flutter',        percent: 10, icon: 'devicon-flutter-plain',       color: '#02569b' }
+    ]
+  },
+  {
+    name: 'Creative',
+    skills: [
+      { name: 'Video Editing',  percent: 75, icon: 'devicon-premierepro-plain', color: '#ff6b9d' },
+      { name: 'UI/UX Design',   percent: 60, icon: 'devicon-figma-plain',       color: '#ff9f43' },
+      { name: 'Photography',   percent: 70, icon: 'devicon-photoshop-plain',   color: '#4ecdc4' },
+      { name: 'Communication', percent: 80, icon: 'devicon-slack-plain',       color: '#a29bfe' }
+    ]
+  }
 ];
 
 const PROJECTS = [
@@ -58,7 +97,7 @@ const PROJECTS = [
     accent: '#a855f7',
     href: 'https://yatrala.netlify.app/',
     repo: 'https://github.com/fwabyss0/Yatra',
-    featured: true
+    featured: false
   },
   {
     title: 'Printing Resolution',
@@ -69,7 +108,7 @@ const PROJECTS = [
     accent: '#38bdf8',
     href: 'https://printresolution.netlify.app/',
     repo: 'https://github.com/fwabyss0/pr',
-    featured: true
+    featured: false
   },
   {
     title: 'Abyss AI Chatbot',
@@ -81,23 +120,46 @@ const PROJECTS = [
     href: 'https://github.com/fwabyss0/Protfolio.git',
     repo: 'https://github.com/fwabyss0/Protfolio.git',
     featured: false
+  },
+  {
+    title: 'Voxel World Portfolio',
+    tag: 'THREE.JS / WEBGL',
+    year: '2026',
+    blurb: 'An explorable 3D voxel world that turns this portfolio into a place — walk into a building to read a section, with a plain-HTML fallback for browsers without WebGL.',
+    stack: ['JavaScript', 'Three.js', 'WebGL', 'HTML5'],
+    accent: '#e4e4e7',
+    href: 'voxel/index.html',
+    repo: 'https://github.com/fwabyss0/Protfolio',
+    featured: false
   }
 ];
 
+/* `done: true` marks a completed stage. The education rail runs solid green
+   through the completed stages and fades out over the one still in progress. */
 const EDUCATION = [
   {
-    title: 'Secondary Education — Khwopa Secondary School',
+    title: 'Primary Education',
+    org: 'North East English Secondary School',
+    period: 'Primary',
+    place: 'Bhaktapur, Nepal',
+    note: 'Built a strong academic foundation across core subjects.',
+    done: true
+  },
+  {
+    title: 'Secondary Education',
     org: 'Khwopa Secondary School',
     period: '2023 — 2025',
     place: 'Bhaktapur, Nepal',
-    note: 'Computer Science specialization'
+    note: 'Computer Science major — programming fundamentals and advanced mathematics.',
+    done: true
   },
   {
-    title: 'Higher Education — Softwarica College (Coventry University)',
+    title: 'Higher Education',
     org: 'Softwarica College',
     period: '2025 — Present',
     place: 'Kathmandu, Nepal',
-    note: 'Pursuing Bachelor\'s in Artificial Intelligence'
+    note: 'BSc (Hons) in Artificial Intelligence, awarded by Coventry University.',
+    done: false
   }
 ];
 
@@ -108,26 +170,5 @@ const EXPERIENCE = [
     period: 'Present',
     place: 'Changu Narayan-01, Bhaktapur, Nepal',
     note: 'Handling operations, client relations, and print production.'
-  },
-  {
-    title: 'Freelance Web Developer',
-    org: 'Independent',
-    period: '2025 — Present',
-    place: 'Remote',
-    note: 'Front-end builds and landing pages for small businesses and creators. Solo end-to-end: scoping, design, build, deploy.'
-  },
-  {
-    title: 'Web Development — Self-directed',
-    org: 'Independent study',
-    period: '2023 — Present',
-    place: 'Kathmandu, Nepal',
-    note: 'A structured self-education track: fundamentals, then frameworks, then systems design. Documented in public on GitHub.'
-  },
-  {
-    title: 'Open-source Contributor',
-    org: 'GitHub',
-    period: '2024 — Present',
-    place: 'Remote',
-    note: 'Issues, docs, and small pull requests across front-end tooling and educational projects.'
   }
 ];
