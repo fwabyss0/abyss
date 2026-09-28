@@ -36,8 +36,16 @@
   <meta name="twitter:image" content="https://www.sthaalish.com.np/assets/alish-1200.jpg">
   <meta name="twitter:image:alt" content="Alish Shrestha, AI student and web developer from Kathmandu, Nepal">
 
-  <link rel="icon"
-    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23050507'/%3E%3Ctext x='16' y='23' font-family='monospace' font-size='20' font-weight='700' fill='%23a855f7' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
+  <!-- Icons. The inline data: URI is kept as a last-resort fallback, but real
+       files come first: browsers and Google request /favicon.ico directly by
+       convention, and a 404 there is what produced the "Global web icon"
+       placeholder in search results. -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="msapplication-TileColor" content="#08080a">
+  <meta name="msapplication-TileImage" content="assets/icon-192.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
