@@ -3,7 +3,7 @@
    Edit this file to change content; no other file needs editing.
    ============================================================ */
 
-const PROFILE = {
+export const PROFILE = {
   name: 'Alish Shrestha',
   first: 'ALISH',
   last: 'SHRESTHA',
@@ -14,7 +14,7 @@ const PROFILE = {
 };
 
 // API Configuration
-const API_KEYS = {
+export const API_KEYS = {
   weather: 'c4babc6f060dd6a90513fd541c6c8d42',
   tmdb: {
     apiKey: '8374984eee609823a3f80aee19ede44c',
@@ -26,7 +26,7 @@ const API_KEYS = {
   }
 };
 
-const SOCIALS = [
+export const SOCIALS = [
   { label: 'GitHub',    handle: '@fwabyss0',     href: 'https://github.com/fwabyss0',                          accent: '#a855f7' },
   { label: 'LinkedIn',  handle: 'alish-shrestha', href: 'https://www.linkedin.com/in/alish-shrestha-4276b8379/',  accent: '#38bdf8' },
   { label: 'Instagram', handle: '@aliisshhhhhh',  href: 'https://www.instagram.com/aliisshhhhhh/',              accent: '#f472b6' },
@@ -83,12 +83,12 @@ const SOCIALS = [
    every control is disabled. It will not error, and it will not
    fetch anything.
    ========================================================== */
-const TRACKS = [
+export const TRACKS = [
   // { title: 'Track name', artist: 'Artist', spotify: 'https://open.spotify.com/embed/track/ID' },
   // { title: 'Track name', artist: 'Artist', src: 'audio/track-01.mp3' }
 ];
 
-const STACK = [
+export const STACK = [
   'JavaScript', 'TypeScript', 'Python', 'React', 'Next.js', 'Node.js',
   'HTML5', 'CSS3', 'Tailwind', 'Three.js', 'Git', 'Figma', 'Pandas',
   'NumPy', 'scikit-learn', 'PostgreSQL', 'Vite'
@@ -99,7 +99,7 @@ const STACK = [
    colour: it drives both the icon and the conic ring that sweeps the chip's
    border up to that percentage. On a near-black page these read as small
    jewels of colour, which is the point. */
-const SKILL_CATS = [
+export const SKILL_CATS = [
   {
     name: 'Programming',
     skills: [
@@ -140,7 +140,7 @@ const SKILL_CATS = [
   }
 ];
 
-const PROJECTS = [
+export const PROJECTS = [
   {
     title: 'Yatra Travel Agency',
     tag: 'WEB APP',
@@ -178,7 +178,7 @@ const PROJECTS = [
 
 /* `done: true` marks a completed stage. The education rail runs solid green
    through the completed stages and fades out over the one still in progress. */
-const EDUCATION = [
+export const EDUCATION = [
   {
     title: 'Primary Education',
     org: 'North East English Secondary School',
@@ -205,7 +205,7 @@ const EDUCATION = [
   }
 ];
 
-const EXPERIENCE = [
+export const EXPERIENCE = [
   {
     title: 'Manager at Print Village',
     org: 'Print Village',
@@ -214,3 +214,4 @@ const EXPERIENCE = [
     note: 'Handling operations, client relations, and print production.'
   }
 ];
+
