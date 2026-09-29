@@ -14,6 +14,10 @@
   <meta name="theme-color" content="#050507">
   <link rel="canonical" href="https://www.sthaalish.com.np/">
 
+  <!-- Bing Webmaster Tools verification: uncomment and paste your real code.
+  <meta name="msvalidate.01" content="YOUR_BING_CODE">
+  -->
+
   <meta property="og:type" content="profile">
   <meta property="og:title" content="Alish Shrestha | AI Student &amp; Web Developer">
   <meta property="og:description"
@@ -37,10 +41,8 @@
   <meta name="twitter:image" content="https://www.sthaalish.com.np/assets/alish-1200.jpg">
   <meta name="twitter:image:alt" content="Alish Shrestha, AI student and web developer from Kathmandu, Nepal">
 
-  <!-- Icons. The inline data: URI is kept as a last-resort fallback, but real
-       files come first: browsers and Google request /favicon.ico directly by
-       convention, and a 404 there is what produced the "Global web icon"
-       placeholder in search results. -->
+  <!-- Icons: real files first, since browsers and search engines request
+       /favicon.ico directly by convention. -->
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
@@ -157,10 +159,6 @@
     <!-- ============================ HERO ============================ -->
     <section class="hero" id="hero">
       <div class="hero__field" aria-hidden="true">
-        <!-- Two canvas layers, deliberately different in scale and behaviour.
-             #drift sits behind as slow, out-of-focus motes that give the hero
-             depth; #fx draws the tighter constellation and cursor links in
-             front. Keeping them separate means neither has to compromise. -->
         <canvas id="drift"></canvas>
         <canvas id="fx"></canvas>
         <div class="hero__grid"></div>
@@ -194,6 +192,17 @@
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M5 12h14M13 6l6 6-6 6" />
             </svg>
+          </a>
+
+          <!-- CV is hosted OUTSIDE this domain (Google Drive) so search engines
+               don't index a PDF on sthaalish.com.np.
+               Replace YOUR_FILE_ID with the ID from your Drive share link:
+               https://drive.google.com/file/d/YOUR_FILE_ID/view
+               (Drive file must be shared as "Anyone with the link → Viewer") -->
+          <a class="btn btn--ghost" href="cv.pdf" target="_blank" rel="noopener noreferrer nofollow"
+            aria-label="View Alish Shrestha's CV">
+            <span>View CV</span>
+            <i class="btn__arrow" aria-hidden="true">↗</i>
           </a>
 
           <a class="btn btn--ghost"
@@ -292,10 +301,6 @@
           Hover or focus any skill to see where it honestly stands.
         </p>
 
-        <!-- Skills are written out here as real HTML so search engines can read
-             them without executing JS. main.js only attaches the hover
-             behaviour and the generative previews; it no longer builds these
-             cards, so the content exists once and only once. -->
         <div class="skills__grid" id="skillsGrid">
           <article class="skill-cat glass">
             <div class="skill-cat-header">
@@ -420,9 +425,6 @@
           Experiments, half-built tools, and things I burned a weekend on. Hover to look inside.
         </p>
 
-        <!-- Project cards are real HTML, not canvas-only: the generative preview
-             is a decorative layer on top (main.js starts it per card), while
-             the title, blurb and stack below are crawlable text. -->
         <div class="work__grid" id="projectsGrid">
           <article class="proj glass" style="--accent:#a855f7">
             <div class="proj__preview" aria-hidden="true"><canvas></canvas></div>
@@ -695,12 +697,6 @@
   </button>
 
   <!-- ============================ MUSIC PLAYER ============================ -->
-  <!-- Fixed bottom-right pill. The track list lives in js/data.js (TRACKS);
-       the file itself only provides the frame, so the player renders
-       immediately and degrades to a static frame if JS never runs.
-
-       Drop your own MP3s into audio/ and point TRACKS at them — see the
-       comment above the TRACKS array in js/data.js. -->
   <div class="player" id="player">
     <button class="player__btn" id="playerToggle" type="button" aria-label="Play music" aria-pressed="false">
       <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true">
