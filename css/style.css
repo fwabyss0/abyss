@@ -110,6 +110,98 @@ html {
   }
 }
 
+/* ============================================================
+   PRELOADER
+   Motion is driven by Anime.js (js/vendor/anime.min.js) from
+   main.js. CSS here only sets the resting appearance and the
+   hidden end state — it never animates, so the two systems
+   cannot fight over the same properties.
+
+   The bar and the name are marked is-in when the loader starts
+   leaving, which is what fades them out.
+   ============================================================ */
+.loader {
+  position: fixed; inset: 0; z-index: 9999;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: clamp(2rem, 6vh, 3.5rem);
+  background: var(--bg);
+  padding: 2rem;
+  overflow: hidden;
+}
+.loader.is-done { pointer-events: none; visibility: hidden; }
+
+/* the centred A */
+.loader__stage { display: grid; place-items: center; }
+.loader__mark { position: relative; display: grid; place-items: center; }
+.loader__glyph {
+  position: relative; z-index: 1;
+  font-family: var(--mono); font-weight: 700;
+  font-size: clamp(3.5rem, 13vw, 7rem);
+  line-height: 1;
+  color: var(--ink);
+  /* Anime.js sets the transform; this is only the pre-JS state. */
+  opacity: 0;
+}
+/* the glow ring behind the letter — Anime.js pulses its scale and opacity */
+.loader__halo {
+  position: absolute; top: 50%; left: 50%;
+  width: clamp(6rem, 22vw, 11rem); height: clamp(6rem, 22vw, 11rem);
+  margin: calc(clamp(6rem, 22vw, 11rem) / -2) 0 0 calc(clamp(6rem, 22vw, 11rem) / -2);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(167,139,250,.20), transparent 68%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* name, meter and status */
+.loader__foot { width: min(21rem, 84vw); text-align: center; }
+.loader__name {
+  font-size: clamp(.8rem, 2.4vw, 1rem); font-weight: 700;
+  letter-spacing: .3em; text-indent: .3em;   /* offset the tracking so it stays optically centred */
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 1.4rem;
+  min-height: 1.4em;                        /* reserve the row so the meter never jumps */
+}
+/* each character starts hidden; Anime.js reveals them one by one */
+.loader__name-inner > span {
+  display: inline-block;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.loader__meter { display: flex; align-items: center; gap: .85rem; }
+.loader__track {
+  flex: 1; height: 2px; border-radius: 2px;
+  background: rgba(255,255,255,.09);
+  overflow: hidden;
+}
+.loader__track i {
+  display: block; height: 100%; width: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, rgba(167,139,250,.45), rgba(167,139,250,1));
+  box-shadow: 0 0 10px rgba(167,139,250,.45);
+}
+.loader__pct {
+  font: .68rem var(--mono); color: var(--ink-2);
+  font-variant-numeric: tabular-nums; min-width: 3.2em; text-align: right;
+}
+.loader__status {
+  margin-top: 1rem;
+  font: .62rem var(--mono); letter-spacing: .22em;
+  text-transform: uppercase; color: var(--ink-3);
+}
+
+/* Everything below fades out on the way to the homepage. */
+.loader.is-in .loader__stage,
+.loader.is-in .loader__foot { opacity: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  /* No intro at all — the page is simply there. */
+  .loader { display: none; }
+}
+
 body {
   background: var(--bg);
   color: var(--ink);
@@ -1495,73 +1587,47 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .foot__legal { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .75rem; padding-block: 1.1rem; border-top: 1px solid var(--line); font-family: var(--mono); font-size: .68rem; color: var(--ink-2); }
 .foot__colophon { color: var(--ink-2); opacity: .8; }
 
-/* back to top */
-.totop {
-  position: fixed; right: 1.5rem; bottom: 1.5rem; z-index: 7500;
-  display: grid; place-items: center;
-  width: 44px; height: 44px;
-  border: 1px solid var(--line-2); border-radius: var(--r);
-  background: rgba(10,10,15,.8);
-  backdrop-filter: blur(10px);
-  opacity: 0; transform: translateY(12px) scale(.9); pointer-events: none;
-  transition: opacity .35s var(--ease), transform .35s var(--ease),
-              border-color .3s, box-shadow .3s;
-}
-.totop.is-on { opacity: 1; transform: none; pointer-events: auto; }
-.totop:hover { border-color: var(--violet); box-shadow: var(--glow-soft); }
-.totop svg { width: 18px; height: 18px; fill: none; stroke: var(--ink); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-
 /* ============================================================
    HERO entrance — the hero is above the fold by definition, so it
    animates on LOAD rather than waiting for a scroll-reveal that
    can never fire on a short viewport.
+
+   The animation is an Anime.js timeline in main.js that runs after
+   the loader hands over, so the hero assembles as the intro
+   dissolves rather than fighting it. These rules hold only the
+   initial hidden state — no keyframes, no transition, so the two
+   systems never touch the same property.
    ============================================================ */
-@keyframes riseIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: none; }
-}
-.hero [data-reveal] {
-  opacity: 1;
-  transform: none;
-  animation: riseIn .85s var(--ease) backwards;
-}
-.hero [data-reveal][data-d="1"] { animation-delay: .10s; }
-.hero [data-reveal][data-d="2"] { animation-delay: .20s; }
-.hero [data-reveal][data-d="3"] { animation-delay: .30s; }
-@media (prefers-reduced-motion: reduce) {
-  .hero [data-reveal] { animation: none; }
-}
-/* the title lines slide in from the left, in sequence */
-@keyframes titleIn {
-  from { opacity: 0; transform: translateY(38px) skewY(2.5deg); }
-  to   { opacity: 1; transform: none; }
-}
-.hero__title .line {
-  opacity: 1;
-  animation: titleIn .95s var(--ease) backwards;
-}
-.hero__title .line:nth-child(1) { animation-delay: .04s; }
-.hero__title .line:nth-child(2) { animation-delay: .14s; }
-@media (prefers-reduced-motion: reduce) {
-  .hero__title .line { animation: none; }
-}
+.hero [data-reveal],
+.hero__title .line { opacity: 0; }
+
+/* Without JS the hero must still be readable. */
+.no-js .hero [data-reveal],
+.no-js .hero__title .line { opacity: 1; }
 
 /* ============================================================
    REVEAL ON SCROLL
-   ============================================================ */
-[data-reveal] {
-  opacity: 0;
-  transform: translateY(22px);
-  transition: opacity .8s var(--ease), transform .8s var(--ease);
-}
-[data-reveal].is-in { opacity: 1; transform: none; }
-[data-reveal][data-d="1"] { transition-delay: .08s; }
-[data-reveal][data-d="2"] { transition-delay: .16s; }
-[data-reveal][data-d="3"] { transition-delay: .24s; }
 
-/* staggered children injected by JS */
-.stagger > * { opacity: 0; transform: translateY(18px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
-.stagger > *.is-in { opacity: 1; transform: none; }
+   The animation itself now lives in js/main.js, where Anime.js
+   tweens opacity and transform on the same IntersectionObserver
+   triggers this used. The rules below only hold the *initial*
+   hidden state so nothing flashes before JS runs, and they
+   deliberately carry no transition — otherwise CSS and Anime.js
+   would both be driving the same properties and the easing would
+   fight.
+
+   If JS never runs, the noscript rule below shows everything.
+   ============================================================ */
+[data-reveal],
+.stagger > * { opacity: 0; transform: translateY(20px); }
+
+/* No JS: content must never stay invisible. */
+.no-js [data-reveal],
+.no-js .stagger > * { opacity: 1; transform: none; }
+
+/* Before main.js has parsed, hold the hidden state. Once anime.js
+   has taken over, inline styles win and the transition above is
+   inert regardless. */
 
 /* ============================================================
    RESPONSIVE
@@ -1611,117 +1677,240 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 
 /* ---------- music player ----------
-   Sits in the bottom-right corner the chatbot used to occupy, and is built
-   from the same glass primitive as every other panel so it reads as part of
-   the site rather than a bolted-on widget. */
+   Two states in one fixed element, bottom-right.
+
+   Collapsed: only .player__orb is visible — a small circle holding the
+   equalizer. The panel is scaled to zero and made inert.
+
+   Expanded: the panel scales up from the orb's centre and becomes
+   interactive. Anime.js animates the transform; CSS only holds the two
+   end states, so the two never fight over the same property.
+
+   Both states are driven by [data-state] on the container, which is
+   what main.js flips. That keeps the visual state in one place
+   instead of spread across hover/focus/class rules. */
 .player {
   position: fixed; right: 1.35rem; bottom: 1.35rem; z-index: 80;
-  display: flex; align-items: center; gap: .7rem;
-  padding: .55rem .55rem .55rem .95rem;
   color: var(--ink);
-  background: rgba(12,10,18,.88); backdrop-filter: blur(16px);
-  border: 1px solid rgba(167,139,250,.28); border-radius: 100px;
-  box-shadow: 0 12px 30px rgba(0,0,0,.4), 0 0 0 4px rgba(167,139,250,.05);
-  transition: border-color .3s var(--ease), box-shadow .3s var(--ease);
+  font: inherit;
 }
-.player:hover, .player:focus-within {
-  border-color: rgba(167,139,250,.5);
-  box-shadow: 0 12px 30px rgba(0,0,0,.4), 0 0 18px rgba(167,139,250,.12);
-}
+.player * { box-sizing: border-box; }
 
-/* The round play/pause button. */
-.player__btn {
-  flex: none;
-  width: 2.6rem; height: 2.6rem;
+/* ---------- the orb (always visible) ---------- */
+.player__orb {
+  position: relative; z-index: 2;
+  width: 3.25rem; height: 3.25rem;
   display: grid; place-items: center;
-  border: 1px solid rgba(167,139,250,.4); border-radius: 50%;
+  border: 1px solid rgba(167,139,250,.34);
+  border-radius: 50%;
+  background: rgba(12,10,18,.9);
+  -webkit-backdrop-filter: blur(16px);
+          backdrop-filter: blur(16px);
   color: var(--ink);
-  background: rgba(167,139,250,.14);
   cursor: pointer;
-  transition: background .25s var(--ease), color .25s var(--ease), transform .25s var(--ease);
+  box-shadow: 0 10px 26px rgba(0,0,0,.42), 0 0 0 4px rgba(167,139,250,.05);
+  transition: border-color .3s var(--ease), box-shadow .3s var(--ease),
+              background .3s var(--ease);
 }
-.player__btn:hover { background: rgba(167,139,250,.24); color: #fff; transform: scale(1.06); }
-.player__btn svg { width: 1.05rem; height: 1.05rem; fill: currentColor; }
-/* Play and pause are the same button in two states; only one is shown. */
-.player__btn .i-pause { display: none; }
-.player.is-playing .player__btn .i-pause { display: block; }
-.player.is-playing .player__btn .i-play { display: none; }
+.player__orb:hover, .player__orb:focus-visible {
+  border-color: rgba(167,139,250,.6);
+  background: rgba(24,18,38,.92);
+  box-shadow: 0 10px 26px rgba(0,0,0,.42), 0 0 18px rgba(167,139,250,.18);
+  outline: none;
+}
+.player__orb:focus-visible { border-color: var(--violet); }
 
-/* Track name, artist, and the seek bar — the whole middle is one flex row
-   so long titles ellipsize instead of pushing the button off the pill. */
-.player__meta {
-  display: flex; flex-direction: column; gap: .3rem;
-  min-width: 0; width: 11rem;
+/* Play/pause glyph sits behind the equalizer and only shows when paused,
+   so a playing track reads as pure equalizer. */
+.player__play {
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  opacity: 1;
+  transition: opacity .25s var(--ease);
 }
-.player__now { min-width: 0; }
+.player__play svg { width: 1.05rem; height: 1.05rem; fill: currentColor; }
+.player__play .i-pause { display: none; }
+.player.is-playing .player__play { opacity: 0; }
+.player.is-playing .player__play .i-play { display: none; }
+.player.is-playing .player__play .i-pause { display: block; }
+
+/* ---------- the equalizer ----------
+   Five bars. Anime.js loops their scaleY while playing; when paused the
+   animation is stopped rather than merely slowed, so they freeze exactly
+   where they were instead of drifting back down. */
+.player__eq {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  gap: 2px;
+  opacity: 0;
+  transition: opacity .25s var(--ease);
+}
+.player__eq i {
+  display: block;
+  width: 2px; height: 62%;
+  border-radius: 1px;
+  background: linear-gradient(180deg, rgba(167,139,250,.55), rgba(167,139,250,1));
+  transform: scaleY(.22);
+  will-change: transform;
+}
+.player.is-playing .player__eq { opacity: 1; }
+.player.is-playing .player__play { opacity: 0; }
+
+/* ---------- the panel ---------- */
+.player__panel {
+  position: absolute; right: 0; bottom: 0;
+  width: min(21rem, calc(100vw - 2.7rem));
+  padding: 1rem 1.1rem 1.05rem;
+  border: 1px solid rgba(167,139,250,.22);
+  border-radius: 1.1rem;
+  background: rgba(12,10,18,.96);
+  -webkit-backdrop-filter: blur(20px);
+          backdrop-filter: blur(20px);
+  box-shadow: 0 22px 60px rgba(0,0,0,.6), 0 0 0 1px rgba(167,139,250,.05);
+  /* The collapsed resting state. transform-origin is bottom-right so the
+     panel grows out of the orb rather than out of its own top-left. */
+  transform: scale(.86) translateY(6px);
+  transform-origin: 100% 100%;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .2s linear, visibility 0s linear .3s;
+}
+/* Anime.js sets the inline transform/opacity during the transition; this
+   rule only describes the resting state it animates away from. When the
+   panel is open, the inline styles win. */
+.player[data-state="open"] .player__panel {
+  visibility: visible;
+  transition: opacity .2s linear .05s, visibility 0s;
+}
+
+/* header */
+.player__head {
+  display: flex; align-items: flex-start; gap: .75rem;
+  margin-bottom: .9rem;
+}
+.player__now { min-width: 0; flex: 1; }
 .player__title, .player__artist {
   display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.player__title { font-size: .76rem; font-weight: 600; }
-.player__artist { font-size: .64rem; color: var(--ink-3); }
+.player__title { font-size: .8rem; font-weight: 600; }
+.player__artist { font-size: .66rem; color: var(--ink-3); margin-top: .1rem; }
+.player__close {
+  flex: none; width: 1.75rem; height: 1.75rem;
+  display: grid; place-items: center;
+  border: 0; background: none; color: var(--ink-3);
+  cursor: pointer; border-radius: 6px;
+  transition: color .2s var(--ease), background .2s var(--ease);
+}
+.player__close:hover { color: var(--ink); background: rgba(255,255,255,.06); }
+.player__close svg {
+  width: .95rem; height: .95rem; fill: none; stroke: currentColor;
+  stroke-width: 2; stroke-linecap: round;
+}
 
+/* seek bar */
 .player__bar {
   position: relative;
   height: 3px; border-radius: 2px;
   background: rgba(255,255,255,.12);
-  cursor: pointer;
+  margin-bottom: .9rem;
 }
+.player__bar[aria-disabled="true"] { opacity: .4; pointer-events: none; }
 .player__fill {
   position: absolute; inset: 0 auto 0 0;
   width: 0; border-radius: inherit;
   background: linear-gradient(90deg, rgba(167,139,250,.6), rgba(167,139,250,1));
   box-shadow: 0 0 8px rgba(167,139,250,.5);
 }
-.player__bar:hover .player__fill { box-shadow: 0 0 12px rgba(167,139,250,.7); }
+.player__bar:hover .player__fill { box-shadow: 0 0 12px rgba(167,139,250,.75); }
+
+/* transport row */
+.player__controls {
+  display: flex; align-items: center; gap: .55rem;
+}
+.player__cbtn {
+  flex: none;
+  width: 1.9rem; height: 1.9rem;
+  display: grid; place-items: center;
+  border: 1px solid transparent; border-radius: 50%;
+  background: none; color: var(--ink-2);
+  cursor: pointer;
+  transition: color .2s var(--ease), background .2s var(--ease), border-color .2s var(--ease);
+}
+.player__cbtn:hover:not(:disabled) { color: var(--ink); background: rgba(255,255,255,.07); }
+.player__cbtn:disabled { opacity: .3; cursor: not-allowed; }
+.player__cbtn svg {
+  width: 1rem; height: 1rem; fill: none; stroke: currentColor;
+  stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+}
+.player__cbtn--main {
+  width: 2.3rem; height: 2.3rem;
+  border-color: rgba(167,139,250,.4);
+  background: rgba(167,139,250,.14);
+  color: var(--ink);
+}
+.player__cbtn--main:hover:not(:disabled) { background: rgba(167,139,250,.24); color: #fff; }
+.player__cbtn--main svg { fill: currentColor; stroke: none; }
+.player__cbtn--main .i-pause { display: none; }
+.player.is-playing .player__cbtn--main .i-play { display: none; }
+.player.is-playing .player__cbtn--main .i-pause { display: block; }
 
 .player__time {
-  flex: none;
+  margin-left: auto;
   font: .62rem var(--mono); color: var(--ink-3);
-  font-variant-numeric: tabular-nums;
+  font-variant-numeric: tabular-nums; white-space: nowrap;
 }
 
-/* Volume lives behind a second small button so the pill stays compact. */
+/* volume: a real range input, always present so it stays keyboard-usable */
+.player__volwrap { display: flex; align-items: center; gap: .35rem; }
+.player__vlabel { display: grid; place-items: center; color: var(--ink-3); cursor: pointer; }
+.player__vlabel svg {
+  width: .95rem; height: .95rem; fill: none; stroke: currentColor;
+  stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;
+}
 .player__vol {
-  flex: none; width: 1.5rem; height: 1.5rem;
-  display: grid; place-items: center;
-  border: 0; background: none; color: var(--ink-3);
-  cursor: pointer; font: .68rem var(--mono);
-  transition: color .25s var(--ease);
-}
-.player__vol:hover { color: var(--ink); }
-.player__volwrap { position: relative; display: grid; place-items: center; }
-/* A real range input, visually collapsed until hover/focus, so it stays
-   keyboard- and screen-reader-accessible instead of being a div fake. */
-.player__volrange {
-  position: absolute; right: 1.9rem; bottom: 50%;
-  width: 5.5rem; height: 1.6rem;
-  transform: translateY(50%) scaleX(0);
-  transform-origin: right center;
-  opacity: 0; pointer-events: none;
-  transition: transform .3s var(--ease), opacity .3s var(--ease);
-}
-.player__volwrap:hover .player__volrange,
-.player__volrange:focus-visible {
-  transform: translateY(50%) scaleX(1);
-  opacity: 1; pointer-events: auto;
-}
-.player__volrange input {
-  width: 100%; height: 100%;
+  width: 4.5rem; height: 1rem;
   accent-color: var(--violet);
   cursor: pointer;
 }
 
-@media (max-width: 480px) {
-  .player { right: 1rem; bottom: 1rem; gap: .55rem; padding: .5rem .5rem .5rem .8rem; }
-  .player__meta { width: 7.5rem; }
-  .player__time, .player__vol { display: none; }
+/* the Spotify iframe, created on demand */
+.player__embed { margin-top: .85rem; }
+.player__embed[hidden] { display: none; }
+.player__embed iframe {
+  display: block; width: 100%; height: 152px;
+  border: 0; border-radius: .6rem;
+}
+
+/* mobile: the panel is a bottom sheet rather than a floating card */
+@media (max-width: 560px) {
+  .player { right: 1rem; bottom: 1rem; }
+  .player__orb { width: 3rem; height: 3rem; }
+  .player__panel {
+    width: calc(100vw - 2rem);
+    right: -.25rem; bottom: -.25rem;
+    border-radius: 1.1rem;
+    transform-origin: 100% 100%;
+  }
+  .player__vol { width: 3.5rem; }
 }
 
 /* print — just the content, none of the theatre */
 @media print {
   body { background: #fff; color: #000; }
   body::before, .grain, .scanlines, .cursor, .progress,
-  .nav, .menu, .hero__field, .hero__ticker, .hero__scroll, .totop,
+  .nav, .menu, .hero__field, .hero__ticker, .hero__scroll,
+  .player { display: none !important; }
+  .section { padding-block: 1.5rem; }
+  [data-reveal], .stagger > * { opacity: 1 !important; transform: none !important; }
+  a { text-decoration: underline; }
+}
+
+/* print — just the content, none of the theatre */
+@media print {
+  body { background: #fff; color: #000; }
+  body::before, .grain, .scanlines, .cursor, .progress,
+  .nav, .menu, .hero__field, .hero__ticker, .hero__scroll,
   .player { display: none !important; }
   .section { padding-block: 1.5rem; }
   [data-reveal], .stagger > * { opacity: 1 !important; transform: none !important; }

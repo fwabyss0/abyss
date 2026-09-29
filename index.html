@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 
 <head>
   <meta charset="utf-8">
@@ -108,11 +108,59 @@
 }
   </script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+
+  <!-- Anime.js, vendored locally (MIT). Loaded without defer so it is
+       available to main.js on the next script, and so a slow network
+       delays the parse rather than flashing un-animated content. The
+       site is fully usable if this 404s: every animation is guarded. -->
+  <script src="js/vendor/anime.min.js"></script>
+  <script>document.documentElement.classList.remove('no-js');</script>
 </head>
 
 <body>
 
   <a class="skip" href="#main">Skip to content</a>
+
+  <!-- ============================ PRELOADER ============================ -->
+  <!-- Cinematic intro driven by Anime.js in main.js.
+
+       The progress number is real, not a fake timer: it tracks the portrait
+       and stylesheet assets and the window load event, then eases to 100.
+       A failsafe guarantees the page always opens, even if an asset stalls.
+
+       aria-live is deliberately NOT on this element. The name is written as
+       one accessible string ("Alish Shrestha") and the visual per-character
+       reveal is aria-hidden, so a screen reader announces the name once
+       instead of thirteen separate updates. -->
+  <div class="loader" id="loader">
+    <div class="loader__stage" aria-hidden="true">
+      <div class="loader__mark" id="loaderMark">
+        <span class="loader__glyph">A</span>
+        <span class="loader__halo"></span>
+      </div>
+    </div>
+
+    <div class="loader__foot">
+      <p class="loader__name" aria-label="Alish Shrestha">
+        <span class="loader__name-inner">
+          <span aria-hidden="true" data-ch="A">A</span><span aria-hidden="true" data-ch="l">l</span><span
+            aria-hidden="true" data-ch="i">i</span><span aria-hidden="true" data-ch="s">s</span><span
+            aria-hidden="true" data-ch="h">h</span><span aria-hidden="true" data-ch=" ">&nbsp;</span><span
+            aria-hidden="true" data-ch="S">S</span><span aria-hidden="true" data-ch="h">h</span><span
+            aria-hidden="true" data-ch="r">r</span><span aria-hidden="true" data-ch="e">e</span><span
+            aria-hidden="true" data-ch="s">s</span><span aria-hidden="true" data-ch="t">t</span><span
+            aria-hidden="true" data-ch="h">h</span><span aria-hidden="true" data-ch="a">a</span>
+        </span>
+      </p>
+
+      <div class="loader__meter">
+        <div class="loader__track"><i id="loaderBar"></i></div>
+        <p class="loader__pct"><span id="loaderPct">0</span>%</p>
+      </div>
+
+      <p class="loader__status" id="loaderStatus">Descending</p>
+    </div>
+  </div>
 
   <!-- cursor layer -->
   <div class="ambient" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -643,46 +691,84 @@
     </div>
   </footer>
 
-  <button class="totop" id="toTop" aria-label="Back to top">
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M12 19V5M6 11l6-6 6 6" />
-    </svg>
-  </button>
-
   <!-- ============================ MUSIC PLAYER ============================ -->
-  <div class="player" id="player">
-    <button class="player__btn" id="playerToggle" type="button" aria-label="Play music" aria-pressed="false">
-      <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M8 5v14l11-7z" />
-      </svg>
-      <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M6 5h4v14H6zM14 5h4v14h-4z" />
-      </svg>
+  <!-- Collapsed: a small circle with an equalizer in it. Hover, focus or tap
+       expands it into the full player; moving away collapses it again.
+
+       The circle is a real <button>, so it is keyboard reachable and the
+       expansion is announced rather than being a hover-only trick. -->
+
+  <div class="player" id="player" data-state="collapsed">
+    <button class="player__orb" id="playerOrb" type="button"
+      aria-label="Open music player" aria-expanded="false" aria-controls="playerPanel">
+      <span class="player__eq" aria-hidden="true">
+        <i></i><i></i><i></i><i></i><i></i>
+      </span>
+      <span class="player__play" aria-hidden="true">
+        <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+        <svg class="i-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z" /></svg>
+      </span>
     </button>
 
-    <div class="player__meta">
-      <div class="player__now">
-        <span class="player__title" id="playerTitle">Now playing</span>
-        <span class="player__artist" id="playerArtist">—</span>
+    <div class="player__panel" id="playerPanel">
+      <div class="player__head">
+        <div class="player__now">
+          <span class="player__title" id="playerTitle">No tracks yet</span>
+          <span class="player__artist" id="playerArtist">add Spotify links to js/data.js</span>
+        </div>
+        <button class="player__close" id="playerClose" type="button" aria-label="Close music player">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18" />
+          </svg>
+        </button>
       </div>
-      <div class="player__bar" id="playerBar" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0"
-        aria-valuemax="100" aria-valuenow="0">
+
+      <div class="player__bar" id="playerBar" role="slider" tabindex="0"
+        aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-disabled="true">
         <span class="player__fill" id="playerFill"></span>
       </div>
+
+      <div class="player__controls">
+        <button class="player__cbtn" id="playerPrev" type="button" aria-label="Previous track">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 5v14M19 5l-10 7 10 7z" />
+          </svg>
+        </button>
+
+        <button class="player__cbtn player__cbtn--main" id="playerToggle" type="button"
+          aria-label="Play" aria-pressed="false">
+          <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
+          <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 5h4v14H6zM14 5h4v14h-4z" />
+          </svg>
+        </button>
+
+        <button class="player__cbtn" id="playerNext" type="button" aria-label="Next track">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M18 5v14M5 5l10 7-10 7z" />
+          </svg>
+        </button>
+
+        <span class="player__time" id="playerTime">0:00 / 0:00</span>
+
+        <div class="player__volwrap">
+          <label class="player__vlabel" for="playerVolume">
+            <span class="sr">Volume</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M11 5L6 9H3v6h3l5 4V5zM15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13" />
+            </svg>
+          </label>
+          <input class="player__vol" type="range" id="playerVolume" min="0" max="100" value="70"
+            aria-label="Volume">
+        </div>
+      </div>
+
+      <!-- The Spotify embed is created only when a track is playing, so the
+           third-party iframe costs nothing until it is actually needed. -->
+      <div class="player__embed" id="playerEmbed" hidden></div>
+
+      <audio id="playerAudio" preload="none"></audio>
     </div>
-
-    <span class="player__time" id="playerTime">0:00 / 0:00</span>
-
-    <div class="player__volwrap">
-      <label class="player__vol" for="playerVolume">
-        <span class="sr">Volume</span>VOL
-      </label>
-      <span class="player__volrange">
-        <input type="range" id="playerVolume" min="0" max="100" value="70" aria-label="Volume">
-      </span>
-    </div>
-
-    <audio id="playerAudio" preload="none"></audio>
   </div>
 
   <script src="js/data.js"></script>

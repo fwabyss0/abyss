@@ -1,7 +1,7 @@
 /* ============================================================
    ALISH SHRESTHA — portfolio behaviour
-   Vanilla JS, no dependencies. Progressive: everything renders
-   from data.js, and every interaction is an enhancement.
+   Vanilla JS. Anime.js (vendored at js/vendor/anime.min.js) drives
+   the motion; everything degrades to visible-and-static without it.
    ============================================================ */
 (function () {
   'use strict';
@@ -11,6 +11,196 @@
 
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  // Anime.js is vendored locally, so this only trips if the file is
+  // missing or 404s. Every animation below is guarded on it.
+  var A = window.anime || null;
+  var anim = A && A.animate ? A.animate : null;
+
+  // Runs the hero entrance once the loader has handed over.
+  var heroReady = function () {};
+
+  /* ---- hero entrance, timed to land as the loader dissolves ---- */
+  (function heroIntro() {
+    var run = function () {
+      var lines = $$('.hero__title .line');
+      var rest = $$('.hero [data-reveal]');
+
+      if (!anim || reduced) {
+        lines.concat(rest).forEach(function (el) {
+          el.style.opacity = '1';
+          el.style.transform = 'none';
+        });
+        return;
+      }
+
+      // The title leads, then the supporting copy follows underneath it.
+      anim(lines, {
+        opacity: [0, 1],
+        translateY: [38, 0],
+        skewY: [2.5, 0],
+        duration: 950,
+        delay: A.stagger(110),
+        ease: 'outExpo'
+      });
+
+      anim(rest, {
+        opacity: [0, 1],
+        translateY: [20, 0],
+        duration: 820,
+        delay: A.stagger(90, { start: 260 }),
+        ease: 'outCubic'
+      });
+    };
+
+    heroReady = run;
+    // If the loader already finished (or was skipped), the hero is
+    // already visible and needs no entrance at all.
+    if (!$('#loader')) run();
+  })();
+
+  /* ==========================================================
+     0. CINEMATIC LOADER  (Anime.js, but never required)
+
+     Progress is real, not a fake timer: it tracks the portrait images
+     and the window load event. The displayed value is eased toward
+     the real one so the bar never jumps.
+
+     Two things are load-bearing here and must not be weakened:
+       - the failsafe timeout, or a stalled asset leaves the user
+         staring at a black screen forever;
+       - the single-run guard, or a slow asset can start the exit
+         twice and tear the DOM mid-transition.
+     ========================================================== */
+  (function loader() {
+    var el = $('#loader');
+    if (!el) { heroReady(); return; }
+
+    var bar = $('#loaderBar');
+    var pctEl = $('#loaderPct');
+    var statusEl = $('#loaderStatus');
+    var mark = $('#loaderMark');
+    var glyph = $('.loader__glyph', el);
+    var halo = $('.loader__halo', el);
+    var chars = $$('[data-ch]', el);
+
+    var shown = 0;
+    var target = 0;
+    var done = false;
+
+    // Reduced motion: no intro at all. CSS already hides the loader,
+    // so this just marks the page ready and gets out of the way.
+    if (reduced) {
+      el.parentNode && el.parentNode.removeChild(el);
+      document.documentElement.classList.add('is-loaded');
+      heroReady();
+      return;
+    }
+
+    function setTarget(v, label) {
+      if (v > target) target = v;
+      if (label && statusEl) statusEl.textContent = label;
+    }
+
+    function paint() {
+      shown += (target - shown) * 0.1;
+      if (target - shown < 0.4) shown = target;
+      var v = Math.round(shown);
+      if (bar) bar.style.width = v + '%';
+      if (pctEl) pctEl.textContent = v;
+      if (!done && shown < 99.5) requestAnimationFrame(paint);
+    }
+
+    /* ---- intro: logo, then the name, character by character ---- */
+    if (anim) {
+      anim(mark, { scale: [0.86, 1], opacity: [0, 1], duration: 900, ease: 'outElastic(1, .7)' });
+      anim(glyph, { opacity: [0, 1], translateY: [14, 0], duration: 760, ease: 'outCubic' });
+      anim(halo, {
+        opacity: [0, 0.9],
+        scale: [0.7, 1.25],
+        duration: 1500,
+        loop: true,
+        alternate: true,
+        ease: 'inOutSine'
+      });
+      anim(chars, {
+        opacity: [0, 1],
+        translateY: [10, 0],
+        duration: 460,
+        delay: A.stagger(28, { start: 380 }),
+        ease: 'outQuad'
+      });
+    } else {
+      // No Anime.js: show the loader content statically.
+      [mark, glyph, halo].concat(chars).forEach(function (n) { if (n) n.style.opacity = '1'; });
+    }
+
+    requestAnimationFrame(paint);
+
+    /* ---- what we actually wait for ---- */
+    var tracked = 0, settled = 0;
+    function settle() { if (++settled >= tracked) setTarget(100, 'Almost there'); }
+
+    var imgs = ['assets/alish-900.jpg', 'assets/alish-900.webp', 'assets/alish-1100.webp'];
+    tracked = imgs.length;
+    imgs.forEach(function (src) {
+      var im = new Image();
+      im.onload = im.onerror = settle;
+      im.src = src;
+    });
+
+    setTarget(18, 'Descending');
+    var t1 = setTimeout(function () { setTarget(58, 'The light fades'); }, 260);
+    var t2 = setTimeout(function () { setTarget(82, 'Something stirs'); }, 700);
+
+    var RELEASE = 900;   // how long the exit sequence is allowed to take
+    if (document.readyState === 'complete') {
+      setTarget(100, 'Almost there');
+    } else {
+      window.addEventListener('load', function () {
+        setTarget(100, 'Almost there');
+        // safety: if an image never fires its callback, still finish
+        setTimeout(function () { setTarget(100, 'Almost there'); }, 1200);
+      });
+    }
+
+    function finish() {
+      if (done) return;
+      done = true;
+      clearTimeout(t1); clearTimeout(t2);
+      target = 100; shown = 100;
+      if (bar) bar.style.width = '100%';
+      if (pctEl) pctEl.textContent = '100';
+      if (statusEl) statusEl.textContent = 'Eyes open';
+
+      if (!anim) {
+        // Straight to the page, no transition to run.
+        el.parentNode && el.parentNode.removeChild(el);
+        document.documentElement.classList.add('is-loaded');
+        heroReady();
+        return;
+      }
+
+      if (anim.pause) anim.pause();   // stop the halo loop before it is torn down
+
+      el.classList.add('is-in');
+      anim(el, {
+        opacity: [1, 0],
+        scale: [1, 1.04],
+        duration: RELEASE,
+        ease: 'inOutQuad',
+        onComplete: function () {
+          el.parentNode && el.parentNode.removeChild(el);
+          document.documentElement.classList.add('is-loaded');
+          heroReady();
+        }
+      });
+    }
+
+    // Failsafe: however slow or broken the assets are, the page opens.
+    setTimeout(finish, 4200 + RELEASE);
+    window.addEventListener('load', function () { setTimeout(finish, 600); });
+  })();
 
   /* ==========================================================
      1. CONTENT + INTERACTIVITY
@@ -89,48 +279,177 @@
   /* ==========================================================
      MUSIC PLAYER
 
-     A single <audio> element driven by the TRACKS list in data.js.
-     Three deliberate constraints:
+     Two states driven by [data-state] on the container:
+     "collapsed" shows only the orb, "open" expands the panel.
+     Anime.js animates the transform between them; CSS holds the two
+     resting states.
 
+     Design constraints that shaped this:
+
+     - The orb is a real <button>, so the expansion is reachable by
+       keyboard and announced, not a hover-only trick. Touch devices
+       get the same behaviour because a tap produces a click.
      - Nothing autoplays. Browsers block it, and unsolicited audio is
-       hostile. Playback starts only on a real click.
-     - The list is walked in order, then loops. There is no visible
-       playlist, because the pill only has room for the current
-       track; the next/prev behaviour is on the button and keys.
-     - With no tracks configured the whole thing stays at its
-       resting frame and downloads nothing.
+       hostile. The Spotify iframe is only created on the first real
+       play, so a visitor who never presses play never loads it.
+     - The equalizer is a looping Anime.js animation that is *stopped*
+       on pause, not merely faded, so the bars freeze where they are
+       instead of sliding back down.
+     - With no tracks configured the panel says so and every transport
+       control is disabled. Nothing 404s and nothing is fetched.
      ========================================================== */
   (function player() {
     var root = $('#player');
     if (!root) return;
 
+    var orb = $('#playerOrb');
+    var panel = $('#playerPanel');
+    var closeBtn = $('#playerClose');
     var audio = $('#playerAudio');
     var toggle = $('#playerToggle');
+    var prevBtn = $('#playerPrev');
+    var nextBtn = $('#playerNext');
     var titleEl = $('#playerTitle');
     var artistEl = $('#playerArtist');
     var timeEl = $('#playerTime');
     var bar = $('#playerBar');
     var fill = $('#playerFill');
     var volume = $('#playerVolume');
-    if (!audio || !toggle) return;
+    var embed = $('#playerEmbed');
+    var bars = $$('.player__eq i', root);
+    if (!orb || !audio) return;
 
     var tracks = (typeof TRACKS !== 'undefined' && TRACKS.length) ? TRACKS : [];
-    var index = -1;
+    var index = 0;
     var seeking = false;
+    var open = false;
+    var collapseTimer = 0;
+    var eqAnim = null;
+    var idleTimer = 0;
 
-    // No tracks: show a truthful resting state and stop. Nothing is fetched.
-    if (!tracks.length) {
-      titleEl.textContent = 'No tracks yet';
-      artistEl.textContent = 'add files to audio/';
-      toggle.disabled = true;
-      toggle.style.opacity = '.45';
-      toggle.style.cursor = 'not-allowed';
-      toggle.setAttribute('aria-disabled', 'true');
-      bar.setAttribute('aria-disabled', 'true');
-      bar.style.pointerEvents = 'none';
-      return;
+    /* ---------- expand / collapse ---------- */
+    function setOpen(state) {
+      if (open === state) return;
+      open = state;
+      root.setAttribute('data-state', state ? 'open' : 'collapsed');
+      orb.setAttribute('aria-expanded', String(state));
+      orb.setAttribute('aria-label', state ? 'Collapse music player' : 'Open music player');
+
+      if (anim) {
+        if (state) {
+          anim(panel, {
+            scale: [0.86, 1],
+            translateY: [6, 0],
+            opacity: [0, 1],
+            duration: 420,
+            ease: 'outBack(1.3)'
+          });
+        } else {
+          anim(panel, {
+            scale: 0.86,
+            translateY: 6,
+            opacity: 0,
+            duration: 280,
+            ease: 'inQuad'
+          });
+        }
+      } else {
+        // No Anime.js: fall back to the resting states in CSS.
+        panel.style.opacity = state ? '1' : '0';
+        panel.style.transform = state ? 'none' : 'scale(.86) translateY(6px)';
+      }
+
+      if (state) {
+        clearTimeout(collapseTimer);
+        // While open, a timer collapses it again if it is left untouched.
+        clearTimeout(idleTimer);
+        idleTimer = setTimeout(function () { setOpen(false); }, 15000);
+      }
     }
 
+    orb.addEventListener('click', function () { setOpen(!open); });
+    if (closeBtn) closeBtn.addEventListener('click', function () { setOpen(false); orb.focus(); });
+
+    // Hover expands on a real pointer only. On touch this never fires, so
+    // the tap handler above is the whole mobile interaction.
+    if (fine) {
+      root.addEventListener('pointerenter', function () { setOpen(true); });
+      root.addEventListener('pointerleave', function () {
+        // Only collapse on leave if nothing is playing — collapsing mid-song
+        // would hide the controls the listener is there to use.
+        if (audio.paused) setOpen(false);
+      });
+    }
+
+    // Escape closes, matching the mobile menu's behaviour.
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && open) { setOpen(false); orb.focus(); }
+    });
+
+    // Any interaction resets the idle countdown.
+    ['pointerdown', 'keydown'].forEach(function (evt) {
+      root.addEventListener(evt, function () {
+        if (!open) return;
+        clearTimeout(idleTimer);
+        idleTimer = setTimeout(function () { setOpen(false); }, 15000);
+      }, true);
+    });
+
+    /* ---------- equalizer ---------- */
+    function eqPlay() {
+      if (eqAnim || !anim || !bars.length) return;
+      eqAnim = anim(bars, {
+        scaleY: [
+          { to: 1, duration: 260 },
+          { to: 0.28, duration: 220 },
+          { to: 0.72, duration: 300 },
+          { to: 0.22, duration: 240 }
+        ],
+        loop: true,
+        // each bar offset so they do not pulse in lockstep
+        delay: A.stagger(110),
+        ease: 'inOutSine'
+      });
+    }
+    function eqStop() {
+      if (!eqAnim) return;
+      // .pause() leaves the bars exactly where they are, which is the
+      // "freeze" behaviour wanted; the transition below eases them to rest.
+      if (eqAnim.pause) eqAnim.pause();
+      if (eqAnim.revert) eqAnim.revert();
+      eqAnim = null;
+      if (!anim) return;
+      anim(bars, { scaleY: 0.22, duration: 260, ease: 'outQuad' });
+    }
+
+    /* ---------- Spotify embed ----------
+       Built lazily. A Spotify track/playlist embed URL looks like
+       https://open.spotify.com/embed/track/<ID> — the page URL from the
+       share sheet with /embed/ inserted after the type. */
+    function buildEmbed(t) {
+      if (!embed || !t || !t.spotify) return;
+      if (embed.getAttribute('data-src') === t.spotify) return;
+      embed.setAttribute('data-src', t.spotify);
+      embed.innerHTML = '';
+      var f = document.createElement('iframe');
+      f.src = t.spotify;
+      f.title = 'Spotify player: ' + (t.title || 'track');
+      f.loading = 'lazy';
+      f.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
+      f.setAttribute('allowtransparency', 'true');
+      embed.appendChild(f);
+      embed.hidden = false;
+    }
+
+    function dropEmbed() {
+      if (!embed) return;
+      // Removes the iframe and stops it playing in the background.
+      embed.innerHTML = '';
+      embed.removeAttribute('data-src');
+      embed.hidden = true;
+    }
+
+    /* ---------- playback ---------- */
     function fmt(sec) {
       if (!isFinite(sec) || sec < 0) sec = 0;
       var m = Math.floor(sec / 60);
@@ -138,76 +457,103 @@
       return m + ':' + (s < 10 ? '0' : '') + s;
     }
 
-    function load(i, autoplay) {
-      index = (i + tracks.length) % tracks.length;
-      var t = tracks[index];
-      audio.src = t.src;
-      titleEl.textContent = t.title || 'Untitled';
-      artistEl.textContent = t.artist || '';
-      audio.load();
-      if (autoplay) {
-        // A play() rejection here is expected (autoplay policy) and is
-        // swallowed deliberately — the button simply stays in its off state.
-        var p = audio.play();
-        if (p && p.catch) p.catch(function () {});
-      }
-    }
-
     function paint() {
       var dur = audio.duration;
       var pct = (dur && isFinite(dur)) ? (audio.currentTime / dur) * 100 : 0;
-      if (!seeking) fill.style.width = pct + '%';
-      bar.setAttribute('aria-valuenow', Math.round(pct));
-      bar.setAttribute('aria-valuetext', fmt(audio.currentTime) + ' of ' + fmt(dur));
-      timeEl.textContent = fmt(audio.currentTime) + ' / ' + fmt(dur);
+      if (!seeking && fill) fill.style.width = pct + '%';
+      if (bar) {
+        bar.setAttribute('aria-valuenow', Math.round(pct));
+        bar.setAttribute('aria-valuetext', fmt(audio.currentTime) + ' of ' + fmt(dur));
+      }
+      if (timeEl) timeEl.textContent = fmt(audio.currentTime) + ' / ' + fmt(dur);
     }
 
-    toggle.addEventListener('click', function () {
-      if (index < 0) { load(0, true); return; }
-      if (audio.paused) {
-        var p = audio.play();
-        if (p && p.catch) p.catch(function () {});
+    function load(i, autoplay) {
+      if (!tracks.length) return;
+      index = ((i % tracks.length) + tracks.length) % tracks.length;
+      var t = tracks[index];
+
+      if (titleEl) titleEl.textContent = t.title || 'Untitled';
+      if (artistEl) artistEl.textContent = t.artist || '';
+
+      // A track with a Spotify embed plays through the iframe; one with a
+      // plain audio src plays through the <audio> element. Having both means
+      // the player works before you get round to adding Spotify links.
+      if (t.spotify) {
+        audio.removeAttribute('src');
+        audio.load();
+        buildEmbed(t);
+        if (autoplay) setOpen(true);
       } else {
-        audio.pause();
+        dropEmbed();
+        audio.src = t.src || '';
+        audio.load();
+        if (autoplay) {
+          var p = audio.play();
+          // Autoplay policy rejects this until a real gesture; swallowing it
+          // is correct, the button simply stays in its off state.
+          if (p && p.catch) p.catch(function () {});
+        }
       }
+      paint();
+    }
+
+    function play() {
+      if (!tracks.length) return;
+      setOpen(true);
+      if (tracks[index] && tracks[index].spotify) {
+        // The iframe controls its own playback; nothing to call here.
+        // Ask the user to press play inside it.
+        if (titleEl) titleEl.textContent = tracks[index].title || 'Untitled';
+        return;
+      }
+      var p = audio.play();
+      if (p && p.catch) p.catch(function () {});
+    }
+
+    function pause() {
+      if (tracks[index] && tracks[index].spotify) { dropEmbed(); buildEmbed(tracks[index]); return; }
+      audio.pause();
+    }
+
+    if (toggle) toggle.addEventListener('click', function () {
+      if (audio.paused) play(); else pause();
     });
+    if (prevBtn) prevBtn.addEventListener('click', function () { load(index - 1, true); });
+    if (nextBtn) nextBtn.addEventListener('click', function () { load(index + 1, true); });
 
     audio.addEventListener('play', function () {
       root.classList.add('is-playing');
-      toggle.setAttribute('aria-pressed', 'true');
-      toggle.setAttribute('aria-label', 'Pause music');
+      if (toggle) { toggle.setAttribute('aria-pressed', 'true'); toggle.setAttribute('aria-label', 'Pause'); }
+      eqPlay();
     });
     audio.addEventListener('pause', function () {
       root.classList.remove('is-playing');
-      toggle.setAttribute('aria-pressed', 'false');
-      toggle.setAttribute('aria-label', 'Play music');
+      if (toggle) { toggle.setAttribute('aria-pressed', 'false'); toggle.setAttribute('aria-label', 'Play'); }
+      eqStop();
     });
     audio.addEventListener('timeupdate', paint);
     audio.addEventListener('loadedmetadata', paint);
     audio.addEventListener('ended', function () { load(index + 1, true); });
-    // A missing file should not leave the UI claiming to play.
     audio.addEventListener('error', function () {
       root.classList.remove('is-playing');
-      toggle.setAttribute('aria-pressed', 'false');
-      titleEl.textContent = 'Track unavailable';
-      artistEl.textContent = tracks[index] ? (tracks[index].title || '') : '';
+      eqStop();
+      if (toggle) toggle.setAttribute('aria-pressed', 'false');
+      if (titleEl) titleEl.textContent = 'Track unavailable';
     });
 
-    // Seek by click, and by keyboard because the bar is a slider.
-    function seekFromEvent(e) {
+    /* ---------- seek ---------- */
+    function seekFrom(e) {
       var r = bar.getBoundingClientRect();
-      var x = (e.clientX != null ? e.clientX : 0) - r.left;
-      var ratio = Math.max(0, Math.min(1, x / r.width));
-      if (audio.duration && isFinite(audio.duration)) {
-        audio.currentTime = ratio * audio.duration;
-      }
+      var ratio = Math.max(0, Math.min(1, ((e.clientX || 0) - r.left) / r.width));
+      if (audio.duration && isFinite(audio.duration)) audio.currentTime = ratio * audio.duration;
       paint();
     }
     bar.addEventListener('pointerdown', function (e) {
       if (!audio.duration) return;
       seeking = true;
-      seekFromEvent(e);
-      function move(ev) { seekFromEvent(ev); }
+      seekFrom(e);
+      function move(ev) { seekFrom(ev); }
       function up() {
         seeking = false;
         window.removeEventListener('pointermove', move);
@@ -225,14 +571,25 @@
 
     if (volume) {
       audio.volume = Number(volume.value) / 100;
-      volume.addEventListener('input', function () {
-        audio.volume = Number(volume.value) / 100;
-      });
+      volume.addEventListener('input', function () { audio.volume = Number(volume.value) / 100; });
     }
 
-    // Show the first track's name at rest without playing it.
-    load(0, false);
-    audio.pause();
+    /* ---------- no tracks: say so honestly and disable everything ---------- */
+    if (!tracks.length) {
+      if (toggle) toggle.disabled = true;
+      if (prevBtn) prevBtn.disabled = true;
+      if (nextBtn) nextBtn.disabled = true;
+      if (bar) bar.setAttribute('aria-disabled', 'true');
+      if (orb) {
+        orb.setAttribute('aria-label', 'Music player — no tracks configured');
+        orb.style.opacity = '.55';
+        orb.style.cursor = 'default';
+      }
+    } else {
+      // Show the first track's name at rest without playing or fetching it.
+      if (titleEl) titleEl.textContent = tracks[0].title || 'Untitled';
+      if (artistEl) artistEl.textContent = tracks[0].artist || '';
+    }
   })();
 
   // timeline lists — static HTML; only the progress rail is measured here
@@ -275,7 +632,17 @@
   setInterval(tick, 1000);
 
   /* ==========================================================
-     2. SCROLL REVEAL
+     2. SCROLL REVEAL + MOTION (Anime.js)
+
+     The old implementation animated these with CSS transitions and an
+     IntersectionObserver that toggled a class. The triggers are kept
+     exactly the same — same observer settings, same data-reveal and
+     .stagger selectors, same "unobserve after firing" behaviour — so
+     what appears on scroll does not change. Only the animation
+     changes: Anime.js now drives opacity and transform directly.
+
+     Everything here animates opacity and transform only, so it stays
+     on the compositor and does not trigger layout.
      ========================================================== */
   (function reveal() {
     var targets = $$('[data-reveal]');
@@ -283,17 +650,50 @@
       if (!el.hasAttribute('data-d')) el.setAttribute('data-d', String(i % 4));
     });
 
-    if (reduced || !('IntersectionObserver' in window)) {
+    // No Anime.js, or the user wants less motion: show everything, animate nothing.
+    if (!window.anime || reduced) {
       targets.forEach(function (el) { el.classList.add('is-in'); });
+      ['#skillsGrid', '#projectsGrid', '#eduList', '#expList', '#contactLinks', '#stackTags']
+        .forEach(function (sel) {
+          var g = $(sel);
+          if (g) {
+            g.classList.add('stagger');
+            Array.prototype.forEach.call(g.children, function (c) { c.classList.add('is-in'); });
+          }
+        });
       return;
     }
 
+    var animate = window.anime.animate;
+    var stagger = window.anime.stagger;
+
+    // Set the pre-animation state without waiting for a frame, so the first
+    // paint of an in-view element is already hidden rather than flashing in.
+    function prep(el) { el.style.opacity = '0'; el.style.transform = 'translateY(18px)'; }
+
+    function play(el, delay) {
+      animate(el, {
+        opacity: [0, 1],
+        translateY: [18, 0],
+        duration: 700,
+        delay: delay || 0,
+        ease: 'outCubic'
+      });
+      el.classList.add('is-in');
+    }
+
+    if (!('IntersectionObserver' in window)) {
+      targets.forEach(function (el) { play(el, 0); });
+      return;
+    }
+
+    targets.forEach(prep);
+
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
-        if (en.isIntersecting) {
-          en.target.classList.add('is-in');
-          io.unobserve(en.target);
-        }
+        if (!en.isIntersecting) return;
+        play(en.target, Number(en.target.getAttribute('data-d') || 0) * 90);
+        io.unobserve(en.target);
       });
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
 
@@ -302,33 +702,35 @@
     /* Safety net: anything still hidden after load gets shown. Without this,
        a viewport shorter than the content (or a slow IO callback) can leave
        hero text permanently invisible. */
-    setTimeout(function () {
+    function revealInView() {
       targets.forEach(function (el) {
+        if (el.classList.contains('is-in')) return;
         var b = el.getBoundingClientRect();
-        if (b.bottom < window.innerHeight * 1.05) el.classList.add('is-in');
+        if (b.bottom < window.innerHeight * 1.05) play(el, 0);
       });
-    }, 420);
+    }
+    setTimeout(revealInView, 420);
+    window.addEventListener('resize', revealInView, { passive: true });
 
-    window.addEventListener('resize', function () {
-      targets.forEach(function (el) {
-        var b = el.getBoundingClientRect();
-        if (b.bottom < window.innerHeight * 1.05) el.classList.add('is-in');
-      });
-    }, { passive: true });
-
-    // stagger the generated grids
+    // Generated grids stagger their children, same as before.
     ['#skillsGrid', '#projectsGrid', '#eduList', '#expList', '#contactLinks', '#stackTags']
       .forEach(function (sel) {
         var g = $(sel);
         if (!g) return;
         g.classList.add('stagger');
+        var kids = Array.prototype.slice.call(g.children);
+        kids.forEach(prep);
         var gio = new IntersectionObserver(function (entries) {
           entries.forEach(function (en) {
             if (!en.isIntersecting) return;
-            Array.prototype.forEach.call(en.target.children, function (c, i) {
-              c.style.transitionDelay = Math.min(i * 55, 520) + 'ms';
-              c.classList.add('is-in');
+            animate(kids, {
+              opacity: [0, 1],
+              translateY: [18, 0],
+              duration: 680,
+              delay: stagger(Math.min(55, 520 / Math.max(kids.length, 1))),
+              ease: 'outCubic'
             });
+            kids.forEach(function (c) { c.classList.add('is-in'); });
             gio.unobserve(en.target);
           });
         }, { rootMargin: '0px 0px -6% 0px', threshold: 0.08 });
@@ -391,7 +793,6 @@
   (function nav() {
     var nav = $('#nav');
     var bar = $('#progressBar');
-    var toTop = $('#toTop');
     var links = $$('.nav__links a');
     var sections = links.map(function (a) { return $(a.getAttribute('href')); });
     var burger = $('#burger');
@@ -403,7 +804,6 @@
       var h = document.documentElement.scrollHeight - window.innerHeight;
       if (bar) bar.style.width = (h > 0 ? (y / h) * 100 : 0) + '%';
       if (nav) nav.classList.toggle('is-stuck', y > 40);
-      if (toTop) toTop.classList.toggle('is-on', y > window.innerHeight * 0.9);
 
       // active section
       var mid = y + window.innerHeight * 0.35;
@@ -444,12 +844,6 @@
         setMenu(false); burger.focus();
       }
     });
-
-    if (toTop) {
-      toTop.addEventListener('click', function () {
-        window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' });
-      });
-    }
   })();
 
   /* ==========================================================
