@@ -8,7 +8,8 @@
   <meta name="description"
     content="Alish Shrestha — AI student, web developer and creator from Nepal. Explore his projects, skills, experience, education and portfolio.">
   <meta name="author" content="Alish Shrestha">
-  <meta name="keywords" content="Alish Shrestha, AI student Nepal, web developer Nepal, frontend developer, artificial intelligence student, portfolio Nepal">
+  <meta name="keywords"
+    content="Alish Shrestha, AI student Nepal, web developer Nepal, frontend developer, artificial intelligence student, portfolio Nepal">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
   <meta name="theme-color" content="#050507">
   <link rel="canonical" href="https://www.sthaalish.com.np/">
@@ -156,6 +157,11 @@
     <!-- ============================ HERO ============================ -->
     <section class="hero" id="hero">
       <div class="hero__field" aria-hidden="true">
+        <!-- Two canvas layers, deliberately different in scale and behaviour.
+             #drift sits behind as slow, out-of-focus motes that give the hero
+             depth; #fx draws the tighter constellation and cursor links in
+             front. Keeping them separate means neither has to compromise. -->
+        <canvas id="drift"></canvas>
         <canvas id="fx"></canvas>
         <div class="hero__grid"></div>
       </div>
@@ -189,11 +195,7 @@
               <path d="M5 12h14M13 6l6 6-6 6" />
             </svg>
           </a>
-          <a class="btn btn--ghost" href="Alish_Shrestha_CV.pdf" target="_blank" rel="noopener"
-            aria-label="View Alish Shrestha's CV">
-            <span>View CV</span>
-            <i class="btn__arrow" aria-hidden="true">↗</i>
-          </a>
+
           <a class="btn btn--ghost"
             href="mailto:shrestaalish444@gmail.com?subject=Portfolio%20inquiry&body=Hello%20Alish%2C%0A%0A">
             <span>Email me</span>
@@ -301,10 +303,22 @@
               <h3 class="skill-cat-title">Programming</h3>
             </div>
             <div class="sc-row">
-              <span class="sc-wrap"><span class="sc-border" aria-hidden="true"><span class="sc-border-inner"></span></span><span class="sc" tabindex="0" role="button" style="--cc:#3776ab" data-percent="70" aria-label="Python, proficiency 70 percent"><i class="devicon-python-plain" aria-hidden="true"></i>Python</span></span>
-              <span class="sc-wrap"><span class="sc-border" aria-hidden="true"><span class="sc-border-inner"></span></span><span class="sc" tabindex="0" role="button" style="--cc:#f7df1e" data-percent="65" aria-label="JavaScript, proficiency 65 percent"><i class="devicon-javascript-plain" aria-hidden="true"></i>JavaScript</span></span>
-              <span class="sc-wrap"><span class="sc-border" aria-hidden="true"><span class="sc-border-inner"></span></span><span class="sc" tabindex="0" role="button" style="--cc:#e34f26" data-percent="85" aria-label="HTML, proficiency 85 percent"><i class="devicon-html5-plain" aria-hidden="true"></i>HTML</span></span>
-              <span class="sc-wrap"><span class="sc-border" aria-hidden="true"><span class="sc-border-inner"></span></span><span class="sc" tabindex="0" role="button" style="--cc:#1572b6" data-percent="80" aria-label="CSS, proficiency 80 percent"><i class="devicon-css3-plain" aria-hidden="true"></i>CSS</span></span>
+              <span class="sc-wrap"><span class="sc-border" aria-hidden="true"><span
+                    class="sc-border-inner"></span></span><span class="sc" tabindex="0" role="button"
+                  style="--cc:#3776ab" data-percent="70" aria-label="Python, proficiency 70 percent"><i
+                    class="devicon-python-plain" aria-hidden="true"></i>Python</span></span>
+              <span class="sc-wrap"><span class="sc-border" aria-hidden="true"><span
+                    class="sc-border-inner"></span></span><span class="sc" tabindex="0" role="button"
+                  style="--cc:#f7df1e" data-percent="65" aria-label="JavaScript, proficiency 65 percent"><i
+                    class="devicon-javascript-plain" aria-hidden="true"></i>JavaScript</span></span>
+              <span class="sc-wrap"><span class="sc-border" aria-hidden="true"><span
+                    class="sc-border-inner"></span></span><span class="sc" tabindex="0" role="button"
+                  style="--cc:#e34f26" data-percent="85" aria-label="HTML, proficiency 85 percent"><i
+                    class="devicon-html5-plain" aria-hidden="true"></i>HTML</span></span>
+              <span class="sc-wrap"><span class="sc-border" aria-hidden="true"><span
+                    class="sc-border-inner"></span></span><span class="sc" tabindex="0" role="button"
+                  style="--cc:#1572b6" data-percent="80" aria-label="CSS, proficiency 80 percent"><i
+                    class="devicon-css3-plain" aria-hidden="true"></i>CSS</span></span>
             </div>
           </article>
 
@@ -314,10 +328,22 @@
               <h3 class="skill-cat-title">AI &amp; ML</h3>
             </div>
             <div class="sc-row">
-              <span class="sc-wrap"><span class="sc-border" aria-hidden="true"><span class="sc-border-inner"></span></span><span class="sc" tabindex="0" role="button" style="--cc:#ff6f00" data-percent="55" aria-label="TensorFlow, proficiency 55 percent"><i class="devicon-tensorflow-original" aria-hidden="true"></i>TensorFlow</span></span>
-              <span class="sc-wrap"><span class="sc-border" aria-hidden="true"><span class="sc-border-inner"></span></span><span class="sc" tabindex="0" role="button" style="--cc:#ee4c2c" data-percent="50" aria-label="Neural Networks, proficiency 50 percent"><i class="devicon-pytorch-original" aria-hidden="true"></i>Neural Networks</span></span>
-              <span class="sc-wrap"><span class="sc-border" aria-hidden="true"><span class="sc-border-inner"></span></span><span class="sc" tabindex="0" role="button" style="--cc:#14f1d9" data-percent="60" aria-label="Data Science, proficiency 60 percent"><i class="devicon-pandas-plain" aria-hidden="true"></i>Data Science</span></span>
-              <span class="sc-wrap"><span class="sc-border" aria-hidden="true"><span class="sc-border-inner"></span></span><span class="sc" tabindex="0" role="button" style="--cc:#b5ff6d" data-percent="50" aria-label="Deep Learning, proficiency 50 percent"><i class="devicon-scikitlearn-plain" aria-hidden="true"></i>Deep Learning</span></span>
+              <span class="sc-wrap"><span class="sc-border" aria-hidden="true"><span
+                    class="sc-border-inner"></span></span><span class="sc" tabindex="0" role="button"
+                  style="--cc:#ff6f00" data-percent="55" aria-label="TensorFlow, proficiency 55 percent"><i
+                    class="devicon-tensorflow-original" aria-hidden="true"></i>TensorFlow</span></span>
+              <span class="sc-wrap"><span class="sc-border" aria-hidden="true"><span
+                    class="sc-border-inner"></span></span><span class="sc" tabindex="0" role="button"
+                  style="--cc:#ee4c2c" data-percent="50" aria-label="Neural Networks, proficiency 50 percent"><i
+                    class="devicon-pytorch-original" aria-hidden="true"></i>Neural Networks</span></span>
+              <span class="sc-wrap"><span class="sc-border" aria-hidden="true"><span
+                    class="sc-border-inner"></span></span><span class="sc" tabindex="0" role="button"
+                  style="--cc:#14f1d9" data-percent="60" aria-label="Data Science, proficiency 60 percent"><i
+                    class="devicon-pandas-plain" aria-hidden="true"></i>Data Science</span></span>
+              <span class="sc-wrap"><span class="sc-border" aria-hidden="true"><span
+                    class="sc-border-inner"></span></span><span class="sc" tabindex="0" role="button"
+                  style="--cc:#b5ff6d" data-percent="50" aria-label="Deep Learning, proficiency 50 percent"><i
+                    class="devicon-scikitlearn-plain" aria-hidden="true"></i>Deep Learning</span></span>
             </div>
           </article>
 
@@ -327,12 +353,30 @@
               <h3 class="skill-cat-title">Tools</h3>
             </div>
             <div class="sc-row">
-              <span class="sc-wrap"><span class="sc-border" aria-hidden="true"><span class="sc-border-inner"></span></span><span class="sc" tabindex="0" role="button" style="--cc:#007acc" data-percent="90" aria-label="VS Code, proficiency 90 percent"><i class="devicon-vscode-plain" aria-hidden="true"></i>VS Code</span></span>
-              <span class="sc-wrap"><span class="sc-border" aria-hidden="true"><span class="sc-border-inner"></span></span><span class="sc" tabindex="0" role="button" style="--cc:#e6edf3" data-percent="75" aria-label="GitHub, proficiency 75 percent"><i class="devicon-github-plain" aria-hidden="true"></i>GitHub</span></span>
-              <span class="sc-wrap"><span class="sc-border" aria-hidden="true"><span class="sc-border-inner"></span></span><span class="sc" tabindex="0" role="button" style="--cc:#f05032" data-percent="70" aria-label="Git, proficiency 70 percent"><i class="devicon-git-plain" aria-hidden="true"></i>Git</span></span>
-              <span class="sc-wrap"><span class="sc-border" aria-hidden="true"><span class="sc-border-inner"></span></span><span class="sc" tabindex="0" role="button" style="--cc:#4caf50" data-percent="65" aria-label="DevTools, proficiency 65 percent"><i class="devicon-chrome-plain" aria-hidden="true"></i>DevTools</span></span>
-              <span class="sc-wrap"><span class="sc-border" aria-hidden="true"><span class="sc-border-inner"></span></span><span class="sc" tabindex="0" role="button" style="--cc:#a4c639" data-percent="10" aria-label="Android Studio, proficiency 10 percent"><i class="devicon-androidstudio-plain" aria-hidden="true"></i>Android Studio</span></span>
-              <span class="sc-wrap"><span class="sc-border" aria-hidden="true"><span class="sc-border-inner"></span></span><span class="sc" tabindex="0" role="button" style="--cc:#02569b" data-percent="10" aria-label="Flutter, proficiency 10 percent"><i class="devicon-flutter-plain" aria-hidden="true"></i>Flutter</span></span>
+              <span class="sc-wrap"><span class="sc-border" aria-hidden="true"><span
+                    class="sc-border-inner"></span></span><span class="sc" tabindex="0" role="button"
+                  style="--cc:#007acc" data-percent="90" aria-label="VS Code, proficiency 90 percent"><i
+                    class="devicon-vscode-plain" aria-hidden="true"></i>VS Code</span></span>
+              <span class="sc-wrap"><span class="sc-border" aria-hidden="true"><span
+                    class="sc-border-inner"></span></span><span class="sc" tabindex="0" role="button"
+                  style="--cc:#e6edf3" data-percent="75" aria-label="GitHub, proficiency 75 percent"><i
+                    class="devicon-github-plain" aria-hidden="true"></i>GitHub</span></span>
+              <span class="sc-wrap"><span class="sc-border" aria-hidden="true"><span
+                    class="sc-border-inner"></span></span><span class="sc" tabindex="0" role="button"
+                  style="--cc:#f05032" data-percent="70" aria-label="Git, proficiency 70 percent"><i
+                    class="devicon-git-plain" aria-hidden="true"></i>Git</span></span>
+              <span class="sc-wrap"><span class="sc-border" aria-hidden="true"><span
+                    class="sc-border-inner"></span></span><span class="sc" tabindex="0" role="button"
+                  style="--cc:#4caf50" data-percent="65" aria-label="DevTools, proficiency 65 percent"><i
+                    class="devicon-chrome-plain" aria-hidden="true"></i>DevTools</span></span>
+              <span class="sc-wrap"><span class="sc-border" aria-hidden="true"><span
+                    class="sc-border-inner"></span></span><span class="sc" tabindex="0" role="button"
+                  style="--cc:#a4c639" data-percent="10" aria-label="Android Studio, proficiency 10 percent"><i
+                    class="devicon-androidstudio-plain" aria-hidden="true"></i>Android Studio</span></span>
+              <span class="sc-wrap"><span class="sc-border" aria-hidden="true"><span
+                    class="sc-border-inner"></span></span><span class="sc" tabindex="0" role="button"
+                  style="--cc:#02569b" data-percent="10" aria-label="Flutter, proficiency 10 percent"><i
+                    class="devicon-flutter-plain" aria-hidden="true"></i>Flutter</span></span>
             </div>
           </article>
 
@@ -342,10 +386,22 @@
               <h3 class="skill-cat-title">Creative</h3>
             </div>
             <div class="sc-row">
-              <span class="sc-wrap"><span class="sc-border" aria-hidden="true"><span class="sc-border-inner"></span></span><span class="sc" tabindex="0" role="button" style="--cc:#ff6b9d" data-percent="75" aria-label="Video Editing, proficiency 75 percent"><i class="devicon-premierepro-plain" aria-hidden="true"></i>Video Editing</span></span>
-              <span class="sc-wrap"><span class="sc-border" aria-hidden="true"><span class="sc-border-inner"></span></span><span class="sc" tabindex="0" role="button" style="--cc:#ff9f43" data-percent="60" aria-label="UI/UX Design, proficiency 60 percent"><i class="devicon-figma-plain" aria-hidden="true"></i>UI/UX Design</span></span>
-              <span class="sc-wrap"><span class="sc-border" aria-hidden="true"><span class="sc-border-inner"></span></span><span class="sc" tabindex="0" role="button" style="--cc:#4ecdc4" data-percent="70" aria-label="Photography, proficiency 70 percent"><i class="devicon-photoshop-plain" aria-hidden="true"></i>Photography</span></span>
-              <span class="sc-wrap"><span class="sc-border" aria-hidden="true"><span class="sc-border-inner"></span></span><span class="sc" tabindex="0" role="button" style="--cc:#a29bfe" data-percent="80" aria-label="Communication, proficiency 80 percent"><i class="devicon-slack-plain" aria-hidden="true"></i>Communication</span></span>
+              <span class="sc-wrap"><span class="sc-border" aria-hidden="true"><span
+                    class="sc-border-inner"></span></span><span class="sc" tabindex="0" role="button"
+                  style="--cc:#ff6b9d" data-percent="75" aria-label="Video Editing, proficiency 75 percent"><i
+                    class="devicon-premierepro-plain" aria-hidden="true"></i>Video Editing</span></span>
+              <span class="sc-wrap"><span class="sc-border" aria-hidden="true"><span
+                    class="sc-border-inner"></span></span><span class="sc" tabindex="0" role="button"
+                  style="--cc:#ff9f43" data-percent="60" aria-label="UI/UX Design, proficiency 60 percent"><i
+                    class="devicon-figma-plain" aria-hidden="true"></i>UI/UX Design</span></span>
+              <span class="sc-wrap"><span class="sc-border" aria-hidden="true"><span
+                    class="sc-border-inner"></span></span><span class="sc" tabindex="0" role="button"
+                  style="--cc:#4ecdc4" data-percent="70" aria-label="Photography, proficiency 70 percent"><i
+                    class="devicon-photoshop-plain" aria-hidden="true"></i>Photography</span></span>
+              <span class="sc-wrap"><span class="sc-border" aria-hidden="true"><span
+                    class="sc-border-inner"></span></span><span class="sc" tabindex="0" role="button"
+                  style="--cc:#a29bfe" data-percent="80" aria-label="Communication, proficiency 80 percent"><i
+                    class="devicon-slack-plain" aria-hidden="true"></i>Communication</span></span>
             </div>
           </article>
         </div>
@@ -376,19 +432,27 @@
             </div>
             <div class="proj__body">
               <h3 class="proj__title">Yatra Travel Agency</h3>
-              <p class="proj__blurb">A travel experience platform for discovering destinations and planning routes — clean listing views, destination detail pages, and a Netlify deploy from the repo.</p>
+              <p class="proj__blurb">A travel experience platform for discovering destinations and planning routes —
+                clean listing views, destination detail pages, and a Netlify deploy from the repo.</p>
               <div class="proj__stack">
                 <span>JavaScript</span><span>Responsive UI</span><span>Netlify</span>
               </div>
               <div class="proj__links">
-                <a class="proj__btn proj__btn--demo" data-live href="https://yatrala.netlify.app/" target="_blank" rel="noopener noreferrer">
+                <a class="proj__btn proj__btn--demo" data-live href="https://yatrala.netlify.app/" target="_blank"
+                  rel="noopener noreferrer">
                   <span>Demo</span>
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M7 17 17 7M9 7h8v8" />
+                  </svg>
                   <span class="sr">Open the live Yatra Travel Agency demo</span>
                 </a>
-                <a class="proj__btn proj__btn--repo" data-repo href="https://github.com/fwabyss0/Yatra" target="_blank" rel="noopener noreferrer">
+                <a class="proj__btn proj__btn--repo" data-repo href="https://github.com/fwabyss0/Yatra" target="_blank"
+                  rel="noopener noreferrer">
                   <span>GitHub</span>
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.9a3.4 3.4 0 0 0-.9-2.6c3-.3 6.2-1.5 6.2-6.7A5.2 5.2 0 0 0 19.9 4 4.9 4.9 0 0 0 19.8 1S18.7.6 16 2.5a13.4 13.4 0 0 0-7 0C6.3.6 5.2 1 5.2 1A4.9 4.9 0 0 0 5.1 4a5.2 5.2 0 0 0-1.4 3.6c0 5.2 3.2 6.4 6.2 6.7a3.4 3.4 0 0 0-.9 2.6V21"/></svg>
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.9a3.4 3.4 0 0 0-.9-2.6c3-.3 6.2-1.5 6.2-6.7A5.2 5.2 0 0 0 19.9 4 4.9 4.9 0 0 0 19.8 1S18.7.6 16 2.5a13.4 13.4 0 0 0-7 0C6.3.6 5.2 1 5.2 1A4.9 4.9 0 0 0 5.1 4a5.2 5.2 0 0 0-1.4 3.6c0 5.2 3.2 6.4 6.2 6.7a3.4 3.4 0 0 0-.9 2.6V21" />
+                  </svg>
                   <span class="sr"> source code for Yatra Travel Agency</span>
                 </a>
               </div>
@@ -404,19 +468,27 @@
             </div>
             <div class="proj__body">
               <h3 class="proj__title">Printing Resolution</h3>
-              <p class="proj__blurb">A DIY instant-photo printer project — hardware build wired to a web interface that turns captured moments into printable Polaroid-style output.</p>
+              <p class="proj__blurb">A DIY instant-photo printer project — hardware build wired to a web interface that
+                turns captured moments into printable Polaroid-style output.</p>
               <div class="proj__stack">
                 <span>Arduino</span><span>Python</span><span>Web UI</span>
               </div>
               <div class="proj__links">
-                <a class="proj__btn proj__btn--demo" data-live href="https://printresolution.netlify.app/" target="_blank" rel="noopener noreferrer">
+                <a class="proj__btn proj__btn--demo" data-live href="https://printresolution.netlify.app/"
+                  target="_blank" rel="noopener noreferrer">
                   <span>Demo</span>
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M7 17 17 7M9 7h8v8" />
+                  </svg>
                   <span class="sr">Open the live Printing Resolution demo</span>
                 </a>
-                <a class="proj__btn proj__btn--repo" data-repo href="https://github.com/fwabyss0/pr" target="_blank" rel="noopener noreferrer">
+                <a class="proj__btn proj__btn--repo" data-repo href="https://github.com/fwabyss0/pr" target="_blank"
+                  rel="noopener noreferrer">
                   <span>GitHub</span>
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.9a3.4 3.4 0 0 0-.9-2.6c3-.3 6.2-1.5 6.2-6.7A5.2 5.2 0 0 0 19.9 4 4.9 4.9 0 0 0 19.8 1S18.7.6 16 2.5a13.4 13.4 0 0 0-7 0C6.3.6 5.2 1 5.2 1A4.9 4.9 0 0 0 5.1 4a5.2 5.2 0 0 0-1.4 3.6c0 5.2 3.2 6.4 6.2 6.7a3.4 3.4 0 0 0-.9 2.6V21"/></svg>
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.9a3.4 3.4 0 0 0-.9-2.6c3-.3 6.2-1.5 6.2-6.7A5.2 5.2 0 0 0 19.9 4 4.9 4.9 0 0 0 19.8 1S18.7.6 16 2.5a13.4 13.4 0 0 0-7 0C6.3.6 5.2 1 5.2 1A4.9 4.9 0 0 0 5.1 4a5.2 5.2 0 0 0-1.4 3.6c0 5.2 3.2 6.4 6.2 6.7a3.4 3.4 0 0 0-.9 2.6V21" />
+                  </svg>
                   <span class="sr"> source code for Printing Resolution</span>
                 </a>
               </div>
@@ -432,19 +504,27 @@
             </div>
             <div class="proj__body">
               <h3 class="proj__title">Abyss AI Chatbot</h3>
-              <p class="proj__blurb">An AI-powered chatbot built with natural language processing and deep learning models for interactive conversations.</p>
+              <p class="proj__blurb">An AI-powered chatbot built with natural language processing and deep learning
+                models for interactive conversations.</p>
               <div class="proj__stack">
                 <span>Python</span><span>TensorFlow</span><span>Natural Language Processing</span>
               </div>
               <div class="proj__links">
-                <a class="proj__btn proj__btn--demo" data-live href="https://github.com/fwabyss0/Protfolio.git" target="_blank" rel="noopener noreferrer">
+                <a class="proj__btn proj__btn--demo" data-live href="https://github.com/fwabyss0/Protfolio.git"
+                  target="_blank" rel="noopener noreferrer">
                   <span>Demo</span>
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M7 17 17 7M9 7h8v8" />
+                  </svg>
                   <span class="sr">Open the Abyss AI Chatbot project</span>
                 </a>
-                <a class="proj__btn proj__btn--repo" data-repo href="https://github.com/fwabyss0/Protfolio.git" target="_blank" rel="noopener noreferrer">
+                <a class="proj__btn proj__btn--repo" data-repo href="https://github.com/fwabyss0/Protfolio.git"
+                  target="_blank" rel="noopener noreferrer">
                   <span>GitHub</span>
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.9a3.4 3.4 0 0 0-.9-2.6c3-.3 6.2-1.5 6.2-6.7A5.2 5.2 0 0 0 19.9 4 4.9 4.9 0 0 0 19.8 1S18.7.6 16 2.5a13.4 13.4 0 0 0-7 0C6.3.6 5.2 1 5.2 1A4.9 4.9 0 0 0 5.1 4a5.2 5.2 0 0 0-1.4 3.6c0 5.2 3.2 6.4 6.2 6.7a3.4 3.4 0 0 0-.9 2.6V21"/></svg>
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.9a3.4 3.4 0 0 0-.9-2.6c3-.3 6.2-1.5 6.2-6.7A5.2 5.2 0 0 0 19.9 4 4.9 4.9 0 0 0 19.8 1S18.7.6 16 2.5a13.4 13.4 0 0 0-7 0C6.3.6 5.2 1 5.2 1A4.9 4.9 0 0 0 5.1 4a5.2 5.2 0 0 0-1.4 3.6c0 5.2 3.2 6.4 6.2 6.7a3.4 3.4 0 0 0-.9 2.6V21" />
+                  </svg>
                   <span class="sr"> source code for Abyss AI Chatbot</span>
                 </a>
               </div>
@@ -537,37 +617,47 @@
 
           <ul class="contact__links" id="contactLinks">
             <li>
-              <a href="https://github.com/fwabyss0" target="_blank" rel="noopener noreferrer" style="--c:#a855f7" aria-label="GitHub — @fwabyss0 (opens in a new tab)">
+              <a href="https://github.com/fwabyss0" target="_blank" rel="noopener noreferrer" style="--c:#a855f7"
+                aria-label="GitHub — @fwabyss0 (opens in a new tab)">
                 <span class="cl__icon" aria-hidden="true">G</span>
-                <span class="cl__text"><span class="cl__label">GitHub</span><span class="cl__handle">@fwabyss0</span></span>
+                <span class="cl__text"><span class="cl__label">GitHub</span><span
+                    class="cl__handle">@fwabyss0</span></span>
                 <span class="cl__arrow" aria-hidden="true">↗</span>
               </a>
             </li>
             <li>
-              <a href="https://www.linkedin.com/in/alish-shrestha-4276b8379/" target="_blank" rel="noopener noreferrer" style="--c:#38bdf8" aria-label="LinkedIn — alish-shrestha (opens in a new tab)">
+              <a href="https://www.linkedin.com/in/alish-shrestha-4276b8379/" target="_blank" rel="noopener noreferrer"
+                style="--c:#38bdf8" aria-label="LinkedIn — alish-shrestha (opens in a new tab)">
                 <span class="cl__icon" aria-hidden="true">L</span>
-                <span class="cl__text"><span class="cl__label">LinkedIn</span><span class="cl__handle">alish-shrestha</span></span>
+                <span class="cl__text"><span class="cl__label">LinkedIn</span><span
+                    class="cl__handle">alish-shrestha</span></span>
                 <span class="cl__arrow" aria-hidden="true">↗</span>
               </a>
             </li>
             <li>
-              <a href="https://www.instagram.com/aliisshhhhhh/" target="_blank" rel="noopener noreferrer" style="--c:#f472b6" aria-label="Instagram — @aliisshhhhhh (opens in a new tab)">
+              <a href="https://www.instagram.com/aliisshhhhhh/" target="_blank" rel="noopener noreferrer"
+                style="--c:#f472b6" aria-label="Instagram — @aliisshhhhhh (opens in a new tab)">
                 <span class="cl__icon" aria-hidden="true">I</span>
-                <span class="cl__text"><span class="cl__label">Instagram</span><span class="cl__handle">@aliisshhhhhh</span></span>
+                <span class="cl__text"><span class="cl__label">Instagram</span><span
+                    class="cl__handle">@aliisshhhhhh</span></span>
                 <span class="cl__arrow" aria-hidden="true">↗</span>
               </a>
             </li>
             <li>
-              <a href="https://www.facebook.com/alish.shrestha.138982/" target="_blank" rel="noopener noreferrer" style="--c:#60a5fa" aria-label="Facebook — alish.shrestha (opens in a new tab)">
+              <a href="https://www.facebook.com/alish.shrestha.138982/" target="_blank" rel="noopener noreferrer"
+                style="--c:#60a5fa" aria-label="Facebook — alish.shrestha (opens in a new tab)">
                 <span class="cl__icon" aria-hidden="true">F</span>
-                <span class="cl__text"><span class="cl__label">Facebook</span><span class="cl__handle">alish.shrestha</span></span>
+                <span class="cl__text"><span class="cl__label">Facebook</span><span
+                    class="cl__handle">alish.shrestha</span></span>
                 <span class="cl__arrow" aria-hidden="true">↗</span>
               </a>
             </li>
             <li>
-              <a href="mailto:shrestaalish444@gmail.com" style="--c:#4ade80" aria-label="Email — shrestaalish444@gmail.com (opens in a new tab)">
+              <a href="mailto:shrestaalish444@gmail.com" style="--c:#4ade80"
+                aria-label="Email — shrestaalish444@gmail.com (opens in a new tab)">
                 <span class="cl__icon" aria-hidden="true">E</span>
-                <span class="cl__text"><span class="cl__label">Email</span><span class="cl__handle">shrestaalish444@gmail.com</span></span>
+                <span class="cl__text"><span class="cl__label">Email</span><span
+                    class="cl__handle">shrestaalish444@gmail.com</span></span>
                 <span class="cl__arrow" aria-hidden="true">↗</span>
               </a>
             </li>
@@ -612,8 +702,7 @@
        Drop your own MP3s into audio/ and point TRACKS at them — see the
        comment above the TRACKS array in js/data.js. -->
   <div class="player" id="player">
-    <button class="player__btn" id="playerToggle" type="button"
-      aria-label="Play music" aria-pressed="false">
+    <button class="player__btn" id="playerToggle" type="button" aria-label="Play music" aria-pressed="false">
       <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true">
         <path d="M8 5v14l11-7z" />
       </svg>
@@ -627,8 +716,8 @@
         <span class="player__title" id="playerTitle">Now playing</span>
         <span class="player__artist" id="playerArtist">—</span>
       </div>
-      <div class="player__bar" id="playerBar" role="slider" tabindex="0"
-        aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <div class="player__bar" id="playerBar" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0"
+        aria-valuemax="100" aria-valuenow="0">
         <span class="player__fill" id="playerFill"></span>
       </div>
     </div>
@@ -640,8 +729,7 @@
         <span class="sr">Volume</span>VOL
       </label>
       <span class="player__volrange">
-        <input type="range" id="playerVolume" min="0" max="100" value="70"
-          aria-label="Volume">
+        <input type="range" id="playerVolume" min="0" max="100" value="70" aria-label="Volume">
       </span>
     </div>
 

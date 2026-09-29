@@ -523,8 +523,108 @@
   }
 
   /* ==========================================================
-     8. HERO FIELD — particle constellation on canvas
+     8. HERO FIELD — two layers on canvas
+        - #drift : slow, large, blurred motes that give depth
+        - #fx    : the tight constellation and cursor links
+
+     They are separate canvases on purpose. The drift is cheap and
+     slow; the constellation is smaller and does the reacting. A
+     single canvas would force one compromise between the two, and
+     drawing the drift without blur would just look like a busier
+     version of what is already there.
      ========================================================== */
+  (function drift() {
+    var cv = $('#drift');
+    if (!cv || reduced) return;
+    var ctx = cv.getContext('2d');
+    // Full device pixel ratio is wasted on this layer: it is blurred and
+    // low-contrast, so the extra resolution is invisible — but it would
+    // multiply the fill cost and the CSS blur radius over a full-screen
+    // element. At a 2560px viewport, dpr 2 means a 5120x2880 backbuffer;
+    // dpr 1 is 4x cheaper and looks identical once blurred.
+    var dpr = 1;
+    var W = 0, H = 0, motes = [];
+    // The pointer gently biases the whole field, so moving the mouse
+    // pushes the haze around as well as the constellation.
+    var mx = 0, my = 0, tx = 0, ty = 0;
+
+    function rand(a, b) { return a + Math.random() * (b - a); }
+
+    function resize() {
+      var r = cv.getBoundingClientRect();
+      W = r.width; H = r.height;
+      cv.width = Math.max(1, W * dpr);
+      cv.height = Math.max(1, H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      seed();
+    }
+
+    function seed() {
+      // Fewer, larger motes than the constellation: this is haze, not
+      // detail. Density scales with area so ultrawide stays calm.
+      var n = Math.max(14, Math.min(Math.round((W * H) / 46000), 54));
+      motes = [];
+      for (var i = 0; i < n; i++) {
+        motes.push({
+          x: rand(0, W), y: rand(0, H),
+          vx: rand(-0.16, 0.16), vy: rand(-0.09, 0.09),
+          r: rand(1.6, 5.2),
+          b: rand(0.03, 0.10),
+          // one in six carries the violet accent, so the layer is not
+          // purely monochrome but never reads as colourful
+          a: Math.random() < 0.16
+        });
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      // ease the field toward the pointer
+      tx = mx * 0.06; ty = my * 0.06;
+      var t = performance.now();
+      // a slow breathing brightness, so the layer is never fully static
+      var breathe = 0.82 + 0.18 * Math.sin(t * 0.00035);
+
+      for (var i = 0; i < motes.length; i++) {
+        var p = motes[i];
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < -30) p.x = W + 30; if (p.x > W + 30) p.x = -30;
+        if (p.y < -30) p.y = H + 30; if (p.y > H + 30) p.y = -30;
+
+        // a slow vertical sine on each mote keeps the motion organic
+        // rather than a uniform glide
+        var wob = Math.sin(t * 0.0004 + i) * 0.22;
+        var x = p.x + tx + wob;
+        var y = p.y + ty + Math.cos(t * 0.00031 + i) * 0.18;
+
+        var alpha = p.b * breathe;
+        ctx.fillStyle = p.a
+          ? 'rgba(167,139,250,' + (alpha * 1.5).toFixed(3) + ')'
+          : 'rgba(255,255,255,' + alpha.toFixed(3) + ')';
+        ctx.beginPath();
+        ctx.arc(x, y, p.r, 0, 6.2832);
+        ctx.fill();
+      }
+
+      requestAnimationFrame(draw);
+    }
+
+    var rz;
+    window.addEventListener('resize', function () {
+      clearTimeout(rz); rz = setTimeout(resize, 160);
+    });
+    window.addEventListener('pointermove', function (e) {
+      mx = e.clientX - cv.getBoundingClientRect().left;
+      my = e.clientY - cv.getBoundingClientRect().top;
+    }, { passive: true });
+
+    resize();
+    requestAnimationFrame(draw);
+
+    // exposed for automated verification
+    window.__drift = { motes: function () { return motes.length; } };
+  })();
+
   (function field() {
     var cv = $('#fx');
     if (!cv || reduced) return;

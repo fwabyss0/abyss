@@ -524,6 +524,19 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   overflow: hidden;
 }
 .hero__field { position: absolute; inset: 0; z-index: -1; }
+
+/* The deep drift layer. Sits behind #fx and reads as out-of-focus haze:
+   larger radii, much lower opacity, and a wider radial mask so the motes
+   dissolve before they reach the edges. Blur is what sells the depth —
+   without it these would just look like more constellation. */
+#drift {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  opacity: .5;
+  pointer-events: none;              /* never intercepts a click */
+  filter: blur(.6px);
+  -webkit-mask-image: radial-gradient(70% 66% at 50% 46%, #000 12%, transparent 88%);
+  mask-image: radial-gradient(70% 66% at 50% 46%, #000 12%, transparent 88%);
+}
 #fx {
   position: absolute; inset: 0; width: 100%; height: 100%;
   opacity: .55;
