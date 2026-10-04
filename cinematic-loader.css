@@ -1,0 +1,277 @@
+/* ============================================================
+   CINEMATIC LOADER — Abyss Loading Experience
+   A controlled chaos sequence: BLACK → DISTORTION → CHAOS → SILENCE
+   ============================================================ */
+
+.cinematic-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: opacity 1s ease, visibility 1s;
+}
+
+.cinematic-loader.is-done {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* ===== BASE TYPOGRAPHY ===== */
+.cinematic-loader .main-name {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: clamp(2rem, 8vw, 5rem);
+  font-weight: 700;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: #fff;
+  text-align: center;
+  z-index: 10;
+  position: relative;
+}
+
+.cinematic-loader .sub-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(.5rem, 1.5vw, .9rem);
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.5);
+  text-align: center;
+  margin-top: 1rem;
+  z-index: 10;
+  position: relative;
+}
+
+/* ===== PERCENTAGE DISPLAY ===== */
+.cinematic-loader .percentage {
+  position: fixed;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(.6rem, 2vw, 1.2rem);
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: rgba(255,255,255,.4);
+  z-index: 100;
+  pointer-events: none;
+  transition: all .3s ease;
+}
+
+/* ===== FRAGMENTS ===== */
+.cinematic-loader .fragment {
+  position: fixed;
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.15);
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 5;
+}
+
+/* ===== PURPLE ATMOSPHERE ===== */
+.cinematic-loader .purple-glow {
+  position: fixed;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(100,50,150,.15) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 2s ease;
+  transform: translate(-50%, -50%);
+}
+
+/* ===== CROW SILHOUETTES ===== */
+.cinematic-loader .crow {
+  position: fixed;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0;
+  filter: brightness(0);
+}
+
+/* ===== BLACK FRAME ===== */
+.cinematic-loader .black-frame {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ===== ENTER THE ABYSS ===== */
+.cinematic-loader .enter-abyss {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  z-index: 300;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .5s ease;
+}
+
+.cinematic-loader .enter-abyss.visible {
+  opacity: 1;
+}
+
+.cinematic-loader .enter-abyss span {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: clamp(1rem, 4vw, 2rem);
+  font-weight: 700;
+  letter-spacing: .4em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+/* ===== GLITCH EFFECTS ===== */
+.cinematic-loader .glitch-char {
+  display: inline-block;
+  transition: transform .05s steps(2);
+}
+
+.cinematic-loader.is-glitching .main-name {
+  text-shadow: 
+    3px 0 0 rgba(255,0,100,.5),
+    -3px 0 0 rgba(0,200,130,.5),
+    0 0 20px rgba(100,50,150,.5);
+}
+
+.cinematic-loader.is-glitching .main-name::before,
+.cinematic-loader.is-glitching .main-name::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.cinematic-loader.is-glitching .main-name::before {
+  color: rgba(255,50,100,.6);
+  animation: glitch-before .15s steps(2) infinite;
+  clip-path: inset(20% 0 40% 0);
+}
+
+.cinematic-loader.is-glitching .main-name::after {
+  color: rgba(0,200,150,.6);
+  animation: glitch-after .2s steps(3) infinite;
+  clip-path: inset(50% 0 10% 0);
+}
+
+@keyframes glitch-before {
+  0% { transform: translate(-4px, 2px); }
+  50% { transform: translate(4px, -2px); }
+  100% { transform: translate(-4px, 2px); }
+}
+
+@keyframes glitch-after {
+  0% { transform: translate(4px, -2px); }
+  33% { transform: translate(-4px, 2px) skewX(5deg); }
+  66% { transform: translate(6px, 0) skewX(-3deg); }
+  100% { transform: translate(4px, -2px); }
+}
+
+/* ===== SCANLINE OVERLAY ===== */
+.cinematic-loader .scanlines {
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 2px,
+    rgba(0,0,0,.15) 2px,
+    rgba(0,0,0,.15) 4px
+  );
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0;
+  transition: opacity .5s ease;
+}
+
+/* ===== NOISE TEXTURE ===== */
+.cinematic-loader .noise {
+  position: fixed;
+  inset: -50%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0;
+  pointer-events: none;
+  z-index: 4;
+  mix-blend-mode: overlay;
+}
+
+/* ===== RGB SPLIT ===== */
+.cinematic-loader .rgb-split .main-name {
+  position: relative;
+}
+
+.cinematic-loader .rgb-split .main-name .rgb-r {
+  position: absolute;
+  inset: 0;
+  color: rgba(255,0,0,.4);
+  animation: rgb-r-move .1s steps(2) infinite;
+}
+
+.cinematic-loader .rgb-split .main-name .rgb-g {
+  position: absolute;
+  inset: 0;
+  color: rgba(0,255,0,.3);
+  animation: rgb-g-move .15s steps(3) infinite;
+}
+
+.cinematic-loader .rgb-split .main-name .rgb-b {
+  position: absolute;
+  inset: 0;
+  color: rgba(0,0,255,.3);
+  animation: rgb-b-move .12s steps(2) infinite;
+}
+
+@keyframes rgb-r-move {
+  0% { transform: translate(-3px, 0); }
+  100% { transform: translate(3px, 0); }
+}
+
+@keyframes rgb-g-move {
+  0% { transform: translate(3px, 1px); }
+  50% { transform: translate(-2px, -1px); }
+  100% { transform: translate(3px, 1px); }
+}
+
+@keyframes rgb-b-move {
+  0% { transform: translate(0, -2px); }
+  100% { transform: translate(0, 2px); }
+}
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+  .cinematic-loader {
+    animation: none;
+  }
+  .cinematic-loader .fragment,
+  .cinematic-loader .crow,
+  .cinematic-loader .noise,
+  .cinematic-loader .scanlines {
+    animation: none !important;
+  }
+  .cinematic-loader.is-glitching .main-name::before,
+  .cinematic-loader.is-glitching .main-name::after {
+    animation: none;
+  }
+}
+
+/* ===== MOBILE ADAPTATIONS ===== */
+@media (max-width: 768px) {
+  .cinematic-loader .fragment {
+    font-size: clamp(2rem, 15vw, 4rem) !important;
+  }
+  .cinematic-loader .percentage {
+    font-size: .8rem;
+  }
+}

@@ -1,0 +1,1918 @@
+/* ============================================================
+   ALISH SHRESTHA — design system
+   Near-black canvas · one glass material · white typography ·
+   hairline borders · cool-gray lighting · a particle field ·
+   purple used only as a micro accent.
+   Every section below draws from the same tokens — there is no
+   second visual language on this site.
+   ============================================================ */
+
+/* ---------- tokens ---------- */
+:root {
+  /* near-black environment: tonal variation only, never a colour wash */
+  --bg:        #050505;
+  --bg-2:      #070707;
+  --bg-3:      #0b0b0b;
+  --ink:       #f5f5f6;
+  --ink-2:     #a0a0a0;
+  --ink-3:     #6e6e70;
+  --line:      rgba(255, 255, 255, .075);
+  --line-2:    rgba(255, 255, 255, .13);
+
+  /* violet is the ONLY accent and it stays micro: active state, indicators */
+  --violet:    #a78bfa;
+  --violet-2:  #8b6cf0;
+  --violet-dim:#6d51c9;
+  --cyan:      #8fb4d0;
+  --green:     #86b79a;
+  --pink:      #c39bb0;
+  --amber:     #b0a48c;
+
+  --accent:    #a78bfa;
+  --accent-a:  rgba(167, 139, 250, .14);
+
+  /* depth comes from elevation, never from light */
+  --glow:      0 0 0 1px rgba(255, 255, 255, .14);
+  --glow-soft: 0 10px 30px -16px rgba(0, 0, 0, .9);
+
+  --font:  'Space Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono:  'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --wrap:  1180px;
+  --gut:  0 24px;
+  --r:    10px;                                  /* panels, buttons, nav */
+  --r-lg: 26px;                                  /* large feature panels */
+  --r-sm: 6px;                                   /* chips, tags, indicators */
+  --r-xs: 3px;                                   /* bars, small marks */
+
+  --ease:  cubic-bezier(.22, 1, .36, 1);
+  --ease-io: cubic-bezier(.65, 0, .35, 1);
+
+  /* ---------- glassmorphism ---------- */
+  /* Frosted panels: translucent fill, backdrop blur, a 1px light-catching
+       rim on top and a softer one below. Kept in tokens so the whole site
+       shares one material instead of six slightly different ones. */
+    --glass-bg:     linear-gradient(160deg, rgba(255,255,255,.032), rgba(255,255,255,.010) 55%, rgba(255,255,255,.020));
+    --glass-blur:   18px;
+    --glass-sat:    120%;
+    --glass-rim:    rgba(255,255,255,.14);
+    --glass-rim-2:  rgba(255,255,255,.08);
+    --glass-shadow: 0 20px 60px rgba(0, 0, 0, .35);
+    --glass-inset:  inset 0 1px 0 rgba(255,255,255,.055);
+
+    /* Every card carries a white rim at rest — it is part of the material,
+       not a hover reward. Hover only adds the halo bleeding past the edge.
+       White throughout: the accent stays reserved for active state. */
+    --card-rim:    rgba(255, 255, 255, .17);
+    --card-rim-hi: rgba(255, 255, 255, .34);
+
+    --glow-ring: 0 0 0 1px rgba(255,255,255,.12),
+                 0 0 20px rgba(255,255,255,.075),
+                 0 0 48px rgba(255,255,255,.04);
+
+    /* Small surfaces (chips, timeline rows) get a tighter halo. */
+    --glow-ring-sm: 0 0 0 1px rgba(255,255,255,.10),
+                     0 0 16px rgba(255,255,255,.07);
+
+  /* Devicon font-face for skill icons */
+  @font-face {
+    font-family: 'devicon';
+    src: url('https://cdn.jsdelivr.net/gh/devicons/devicon@latest/font/devicon.svg') format('svg'),
+         url('https://cdn.jsdelivr.net/gh/devicons/devicon@latest/font/devicon.eot') format('embedded-opentype'),
+         url('https://cdn.jsdelivr.net/gh/devicons/devicon@latest/font/devicon.woff2') format('woff2'),
+         url('https://cdn.jsdelivr.net/gh/devicons/devicon@latest/font/devicon.woff') format('woff'),
+         url('https://cdn.jsdelivr.net/gh/devicons/devicon@latest/font/devicon.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  /* surfaces + the one radial highlight used inside panels */
+    --surface:      rgba(255, 255, 255, .025);
+    --surface-hi:   rgba(255, 255, 255, .05);
+    --sheen:        radial-gradient(15rem 15rem at var(--mx, 50%) var(--my, 0%), rgba(255,255,255,.06), transparent 72%);
+}
+
+/* ---------- reset ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+}
+
+/* ============================================================
+   PRELOADER
+   Motion is driven by Anime.js (js/vendor/anime.min.js) from
+   main.js. CSS here only sets the resting appearance and the
+   hidden end state — it never animates, so the two systems
+   cannot fight over the same properties.
+
+   The bar and the name are marked is-in when the loader starts
+   leaving, which is what fades them out.
+   ============================================================ */
+.loader {
+  position: fixed; inset: 0; z-index: 9999;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: clamp(2rem, 6vh, 3.5rem);
+  background: var(--bg);
+  padding: 2rem;
+  overflow: hidden;
+}
+.loader.is-done { pointer-events: none; visibility: hidden; }
+
+/* the centred A */
+.loader__stage { display: grid; place-items: center; }
+.loader__mark { position: relative; display: grid; place-items: center; }
+.loader__glyph {
+  position: relative; z-index: 1;
+  font-family: var(--mono); font-weight: 700;
+  font-size: clamp(3.5rem, 13vw, 7rem);
+  line-height: 1;
+  color: var(--ink);
+  /* Anime.js sets the transform; this is only the pre-JS state. */
+  opacity: 0;
+}
+/* the glow ring behind the letter — Anime.js pulses its scale and opacity */
+.loader__halo {
+  position: absolute; top: 50%; left: 50%;
+  width: clamp(6rem, 22vw, 11rem); height: clamp(6rem, 22vw, 11rem);
+  margin: calc(clamp(6rem, 22vw, 11rem) / -2) 0 0 calc(clamp(6rem, 22vw, 11rem) / -2);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(167,139,250,.20), transparent 68%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* name, meter and status */
+.loader__foot { width: min(21rem, 84vw); text-align: center; }
+.loader__name {
+  font-size: clamp(.8rem, 2.4vw, 1rem); font-weight: 700;
+  letter-spacing: .3em; text-indent: .3em;   /* offset the tracking so it stays optically centred */
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 1.4rem;
+  min-height: 1.4em;                        /* reserve the row so the meter never jumps */
+}
+/* each character starts hidden; Anime.js reveals them one by one */
+.loader__name-inner > span {
+  display: inline-block;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.loader__meter { display: flex; align-items: center; gap: .85rem; }
+.loader__track {
+  flex: 1; height: 2px; border-radius: 2px;
+  background: rgba(255,255,255,.09);
+  overflow: hidden;
+}
+.loader__track i {
+  display: block; height: 100%; width: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, rgba(167,139,250,.45), rgba(167,139,250,1));
+  box-shadow: 0 0 10px rgba(167,139,250,.45);
+}
+.loader__pct {
+  font: .68rem var(--mono); color: var(--ink-2);
+  font-variant-numeric: tabular-nums; min-width: 3.2em; text-align: right;
+}
+.loader__status {
+  margin-top: 1rem;
+  font: .62rem var(--mono); letter-spacing: .22em;
+  text-transform: uppercase; color: var(--ink-3);
+}
+
+/* Everything below fades out on the way to the homepage. */
+.loader.is-in .loader__stage,
+.loader.is-in .loader__foot { opacity: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  /* No intro at all — the page is simply there. */
+  .loader { display: none; }
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: clamp(.95rem, .35vw + .88rem, 1.05rem);
+  line-height: 1.65;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* the room the site sits in: near-black, with tonal falloff only */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(62rem 46rem at 50% -12%, rgba(255,255,255,.032), transparent 62%),
+    linear-gradient(180deg, #070707 0%, #050505 42%, #060606 100%);
+}
+
+img, svg, canvas { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+ul, ol { list-style: none; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+
+::selection { background: rgba(255,255,255,.9); color: #08080a; }
+
+:focus-visible {
+  outline: 1px solid rgba(255, 255, 255, .8);
+  outline-offset: 4px;
+  border-radius: var(--r-xs);
+}
+
+.skip {
+  position: fixed; top: .5rem; left: .5rem; z-index: 999;
+  padding: .6rem 1rem;
+  background: #0b0b0b; color: #fff;
+  border: 1px solid var(--line-2); border-radius: var(--r-sm);
+  transform: translateY(-160%);
+  transition: transform .2s var(--ease);
+}
+.skip:focus { transform: none; }
+
+/* visually hidden but available to screen readers */
+.sr {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+}
+
+/* ============================================================
+   GLASS — the shared frosted material
+   One primitive, reused everywhere, so every panel on the site
+   reads as the same sheet of glass rather than a different card.
+   ============================================================ */
+.glass {
+  position: relative;
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+  border: 1px solid var(--card-rim);
+  box-shadow: var(--glass-shadow), var(--glass-inset);
+  transition: border-color .4s var(--ease), background .4s var(--ease),
+              box-shadow .4s var(--ease);
+}
+/* The rim is already white at rest; hover only brightens it and adds the halo
+   bleeding past the edge, so the card lifts out of the page rather than
+   changing material. */
+.glass:hover {
+  border-color: var(--card-rim-hi);
+  box-shadow: var(--glow-ring), var(--glass-shadow), var(--glass-inset);
+}
+/* the light-catching top edge */
+.glass::before {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(160deg, var(--glass-rim), transparent 42%, transparent 70%, rgba(255,255,255,.03));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Backdrop-filter is invisible without something drifting behind it, so
+   these three very large, very slow fields give the glass something to
+   refract. They are neutral graphite — a tonal shift you can only see if
+   you look for it, not a colour wash. */
+.ambient {
+  position: fixed; inset: 0; z-index: -2;
+  pointer-events: none;
+  overflow: hidden;
+}
+.ambient i {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  filter: blur(110px);
+  opacity: .5;
+  will-change: transform;
+}
+.ambient i:nth-child(1) {
+  width: 46vw; height: 46vw; top: -10vw; left: -8vw;
+  background: radial-gradient(circle at 40% 40%, rgba(255,255,255,.055), transparent 68%);
+  animation: drift1 26s var(--ease-io) infinite alternate;
+}
+.ambient i:nth-child(2) {
+  width: 40vw; height: 40vw; top: 28vh; right: -10vw;
+  background: radial-gradient(circle at 50% 50%, rgba(150,165,190,.045), transparent 66%);
+  animation: drift2 32s var(--ease-io) infinite alternate;
+}
+.ambient i:nth-child(3) {
+  width: 38vw; height: 38vw; bottom: -6vw; left: 22vw;
+  background: radial-gradient(circle at 50% 50%, rgba(190,200,220,.030), transparent 66%);
+  animation: drift3 29s var(--ease-io) infinite alternate;
+}
+@keyframes drift1 { to { transform: translate3d(6vw, 5vh, 0) scale(1.14); } }
+@keyframes drift2 { to { transform: translate3d(-7vw, -4vh, 0) scale(1.1); } }
+@keyframes drift3 { to { transform: translate3d(5vw, -6vh, 0) scale(1.18); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient i { animation: none; }
+}
+/* Very low-end devices: drop the blur + saturation, keep the translucent fill
+   so the design still reads as glass without melting the frame budget. */
+@media (max-width: 420px) {
+  :root { --glass-blur: 12px; }
+  .ambient i { filter: blur(80px); opacity: .45; }
+}
+
+/* ---------- ambient layers ---------- */
+.grain {
+  position: fixed; inset: -50%;
+  z-index: 1;
+  pointer-events: none;
+  opacity: .028;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 7s steps(6) infinite;
+}
+@keyframes grain {
+  0%,100% { transform: translate(0,0); }
+  20% { transform: translate(-3%, 2%); }
+  40% { transform: translate(2%, -3%); }
+  60% { transform: translate(-2%, -2%); }
+  80% { transform: translate(3%, 1%); }
+}
+
+.scanlines {
+  position: fixed; inset: 0; z-index: 1;
+  pointer-events: none; opacity: .3;
+  background: repeating-linear-gradient(
+    to bottom, transparent 0 3px, rgba(255,255,255,.010) 3px 4px
+  );
+}
+
+/* ---------- custom cursor ---------- */
+.cursor { position: fixed; inset: 0; z-index: 9000; pointer-events: none; }
+.cursor__dot, .cursor__ring {
+  position: absolute; top: 0; left: 0;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+}
+.cursor__dot {
+  width: 4px; height: 4px;
+  background: rgba(255, 255, 255, .9);
+}
+.cursor__ring {
+  width: 30px; height: 30px;
+  border: 1px solid rgba(255, 255, 255, .22);
+  transition: width .3s var(--ease), height .3s var(--ease),
+              border-color .3s var(--ease), background .3s var(--ease);
+}
+.cursor.is-hover .cursor__ring {
+  width: 58px; height: 58px;
+  border-color: rgba(255, 255, 255, .4);
+  background: rgba(255, 255, 255, .035);
+}
+.cursor.is-down .cursor__ring { width: 24px; height: 24px; }
+
+@media (hover: none), (max-width: 900px) {
+  .cursor { display: none; }
+  a, button { cursor: pointer; }
+}
+
+/* ---------- scroll progress ---------- */
+.progress {
+  position: fixed; top: 0; left: 0; right: 0; height: 1px; z-index: 8000;
+  background: rgba(255, 255, 255, .06);
+  pointer-events: none;
+}
+.progress i {
+  display: block; height: 100%; width: 0;
+  background: linear-gradient(90deg, rgba(255,255,255,.35), rgba(255,255,255,.9));
+}
+
+/* ---------- layout ---------- */
+.wrap { width: 100%; max-width: var(--wrap); margin-inline: auto; padding-inline: var(--gut); }
+.section { position: relative; z-index: 2; padding-block: clamp(5rem, 11vw, 9.5rem); }
+
+/* ---------- section headings ---------- */
+.sec-head {
+  display: flex; align-items: center; gap: 1rem;
+  margin-bottom: clamp(2.25rem, 5vw, 3.75rem);
+}
+.sec-head__num {
+  font-family: var(--mono); font-size: .68rem; font-weight: 700;
+  letter-spacing: .16em; color: var(--ink-3);
+  padding: .32rem .5rem;
+  border: 1px solid var(--line);
+  border-radius: var(--r-xs);
+  background: var(--surface);
+}
+.sec-head__title {
+  position: relative;
+  font-size: clamp(2.1rem, 6.5vw, 4.25rem);
+  font-weight: 700; line-height: .96;
+  letter-spacing: -.035em;
+  text-transform: uppercase;
+}
+.sec-head__title::after {
+  content: attr(data-text);
+  position: absolute; top: 0; left: 0;
+  color: var(--violet); opacity: 0;
+  clip-path: inset(0 0 0 0);
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+/* the ghost layer is only ever lit by the accent, at accent scale */
+.sec-head__title:hover::after { opacity: .14; }
+.sec-head__rule {
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, var(--line-2), transparent);
+}
+/* an editorial flourish, not a decoration: one small violet tick on the rule */
+.sec-head__rule::after {
+  content: '';
+  display: block;
+  width: 3px; height: 3px;
+  margin-top: -1px;
+  background: var(--accent);
+  opacity: .5;
+}
+.sec-intro {
+  max-width: 46ch; color: var(--ink-3);
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+  font-size: 1.02rem;
+}
+
+/* Three zones in one bar: the name, the links, the CTA.
+   The links are centred against the viewport, not against whatever space the
+   name leaves over — with margin-right:auto on the name, a flex row would
+   otherwise centre them in the leftover gap and drift left of true centre.
+   auto/1fr/auto gives both side columns equal width, so the link row lands on
+   the real centre line whatever its own width. The name then centres inside
+   the first auto column, which puts it on that same line. Both side zones sit
+   in from the viewport edge so nothing sits flush in a corner. */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 7000;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: 1.5rem;
+  padding: 1.05rem calc(var(--gut) + 1.5rem);
+  transition: background .35s var(--ease), border-color .35s var(--ease),
+              padding .35s var(--ease), backdrop-filter .35s;
+  border-bottom: 1px solid transparent;
+}
+/* Floats as one contained bar: a dark glass sheet with hairline edges,
+   inset from the viewport so it reads as an object, not a page banner. */
+.nav.is-stuck {
+  background: rgba(8, 8, 8, .72);
+  backdrop-filter: blur(20px) saturate(120%);
+  -webkit-backdrop-filter: blur(20px) saturate(120%);
+  border-bottom-color: var(--line);
+  padding-block: .7rem;
+}
+/* The name is centered on the same axis as the link row: the first column
+   spans half the bar, the name centers inside it, and the second column
+   centers the links. Both then share one center line. */
+.nav__mark { display: flex; align-items: center; justify-content: center; }
+/* Two faces for two words: the given name in mono, the surname in the sans
+   at a lighter weight, so they read as one name set in two voices. */
+.nav__name {
+  font-size: .84rem; letter-spacing: .18em;
+  display: flex; gap: .4rem; align-items: baseline;
+  white-space: nowrap;
+}
+.nav__name b {
+  font-family: var(--mono); font-weight: 700; color: var(--ink);
+}
+.nav__name em {
+  font-style: normal;
+  font-family: var(--font);
+  font-weight: 300;
+  color: var(--ink-3);
+}
+
+.nav__links { display: flex; gap: .3rem; justify-content: center; justify-self: center; }
+.nav__links a {
+  position: relative;
+  display: flex; align-items: baseline; gap: .3rem;
+  padding: .45rem .8rem;
+  font-size: .85rem; font-weight: 500; color: var(--ink-2);
+  border-radius: var(--r-sm);
+  white-space: nowrap;
+  transition: color .25s var(--ease), background .25s var(--ease);
+}
+.nav__links a i {
+  font-family: var(--mono); font-style: normal;
+  font-size: .62rem; color: var(--ink-3);
+  transition: color .25s var(--ease);
+}
+/* the only place a hairline of accent appears in the nav */
+.nav__links a::after {
+  content: ''; position: absolute; left: .8rem; right: .8rem; bottom: .3rem;
+  height: 1px; background: var(--accent);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .4s var(--ease);
+}
+.nav__links a:hover, .nav__links a.is-active {
+  color: var(--ink); background: var(--surface);
+}
+.nav__links a:hover i, .nav__links a.is-active i { color: var(--ink-3); }
+.nav__links a:hover::after, .nav__links a.is-active::after { transform: scaleX(1); }
+
+/* A pill, not a chip: fully rounded, slightly larger, and the one solid
+   element in the bar so it reads as the terminal action. */
+.nav__cta {
+  justify-self: end;
+  display: flex; align-items: center; gap: .5rem;
+  padding: .62rem 1.35rem;
+  font-size: .82rem; font-weight: 600; letter-spacing: .02em;
+  white-space: nowrap;
+  background: var(--surface);
+  border: 1px solid var(--line-2); border-radius: 100px;
+  color: var(--ink-2);
+  transition: border-color .3s var(--ease), color .3s var(--ease),
+              background .3s var(--ease), box-shadow .3s var(--ease);
+}
+.nav__cta:hover {
+  border-color: var(--line-2); color: var(--ink);
+  background: var(--surface-hi);
+  box-shadow: var(--glow-ring-sm);
+}
+.dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: #4ade80;
+  animation: pulse 2.4s var(--ease-io) infinite;
+}
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+
+/* The burger replaces the link row, so it sits in the same grid cell and
+   takes the centre column — it becomes the nav's only control on the right. */
+.nav__burger { display: none; width: 38px; height: 38px; place-items: center; gap: 5px; justify-self: end; }
+.nav__burger span {
+  display: block; width: 20px; height: 1.5px; background: var(--ink);
+  transition: transform .35s var(--ease), opacity .25s;
+}
+.nav__burger[aria-expanded="true"] span:first-child { transform: translateY(3.25px) rotate(45deg); }
+.nav__burger[aria-expanded="true"] span:last-child  { transform: translateY(-3.25px) rotate(-45deg); }
+
+.menu {
+  position: fixed; inset: 0; z-index: 6900;
+  background: rgba(5,5,5,.97);
+  backdrop-filter: blur(22px);
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 6rem var(--gut) 3rem;
+  opacity: 0; transition: opacity .3s var(--ease);
+}
+/* `display:flex` above beats the UA's `[hidden]{display:none}`, which would
+   otherwise leave an invisible full-screen overlay eating every click. */
+.menu[hidden] { display: none; }
+.menu.is-open { opacity: 1; }
+.menu nav { display: flex; flex-direction: column; gap: .25rem; }
+.menu nav a {
+  display: flex; align-items: baseline; gap: 1rem;
+  font-size: clamp(1.9rem, 9vw, 3rem); font-weight: 700;
+  letter-spacing: -.03em; text-transform: uppercase;
+  padding-block: .5rem;
+  border-bottom: 1px solid var(--line);
+  opacity: 0; transform: translateX(-14px);
+  transition: opacity .4s var(--ease), transform .4s var(--ease), color .25s;
+}
+.menu.is-open nav a { opacity: 1; transform: none; }
+.menu nav a:nth-child(1) { transition-delay: .06s; }
+.menu nav a:nth-child(2) { transition-delay: .12s; }
+.menu nav a:nth-child(3) { transition-delay: .18s; }
+.menu nav a:nth-child(4) { transition-delay: .24s; }
+.menu nav a:nth-child(5) { transition-delay: .30s; }
+.menu nav a:hover { color: #fff; }
+.menu nav a i {
+  font-family: var(--mono); font-style: normal;
+  font-size: .7rem; color: var(--ink-3);
+}
+.menu__foot { display: flex; gap: 1.5rem; margin-top: 2.5rem; font-size: .85rem; color: var(--ink-3); }
+.menu__foot a:hover { color: var(--ink); }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero {
+  position: relative; z-index: 2;
+  min-height: 100svh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding-block: clamp(5.5rem, 10vh, 8rem) clamp(3.5rem, 7vh, 5.5rem);
+  overflow: hidden;
+}
+.hero__field { position: absolute; inset: 0; z-index: -1; }
+
+/* The deep drift layer. Sits behind #fx and reads as out-of-focus haze:
+   larger radii, much lower opacity, and a wider radial mask so the motes
+   dissolve before they reach the edges. Blur is what sells the depth —
+   without it these would just look like more constellation. */
+#drift {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  opacity: .5;
+  pointer-events: none;              /* never intercepts a click */
+  filter: blur(.6px);
+  -webkit-mask-image: radial-gradient(70% 66% at 50% 46%, #000 12%, transparent 88%);
+  mask-image: radial-gradient(70% 66% at 50% 46%, #000 12%, transparent 88%);
+}
+#fx {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  opacity: .55;
+  pointer-events: none;              /* never intercepts a click */
+  -webkit-mask-image: radial-gradient(78% 72% at 50% 45%, #000 20%, transparent 82%);
+  mask-image: radial-gradient(78% 72% at 50% 45%, #000 20%, transparent 82%);
+}
+/* a barely-there technical grid, cool gray, fading out well before the edges */
+.hero__grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.022) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(62% 52% at 50% 46%, #000 0%, transparent 76%);
+  -webkit-mask-image: radial-gradient(62% 52% at 50% 46%, #000 0%, transparent 76%);
+}
+
+.hero__inner { width: 100%; max-width: var(--wrap); margin-inline: auto; padding-inline: var(--gut); }
+
+.hero__meta { display: flex; flex-wrap: wrap; gap: .6rem; margin-bottom: clamp(1rem, 2.4vh, 2.25rem); }
+.pill {
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .4rem .8rem;
+  font-family: var(--mono); font-size: .66rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-2);
+  border: 1px solid var(--line); border-radius: 100px;
+  background: var(--surface);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+.pill--ghost { color: var(--ink-3); }
+
+.hero__title {
+  /* min() caps on both axes: stays huge on wide screens, shrinks on short
+     ones so the whole hero (incl. socials) always fits the first screen. */
+  font-size: clamp(3.1rem, min(15.5vw, 19vh), 12.5rem);
+  font-weight: 700; line-height: .84;
+  letter-spacing: -.055em;
+  text-transform: uppercase;
+  margin-bottom: clamp(.9rem, 2.2vh, 1.5rem);
+}
+.hero__title .line { display: block; position: relative; width: fit-content; }
+.hero__title .line::before {
+  /* ghost layer for the chromatic split */
+  content: attr(data-text);
+  position: absolute; inset: 0;
+  color: var(--accent);
+  opacity: 0;
+  z-index: -1;
+}
+.hero__title .line--out {
+  margin-left: clamp(0rem, 9vw, 8rem);
+  color: transparent;
+  -webkit-text-stroke: 1.25px rgba(255, 255, 255, .28);
+}
+.hero__title .line--out:hover {
+  -webkit-text-stroke-color: rgba(255, 255, 255, .5);
+  color: rgba(255, 255, 255, .015);
+}
+
+/* glitch, driven by data-text + JS class */
+/* Enhanced glitch: RGB split + scanlines + multiple layers */
+.hero__title .line.is-glitch::before,
+.hero__title .line.is-glitch::after {
+  content: attr(data-text);
+  position: absolute; inset: 0;
+  opacity: .9;
+  animation: glitch-a .25s steps(2) 3;
+}
+.hero__title .line.is-glitch::before { color: rgba(255, 0, 80, .7); }  /* cyan-magenta split */
+.hero__title .line.is-glitch::after  { color: rgba(0, 255, 136, .6); animation-name: glitch-b; }  /* green shift */
+
+/* Third glitch layer - extreme displacement */
+.hero__title .line.is-glitch {
+  text-shadow: 
+    3px 0 0 rgba(255, 0, 100, .5),
+    -3px 0 0 rgba(0, 255, 180, .5),
+    0 0 8px rgba(167, 139, 250, .8),
+    0 0 15px rgba(167, 139, 250, .4);
+}
+.hero__title .line.is-glitch::before {
+  text-shadow: -4px 0 0 rgba(255, 50, 150, .6);
+  animation: glitch-c .2s steps(3) 3;
+}
+.hero__title .line.is-glitch::after {
+  text-shadow: 4px 0 0 rgba(0, 200, 130, .6);
+  animation: glitch-d .15s steps(2) 4;
+}
+
+/* Scanline overlay during glitch */
+.hero__title .line.is-glitch::after {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 2px,
+    rgba(0,0,0,.3) 2px,
+    rgba(0,0,0,.3) 4px
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* ---------- frequent blinker ----------
+   `flick` is a short, irregular opacity flicker on a fast cycle, applied
+   only while JS has added .is-blink. It runs on the text itself rather than a
+   pseudo-element so it works on the outlined `.line--out` too, and it never
+   touches transform, so it cannot fight the reveal animation. */
+.hero__title .line.is-blink { animation: blinkText 2.1s steps(1, end) infinite; }
+@keyframes blinkText {
+  0%,  7%  { opacity: 1; }
+  8%       { opacity: .18; }
+  10%      { opacity: 1; }
+  11%      { opacity: .35; }
+  13%, 34% { opacity: 1; }
+  35%      { opacity: .22; }
+  36%      { opacity: 1; }
+  37%      { opacity: .55; }
+  39%, 62% { opacity: 1; }
+  63%      { opacity: .3; }
+  64%      { opacity: 1; }
+  65%      { opacity: .7; }
+  67%, 100%{ opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__title .line.is-blink { animation: none; }
+}
+@keyframes glitch-a {
+  0%   { transform: translate(0); clip-path: inset(0 0 100% 0); }
+  25%  { transform: translate(-8px, 3px); clip-path: inset(8% 0 65% 0); }
+  50%  { transform: translate(6px, -4px); clip-path: inset(35% 0 25% 0); }
+  75%  { transform: translate(-4px, 2px); clip-path: inset(70% 0 5% 0); }
+  100% { transform: translate(0); clip-path: inset(0 0 100% 0); }
+}
+@keyframes glitch-b {
+  0%   { transform: translate(0); clip-path: inset(0 0 100% 0); }
+  33%  { transform: translate(7px, -3px); clip-path: inset(45% 0 30% 0); }
+  66%  { transform: translate(-6px, 4px); clip-path: inset(15% 0 60% 0); }
+  100% { transform: translate(0); clip-path: inset(0 0 100% 0); }
+}
+@keyframes glitch-c {
+  0%   { transform: translate(0); clip-path: inset(60% 0 10% 0); opacity: .8; }
+  33%  { transform: translate(-10px, 5px); clip-path: inset(20% 0 50% 0); opacity: .9; }
+  66%  { transform: translate(8px, -6px); clip-path: inset(75% 0 5% 0); opacity: .7; }
+  100% { transform: translate(0); clip-path: inset(0 0 100% 0); opacity: 0; }
+}
+@keyframes glitch-d {
+  0%   { transform: translate(0) skewX(0deg); }
+  25%  { transform: translate(12px, 0) skewX(-8deg); }
+  50%  { transform: translate(-8px, 0) skewX(5deg); }
+  75%  { transform: translate(6px, 0) skewX(-3deg); }
+  100% { transform: translate(0) skewX(0deg); }
+}
+
+.hero__role {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .75rem;
+  font-family: var(--mono); font-weight: 500;
+  font-size: clamp(.82rem, 1.9vw, 1.15rem);
+  letter-spacing: .2em; text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: clamp(.9rem, 2.2vh, 1.75rem);
+}
+.hero__role i { color: var(--ink-3); font-style: normal; }
+
+.hero__lede {
+  max-width: 50ch; color: var(--ink-2);
+  font-size: clamp(.95rem, 1.3vw, 1.15rem);
+  margin-bottom: clamp(1.3rem, 3vh, 2.5rem);
+}
+.hero__lede strong { color: var(--ink); font-weight: 600; }
+
+.hero__actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-bottom: clamp(1.4rem, 3.4vh, 3rem); }
+
+.btn {
+  position: relative; overflow: hidden;
+  display: inline-flex; align-items: center; gap: .7rem;
+  padding: .95rem 1.6rem;
+  font-size: .88rem; font-weight: 600; letter-spacing: .02em;
+  border-radius: var(--r);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  transition: transform .3s var(--ease), box-shadow .3s var(--ease),
+              border-color .3s var(--ease), color .3s var(--ease),
+              background .3s var(--ease);
+}
+.btn svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform .35s var(--ease); }
+.btn:hover { transform: translateY(-2px); }
+.btn:hover svg { transform: translateX(4px); }
+
+/* The sheen that crosses the button on hover is the same light reflection
+   used on glass panels — it is what sells the surface as glass. */
+.btn--primary::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.13), transparent);
+  transform: translateX(-110%);
+  transition: transform .65s var(--ease);
+}
+.btn--primary:hover { background: var(--surface-hi); border-color: var(--line-2); }
+.btn--primary:hover::before { transform: translateX(110%); }
+.btn--primary:active { transform: translateY(0); }
+
+.btn--ghost { background: transparent; color: var(--ink-2); }
+.btn--ghost:hover { border-color: var(--line-2); background: var(--surface); color: var(--ink); }
+.btn__arrow { font-style: normal; transition: transform .3s var(--ease); }
+.btn--ghost:hover .btn__arrow { transform: translate(3px, -3px); }
+.btn--lg { padding: 1.1rem 1.9rem; font-size: .95rem; }
+
+.hero__ticker {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  border-block: 1px solid var(--line);
+  background: rgba(6, 6, 6, .5);
+  overflow: hidden; padding-block: .6rem;
+  z-index: 1;
+}
+.ticker__track {
+  display: flex; align-items: center; gap: 2rem;
+  width: max-content;
+  font-family: var(--mono); font-size: .68rem;
+  letter-spacing: .28em; color: var(--ink-3);
+  white-space: nowrap;
+  animation: marquee 34s linear infinite;
+}
+.ticker__track i { color: var(--line-2); font-style: normal; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+.hero__scroll {
+  position: absolute; left: 50%; bottom: 4.2rem; z-index: 3;
+  transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: .6rem;
+  font-family: var(--mono); font-size: .6rem; letter-spacing: .24em; color: var(--ink-3);
+  transition: color .3s;
+}
+.hero__scroll:hover { color: var(--ink-2); }
+.hero__scroll i {
+  width: 1px; height: 42px;
+  background: linear-gradient(var(--line-2), transparent);
+  position: relative; overflow: hidden;
+}
+.hero__scroll i::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(transparent, rgba(255,255,255,.7), transparent);
+  animation: scrollLine 2s var(--ease-io) infinite;
+}
+@keyframes scrollLine { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
+
+/* ============================================================
+   ABOUT
+   ============================================================ */
+.about__grid {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 3rem;
+  align-items: start;
+}
+.about__main > * + * { margin-top: 1.4rem; }
+.about__main p { color: var(--ink-2); }
+.about__main strong { color: var(--ink); font-weight: 600; }
+
+/* ---------- bio copy (right column) ----------
+   The paragraphs sit in their own column now that the portrait and the tools
+   card share the left one. Type is deliberately small — the section reads as
+   supporting detail next to the portrait, not as a wall of text. */
+.about__copy > * + * { margin-top: 1.1rem; }
+.bio-p {
+  color: var(--ink-2);
+  font-size: clamp(.92rem, 1.15vw, 1.02rem);
+  line-height: 1.8;
+}
+.bio-p--lead {
+  color: var(--ink);
+  font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+  line-height: 1.7;
+}
+
+/* ---------- portrait ----------
+   The figure had no width/height rules at all, so the image rendered at its
+   intrinsic size and blew past the column. It's capped by a fluid clamp, sized
+   by aspect-ratio, and cropped with object-fit so the crop can't ever change
+   the layout box. */
+.portrait {
+  position: relative;
+  width: 100%;
+  max-width: clamp(12rem, 26vw, 18rem);
+  margin-inline: auto;
+  isolation: isolate;
+}
+/* Not a glow — a very soft cool highlight behind the frame, the kind you
+   only notice on a second look. */
+.portrait__glow {
+  position: absolute; inset: -10% -14% -4%;
+  z-index: -1;
+  background: radial-gradient(closest-side, rgba(255,255,255,.07), transparent 70%);
+  filter: blur(30px);
+  pointer-events: none;
+}
+.portrait__frame {
+  position: relative;
+  aspect-ratio: 1146 / 1197;          /* matches the cropped cutout exactly */
+  overflow: hidden;
+  border-radius: var(--r);
+  border: 1px solid var(--glass-rim-2);
+  background: linear-gradient(160deg, rgba(20,20,22,.9), rgba(8,8,8,.94));
+  box-shadow: var(--glass-shadow), var(--glass-inset);
+}
+.portrait__frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 22%;          /* keep the face in the upper third */
+}
+.portrait__scan {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 48%, rgba(255,255,255,.14) 50%, transparent 52%);
+  background-size: 100% 220%;
+  background-repeat: no-repeat;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .45s var(--ease);
+}
+.portrait:hover .portrait__scan { opacity: 1; animation: portraitScan 2.6s var(--ease-io) infinite; }
+@keyframes portraitScan {
+  0%   { background-position: 0 -120%; }
+  100% { background-position: 0 220%; }
+}
+.portrait__cap {
+  display: flex; flex-direction: column; gap: .15rem;
+  margin-top: .9rem; text-align: center;
+}
+.portrait__cap-name { font-weight: 600; color: var(--ink); font-size: .98rem; }
+.portrait__cap-role { font-family: var(--mono); font-size: .64rem; color: var(--ink-3); letter-spacing: .08em; }
+
+/* ---------- scrolling highlighter ----------
+   Each marked term lights up in document order as the section scrolls in.
+   JS adds .is-lit; CSS owns the look.
+
+   The effect is a real highlighter, not a colour swap: a tinted band wipes in
+   left-to-right (background-size 0% -> 100%) with an accent underline drawing
+   just after it.
+
+   Both layers are *backgrounds*, not absolutely-positioned pseudo-elements,
+   and that is deliberate. An inline <b> that wraps across a line break is split
+   into several boxes; box-decoration-break:clone makes the padding and
+   background repeat on each fragment, so every line gets its own full band and
+   underline. A single ::after would be positioned against the first fragment
+   only and would leave the rest of a wrapped term bare.
+
+   The face is mono, italic, and light — it reads as a technical tag against
+   the sans body copy rather than competing with it for attention. */
+.hl {
+  display: inline;
+  font-family: var(--mono);
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: .01em;
+  color: var(--ink-3);
+  /* mono is wider than the body face, so it needs a touch more air */
+  padding: .08em .3em;
+  margin: 0 -.08em;
+  border-radius: 3px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+
+  background-image:
+    linear-gradient(var(--hl-tint), var(--hl-tint)),
+    linear-gradient(var(--hl-accent), var(--hl-accent));
+  background-repeat: no-repeat, no-repeat;
+  background-size: 0% 100%, 0% 2px;
+  background-position: 0 0, 0 100%;
+
+  transition-property: color, background-size;
+  transition-duration: .5s, .55s;
+  transition-timing-function: var(--ease), cubic-bezier(.65, 0, .35, 1);
+  /* the underline trails the band slightly instead of arriving with it */
+  transition-delay: 0s, .12s;
+}
+.hl.is-lit {
+  color: var(--ink);
+  background-size: 100% 100%, 100% 2px;
+}
+
+/* Per-term colours. The sweep is a saturated band at low alpha so the words
+   stay readable on near-black, with a matching hairline underneath in the
+   full-strength colour. Each data-c picks a different hue, so a paragraph of
+   highlighted terms reads as a set of distinct marks rather than one band.
+   Colour alone is not the signal — the band filling is — so this stays
+   readable for anyone who cannot separate the hues. */
+.hl { --hl-tint: var(--accent-a); --hl-accent: var(--accent); }
+.hl[data-c="violet"] { --hl-tint: rgba(167,139,250,.16); --hl-accent: var(--violet); }
+.hl[data-c="cyan"]   { --hl-tint: rgba(143,180,208,.16); --hl-accent: var(--cyan); }
+.hl[data-c="green"]  { --hl-tint: rgba(134,183,154,.16); --hl-accent: var(--green); }
+.hl[data-c="pink"]   { --hl-tint: rgba(195,155,176,.16); --hl-accent: var(--pink); }
+.hl[data-c="amber"]  { --hl-tint: rgba(176,164,140,.16); --hl-accent: var(--amber); }
+
+@media (prefers-reduced-motion: reduce) {
+  .hl {
+    transition: none;
+    color: var(--ink);
+    background-size: 100% 100%, 100% 2px;
+  }
+}
+
+/* ---------- responsive ----------
+   Wide: the portrait and tools card share the left column with the copy beside
+   them. As the viewport narrows the two columns stack, the portrait recentres,
+   and the highlight band scales down with the type so the wash never looks
+   heavy on a phone. */
+@media (max-width: 1080px) {
+  .about__grid { grid-template-columns: 1fr; }
+  .portrait { max-width: clamp(12rem, 40vw, 17rem); }
+  .card--stack { max-width: 34rem; }
+}
+@media (max-width: 760px) {
+  .about__grid { gap: 1.75rem; }
+  .about__main > * + * { margin-top: 1.15rem; }
+  .card--stack { max-width: 100%; }
+  /* keep the inline band from wrapping awkwardly on narrow lines */
+  .hl { padding: .06em .22em; margin: 0 -.06em; }
+}
+
+.card {
+  padding: 1.5rem;
+  border-radius: var(--r);
+  position: relative; overflow: hidden;
+}
+/* a soft white reflection travels the top edge as the card is hovered */
+.card::before {
+  content: ''; position: absolute; top: 0; left: 0;
+  width: 100%; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.5), transparent);
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  opacity: 0; transition: opacity .45s, background-position .6s var(--ease);
+}
+.card:hover::before { opacity: .8; background-position: -100% 0; }
+.card h3 {
+  font-family: var(--mono); font-size: .68rem; font-weight: 700;
+  letter-spacing: .18em; text-transform: uppercase; color: var(--ink-3);
+  margin-bottom: 1.1rem;
+}
+.tags { display: flex; flex-wrap: wrap; gap: .4rem; }
+.tags span {
+  padding: .32rem .6rem;
+  font-family: var(--mono); font-size: .68rem;
+  color: var(--ink-2);
+  background: var(--surface);
+  border: 1px solid var(--line); border-radius: var(--r-sm);
+  transition: color .25s, border-color .25s, background .25s, transform .25s var(--ease);
+}
+.tags span:hover {
+  color: #fff; border-color: var(--line-2);
+  background: var(--surface-hi);
+  transform: translateY(-2px);
+}
+
+.skills {
+    padding: 6rem 0;
+    background: var(--bg);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+}
+
+/* Skills card grid — replaces terminal window */
+.skills__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.6rem;
+}
+
+.skill-cat {
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 1.8rem 1.6rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.skill-cat::before {
+    content: '';
+    position: absolute;
+    top: -30px; right: -30px;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    opacity: 0.08;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    background: radial-gradient(circle, var(--violet) 0%, transparent 70%);
+}
+
+.skill-cat:hover::before { opacity: 0.14; }
+.skill-cat:hover {
+  transform: translateY(-5px);
+  border-color: var(--card-rim-hi);
+  box-shadow: var(--glow-ring);
+}
+
+.skill-cat-header {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    margin-bottom: 1.2rem;
+}
+
+.skill-cat-icon {
+    width: 42px; height: 42px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+    color: var(--ink);
+}
+
+.skill-cat-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0;
+}
+
+/* 2×2 grid for skills inside each card */
+.sc-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.7rem;
+}
+
+.sc-wrap {
+    position: relative;
+    display: flex;
+    border-radius: 12px;
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                box-shadow 0.3s ease, border-color 0.3s ease, z-index 0s;
+}
+
+.sc-wrap:hover {
+    transform: scale(1.12) translateY(-8px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+    z-index: 10;
+}
+
+/* Skill chip — minimal, no default border. The proficiency ring is a sibling
+   layer behind it (.sc-border), not a pseudo-element, so the chip's own
+   background never has to be made transparent to let the ring show through. */
+.sc {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0.55rem 0.5rem;
+    border-radius: 10px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    background: var(--bg-2);
+    color: var(--ink);
+    cursor: pointer;
+    width: 100%;
+    user-select: none;
+    border: none;
+    transition: box-shadow 0.3s ease;
+}
+
+.sc.sc-active {
+    box-shadow: 0 0 12px rgba(255,255,255,0.05);
+}
+
+.sc i {
+    color: var(--cc, var(--ink-2));
+    font-size: 1rem;
+}
+
+/* Percentage label above chip — created on hover, so it animates in rather
+   than fading from a resting state. */
+.sc-pct-label {
+    position: absolute;
+    top: -24px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.68rem;
+    font-family: var(--mono);
+    font-weight: 700;
+    white-space: nowrap;
+    z-index: 10;
+    background: var(--bg);
+    color: var(--ink);
+    padding: 0.12rem 0.45rem;
+    border-radius: 5px;
+    border: 1px solid var(--card-rim);
+    pointer-events: none;
+    animation: pctFadeIn 0.25s ease forwards;
+}
+
+@keyframes pctFadeIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(4px); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* Conic-gradient border that acts as the chip border, starting from -90deg.
+   It sits 4px outside the chip (inset: -4px) so the sweep reads as a halo
+   around the chip rather than as its own edge. */
+.sc-border {
+    position: absolute;
+    inset: -4px;
+    border-radius: 14px;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.sc-border.visible {
+    opacity: 1;
+}
+
+/* Punches the chip's own shape back out of the middle of the ring, so only a
+   2px band of the conic gradient is visible around the edge. */
+.sc-border-inner {
+    position: absolute;
+    inset: 2px;
+    background: var(--bg-2);
+    border-radius: 12px;
+    z-index: 1;
+}
+
+/* Projects — a 2x2 grid on desktop, collapsing to a single column at 900px.
+   minmax(0, 1fr) rather than 1fr: without it a long blurb sets the column's
+   min-content width and can push the grid wider than the viewport. */
+.work__grid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.proj {
+  position: relative;
+  display: flex; flex-direction: column;
+  min-height: 340px;
+  padding: 1.6rem;
+  border-radius: var(--r);
+  overflow: hidden;
+  transition: border-color .4s var(--ease), transform .4s var(--ease),
+              box-shadow .4s var(--ease);
+}
+.proj--feature { grid-column: span 2; }
+@media (max-width: 720px) { .proj--feature { grid-column: span 1; } }
+
+/* generative preview canvas fills the card */
+.proj__preview {
+  position: absolute; inset: 0; z-index: 0;
+  opacity: 0; transition: opacity .5s var(--ease);
+  pointer-events: none;
+}
+/* Hover is where the page is allowed to be colourful. The card's own border
+   keeps the white glow every other card has — only the generative waves
+   behind the content pick up the project's accent, so the colour arrives from
+   inside the card rather than from its edge. */
+.proj:hover .proj__preview, .proj:focus-within .proj__preview { opacity: .55; }
+.proj__preview canvas { width: 100%; height: 100%; }
+
+/* Lift the card's real content above the preview canvas. The :not() is
+   required: a bare `.proj > *` has the same specificity as
+   `.proj__preview` but comes later, so it would win and reset the preview
+   to `position: relative` — knocking the canvas back into flow and
+   stretching every card to its full canvas height. */
+.proj > *:not(.proj__preview) { position: relative; z-index: 1; }
+
+.proj__top { display: flex; align-items: center; justify-content: space-between; margin-bottom: auto; }
+.proj__tag {
+  font-family: var(--mono); font-size: .62rem; font-weight: 700;
+  letter-spacing: .18em; text-transform: uppercase;
+  padding: .3rem .55rem;
+  border: 1px solid currentColor; border-radius: var(--r-xs);
+}
+.proj__year { font-family: var(--mono); font-size: .68rem; color: var(--ink-3); }
+
+.proj__body { margin-top: 2.5rem; }
+.proj__title {
+  font-size: clamp(1.3rem, 2.4vw, 1.75rem); font-weight: 700;
+  letter-spacing: -.028em; line-height: 1.1;
+  margin-bottom: .6rem;
+  transition: transform .4s var(--ease);
+}
+.proj:hover .proj__title { transform: translateX(5px); }
+.proj__blurb { font-size: .9rem; color: var(--ink-3); line-height: 1.6; margin-bottom: 1.2rem; max-width: 46ch; }
+.proj:hover .proj__blurb { color: var(--ink-2); }
+
+.proj__stack { display: flex; flex-wrap: wrap; gap: .35rem; margin-bottom: 1.3rem; }
+.proj__stack span {
+  font-family: var(--mono); font-size: .62rem;
+  padding: .22rem .5rem; color: var(--ink-3);
+  border: 1px solid var(--line); border-radius: var(--r-xs);
+  transition: color .3s, border-color .3s, background .3s;
+}
+.proj:hover .proj__stack span {
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+
+/* Link row. Without this the repo link falls back to a block-level <a> and
+   its inline SVG stretches to the full card height, blowing the card open
+   to ~1000px. The row is a flex line and the icon is a fixed-size flex item. */
+.proj__links {
+  display: flex; align-items: center; gap: .6rem;
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding-top: 1.3rem;
+}
+
+/* Two real buttons: the live demo and the source. Both are pill-shaped
+   glass chips so they read as a pair rather than as loose text links. */
+.proj__btn {
+  position: relative;
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .58rem 1rem;
+  font-family: var(--mono); font-size: .7rem; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  background: var(--surface);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--ink-2);
+  overflow: hidden;
+  isolation: isolate;
+  transition: color .35s var(--ease), border-color .35s var(--ease),
+              transform .35s var(--ease), box-shadow .35s var(--ease),
+              background .35s var(--ease);
+}
+.proj__btn svg {
+  flex: 0 0 auto;
+  width: 1rem; height: 1rem;
+  fill: none; stroke: currentColor;
+  stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;
+  transition: transform .4s var(--ease);
+}
+/* a cool highlight wipes up from the bottom edge on hover */
+.proj__btn::before {
+  content: '';
+  position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(180deg, rgba(255,255,255,.12), transparent 150%);
+  opacity: 0;
+  transform: translateY(101%);
+  transition: opacity .38s var(--ease), transform .38s var(--ease);
+}
+.proj__btn:hover, .proj__btn:focus-visible {
+  color: #fff;
+  border-color: var(--line-2);
+  background: var(--surface-hi);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px -16px rgba(0, 0, 0, .9);
+}
+.proj__btn:hover::before, .proj__btn:focus-visible::before { opacity: 1; transform: none; }
+.proj__btn:hover svg, .proj__btn:focus-visible svg { transform: scale(1.12); }
+/* the demo button's arrow actually flies */
+.proj__btn--demo:hover svg { transform: translate(2px, -2px) scale(1.08); }
+/* the GitHub mark turns like a loading wheel on hover */
+.proj__btn--repo:hover svg { transform: rotate(-100deg) scale(1.08); }
+
+.proj__go {
+  display: inline-flex; align-items: center; gap: .5rem;
+  font-family: var(--mono); font-size: .72rem;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-2);
+  transition: color .3s var(--ease), gap .3s var(--ease);
+}
+.proj:hover .proj__go { color: #fff; gap: .9rem; }
+.proj__go i { font-style: normal; transition: transform .35s var(--ease); }
+.proj:hover .proj__go i { transform: translate(3px, -3px); }
+
+.proj__glowline {
+  position: absolute; left: 0; bottom: 0; z-index: 2;
+  width: 100%; height: 1px;
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .55s var(--ease);
+}
+.proj:hover .proj__glowline, .proj:focus-within .proj__glowline { transform: scaleX(1); }
+
+/* ============================================================
+   PATH (education + experience)
+   ============================================================ */
+.path__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+.path__col { min-width: 0; }
+.col-title {
+  font-family: var(--mono); font-size: .7rem; font-weight: 700;
+  letter-spacing: .2em; text-transform: uppercase; color: var(--ink-2);
+  padding-bottom: .85rem; margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--line);
+}
+@media (max-width: 900px) {
+  .path__grid { grid-template-columns: 1fr; gap: 2.5rem; }
+}
+.tl { position: relative; padding-left: 1.5rem; list-style: none; margin: 0; }
+.tl::before {
+  content: ''; position: absolute; left: 3px; top: 6px; bottom: 6px;
+  width: 1px;
+  background: var(--line-2);
+}
+/* Progress rail. A list marked .tl--progress has completed stages, so the
+   rail runs solid green from the top through the last completed dot, then
+   fades to nothing across the stage still in progress. The gradient does the
+   fading rather than a second element, so there is only ever one rail. */
+.tl--progress::before {
+  background: linear-gradient(180deg,
+    var(--green) 0%,
+    var(--green) var(--done-to, 62%),
+    color-mix(in srgb, var(--green) 55%, transparent) 78%,
+    transparent 100%);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--green) 35%, transparent);
+}
+/* Timeline entries are cards too, so they take the same white halo. They sit
+   flush on the rail, so the padding is asymmetric: flush to the left where the
+   rail runs, padded on the right so the text has a real measure. */
+.tl li {
+  position: relative;
+  padding: .9rem 1.1rem .9rem 1.4rem;
+  margin-bottom: 1.1rem;
+  border: 1px solid var(--card-rim);
+  border-radius: var(--r-sm);
+  background: var(--glass-bg);
+  transition: border-color .35s var(--ease), box-shadow .35s var(--ease),
+              background .35s var(--ease);
+}
+.tl li:last-child { margin-bottom: 0; }
+.tl li:hover {
+  border-color: var(--card-rim-hi);
+  box-shadow: var(--glow-ring-sm);
+}
+.tl li::before {
+  content: ''; position: absolute; left: -1.5rem; top: 1.5rem;
+  width: 6px; height: 6px; border-radius: 50%;
+  border: 1px solid var(--line-2);
+  background: var(--surface);
+  transition: border-color .3s var(--ease), background .3s var(--ease), transform .3s var(--ease);
+}
+/* A completed stage gets a filled green dot with a soft halo, so the rail's
+   colour change is anchored to something rather than floating on its own. */
+.tl li.tl__item--done::before {
+  border-color: var(--green);
+  background: var(--green);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--green) 45%, transparent);
+}
+.tl li:hover::before { border-color: var(--card-rim-hi); background: var(--surface-hi); transform: scale(1.1); }
+.tl li.tl__item--done:hover::before { background: var(--green); }
+.tl__period { font-family: var(--mono); font-size: .66rem; letter-spacing: .12em; color: var(--ink-3); text-transform: uppercase; }
+.tl__title { font-size: 1.12rem; font-weight: 600; letter-spacing: -.015em; margin-block: .3rem .1rem; }
+.tl__org { font-size: .9rem; color: var(--ink-2); }
+.tl__place { font-family: var(--mono); font-size: .68rem; color: var(--ink-3); margin-top: .1rem; }
+.tl__note { font-size: .88rem; color: var(--ink-3); line-height: 1.6; margin-top: .6rem; }
+
+/* ============================================================
+   CONTACT
+   ============================================================ */
+.contact { position: relative; overflow: hidden; }
+.contact__aura {
+  position: absolute; left: 50%; bottom: -14rem; z-index: 0;
+  width: 46rem; height: 46rem; transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(255,255,255,.03), transparent 60%);
+  filter: blur(40px);
+  animation: drift 20s var(--ease-io) infinite alternate;
+}
+@keyframes drift {
+  from { transform: translateX(-58%) scale(1); }
+  to   { transform: translateX(-42%) scale(1.16); }
+}
+.contact__grid {
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .92fr);
+  gap: clamp(2rem, 5vw, 4.5rem); align-items: start;
+}
+.contact__lead h3 {
+  font-size: clamp(1.8rem, 5.2vw, 3.4rem);
+  font-weight: 700; line-height: 1.04; letter-spacing: -.038em;
+  margin-bottom: 1.25rem;
+}
+.contact__lead p { color: var(--ink-2); max-width: 42ch; margin-bottom: 2rem; }
+
+.contact__links { display: flex; flex-direction: column; gap: .6rem; }
+.contact__links a {
+  position: relative; overflow: hidden;
+  display: grid;
+  grid-template-columns: 3.2rem 1fr auto;
+  align-items: center; gap: 1rem;
+  padding: 1.1rem 1.25rem;
+  border-radius: var(--r);
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+  border: 1px solid var(--glass-rim-2);
+  box-shadow: var(--glass-shadow), var(--glass-inset);
+  transition: border-color .35s var(--ease), transform .35s var(--ease), background .35s;
+}
+.contact__links a::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(90deg, rgba(168,85,247,.16), transparent 60%);
+  opacity: 0; transition: opacity .35s;
+}
+.contact__links a:hover { border-color: var(--glass-rim); transform: translateX(6px); background: rgba(255,255,255,.07); }
+.contact__links a:hover::before { opacity: 1; }
+.contact__links a > * { position: relative; }
+
+.cl__icon {
+  display: grid; place-items: center;
+  width: 2.6rem; height: 2.6rem;
+  border: 1px solid var(--line-2); border-radius: var(--r);
+  font-family: var(--mono); font-size: .8rem; font-weight: 700;
+  color: var(--c, var(--violet));
+  transition: border-color .35s, background .35s, box-shadow .35s;
+}
+.contact__links a:hover .cl__icon {
+  border-color: var(--c, var(--violet));
+  background: rgba(168,85,247,.1);
+  box-shadow: 0 0 18px -4px var(--c, var(--violet));
+}
+.cl__text { display: flex; flex-direction: column; gap: .1rem; min-width: 0; }
+.cl__label { font-size: .98rem; font-weight: 600; }
+.cl__handle { font-family: var(--mono); font-size: .72rem; color: var(--ink-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cl__arrow { font-family: var(--mono); color: var(--ink-3); transition: transform .3s var(--ease), color .3s; }
+.contact__links a:hover .cl__arrow { transform: translate(4px, -4px); color: #fff; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.foot { position: relative; z-index: 2; border-top: 1px solid var(--line); background: var(--bg); }
+.foot__inner {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 1.5rem; padding-block: 2.5rem;
+}
+.foot__left { display: flex; align-items: center; gap: 1rem; }
+.foot__mark {
+  display: grid; place-items: center;
+  width: 40px; height: 40px;
+  font-family: var(--mono); font-weight: 700; font-size: .85rem;
+  color: #fff;
+  background: linear-gradient(135deg, var(--violet-2), var(--violet));
+  border-radius: var(--r);
+  box-shadow: var(--glow);
+}
+.foot__left p { font-size: .85rem; color: var(--ink-2); }
+.foot__right { display: flex; flex-wrap: wrap; gap: 1.25rem; font-family: var(--mono); font-size: .74rem; }
+.foot__right a { color: var(--ink-2); transition: color .25s; }
+.foot__right a:hover { color: var(--ink); }
+.foot__legal { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .75rem; padding-block: 1.1rem; border-top: 1px solid var(--line); font-family: var(--mono); font-size: .68rem; color: var(--ink-2); }
+.foot__colophon { color: var(--ink-2); opacity: .8; }
+
+/* ============================================================
+   HERO entrance — the hero is above the fold by definition, so it
+   animates on LOAD rather than waiting for a scroll-reveal that
+   can never fire on a short viewport.
+
+   The animation is an Anime.js timeline in main.js that runs after
+   the loader hands over, so the hero assembles as the intro
+   dissolves rather than fighting it. These rules hold only the
+   initial hidden state — no keyframes, no transition, so the two
+   systems never touch the same property.
+   ============================================================ */
+.hero [data-reveal],
+.hero__title .line { opacity: 0; }
+
+/* Without JS the hero must still be readable. */
+.no-js .hero [data-reveal],
+.no-js .hero__title .line { opacity: 1; }
+
+/* ============================================================
+   REVEAL ON SCROLL
+
+   The animation itself now lives in js/main.js, where Anime.js
+   tweens opacity and transform on the same IntersectionObserver
+   triggers this used. The rules below only hold the *initial*
+   hidden state so nothing flashes before JS runs, and they
+   deliberately carry no transition — otherwise CSS and Anime.js
+   would both be driving the same properties and the easing would
+   fight.
+
+   If JS never runs, the noscript rule below shows everything.
+   ============================================================ */
+[data-reveal],
+.stagger > * { opacity: 0; transform: translateY(20px); }
+
+/* No JS: content must never stay invisible. */
+.no-js [data-reveal],
+.no-js .stagger > * { opacity: 1; transform: none; }
+
+/* Before main.js has parsed, hold the hidden state. Once anime.js
+   has taken over, inline styles win and the transition above is
+   inert regardless. */
+
+/* ============================================================
+   RESPONSIVE
+   Matched to old portfolio responsive behavior
+   ============================================================ */
+@media (max-width: 1024px) {
+  .about__grid { grid-template-columns: 1fr; }
+  .contact__grid { grid-template-columns: 1fr; }
+  .skills__grid { gap: 1.2rem; }
+}
+
+@media (max-width: 900px) {
+  .nav__links { display: none; }
+  .nav__cta { display: none; }
+  .nav__burger { display: grid; }
+  .hero { padding-block: 7rem 5.5rem; }
+  .hero__scroll { display: none; }
+  .hero__ticker { font-size: .6rem; }
+  .work__grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .skills__grid { grid-template-columns: 1fr; gap: 1rem; }
+  .section { padding-block: 4rem; }
+  .sec-head__title { font-size: 1.7rem; }
+  .about__grid { gap: 1.75rem; }
+}
+
+@media (max-width: 620px) {
+  .hero__title { line-height: .88; }
+  .hero__role { gap: .5rem; letter-spacing: .14em; }
+  .hero__actions .btn { flex: 1 1 100%; justify-content: center; }
+}
+
+@media (max-width: 480px) {
+  .wrap { padding-inline: 16px; }
+  .hero__title { font-size: clamp(2.1rem, min(15.5vw, 17vh), 12.5rem); }
+  .hero__role { gap: .4rem .5rem; letter-spacing: .1em; font-size: .76rem; }
+  .hero__role i { display: none; }
+  .hero__lede { font-size: .9rem; }
+  .pill { font-size: .6rem; padding: .32rem .6rem; }
+}
+
+@media (max-width: 340px) {
+  .hero__title { font-size: clamp(2.2rem, 14vw, 12.5rem); }
+  .btn { padding: .85rem 1.2rem; font-size: .82rem; }
+}
+
+/* ---------- music player ----------
+   Two states in one fixed element, bottom-right.
+
+   Collapsed: only .player__orb is visible — a small circle holding the
+   equalizer. The panel is scaled to zero and made inert.
+
+   Expanded: the panel scales up from the orb's centre and becomes
+   interactive. Anime.js animates the transform; CSS only holds the two
+   end states, so the two never fight over the same property.
+
+   Both states are driven by [data-state] on the container, which is
+   what main.js flips. That keeps the visual state in one place
+   instead of spread across hover/focus/class rules. */
+.player {
+  position: fixed; right: 1.35rem; bottom: 1.35rem; z-index: 80;
+  color: var(--ink);
+  font: inherit;
+}
+.player * { box-sizing: border-box; }
+
+/* ---------- the orb (always visible) ---------- */
+.player__orb {
+  position: relative; z-index: 2;
+  width: 3.25rem; height: 3.25rem;
+  display: grid; place-items: center;
+  border: 1px solid rgba(167,139,250,.34);
+  border-radius: 50%;
+  background: rgba(12,10,18,.9);
+  -webkit-backdrop-filter: blur(16px);
+          backdrop-filter: blur(16px);
+  color: var(--ink);
+  cursor: pointer;
+  box-shadow: 0 10px 26px rgba(0,0,0,.42), 0 0 0 4px rgba(167,139,250,.05);
+  transition: border-color .3s var(--ease), box-shadow .3s var(--ease),
+              background .3s var(--ease);
+}
+.player__orb:hover, .player__orb:focus-visible {
+  border-color: rgba(167,139,250,.6);
+  background: rgba(24,18,38,.92);
+  box-shadow: 0 10px 26px rgba(0,0,0,.42), 0 0 18px rgba(167,139,250,.18);
+  outline: none;
+}
+.player__orb:focus-visible { border-color: var(--violet); }
+
+/* Play/pause glyph sits behind the equalizer and only shows when paused,
+   so a playing track reads as pure equalizer. */
+.player__play {
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  opacity: 1;
+  transition: opacity .25s var(--ease);
+}
+.player__play svg { width: 1.05rem; height: 1.05rem; fill: currentColor; }
+.player__play .i-pause { display: none; }
+.player.is-playing .player__play { opacity: 0; }
+.player.is-playing .player__play .i-play { display: none; }
+.player.is-playing .player__play .i-pause { display: block; }
+
+/* ---------- the equalizer ----------
+   Five bars. Anime.js loops their scaleY while playing; when paused the
+   animation is stopped rather than merely slowed, so they freeze exactly
+   where they were instead of drifting back down. */
+.player__eq {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  gap: 2px;
+  opacity: 0;
+  transition: opacity .25s var(--ease);
+}
+.player__eq i {
+  display: block;
+  width: 2px; height: 62%;
+  border-radius: 1px;
+  background: linear-gradient(180deg, rgba(167,139,250,.55), rgba(167,139,250,1));
+  transform: scaleY(.22);
+  will-change: transform;
+}
+.player.is-playing .player__eq { opacity: 1; }
+.player.is-playing .player__play { opacity: 0; }
+
+/* ---------- the panel ---------- */
+.player__panel {
+  position: absolute; right: 0; bottom: 0;
+  width: min(21rem, calc(100vw - 2.7rem));
+  padding: 1rem 1.1rem 1.05rem;
+  border: 1px solid rgba(167,139,250,.22);
+  border-radius: 1.1rem;
+  background: rgba(12,10,18,.96);
+  -webkit-backdrop-filter: blur(20px);
+          backdrop-filter: blur(20px);
+  box-shadow: 0 22px 60px rgba(0,0,0,.6), 0 0 0 1px rgba(167,139,250,.05);
+  /* The collapsed resting state. transform-origin is bottom-right so the
+     panel grows out of the orb rather than out of its own top-left. */
+  transform: scale(.86) translateY(6px);
+  transform-origin: 100% 100%;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .2s linear, visibility 0s linear .3s;
+}
+/* Anime.js sets the inline transform/opacity during the transition; this
+   rule only describes the resting state it animates away from. When the
+   panel is open, the inline styles win. */
+.player[data-state="open"] .player__panel {
+  visibility: visible;
+  transition: opacity .2s linear .05s, visibility 0s;
+}
+
+/* header */
+.player__head {
+  display: flex; align-items: flex-start; gap: .75rem;
+  margin-bottom: .9rem;
+}
+.player__now { min-width: 0; flex: 1; }
+.player__title, .player__artist {
+  display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.player__title { font-size: .8rem; font-weight: 600; }
+.player__artist { font-size: .66rem; color: var(--ink-3); margin-top: .1rem; }
+.player__close {
+  flex: none; width: 1.75rem; height: 1.75rem;
+  display: grid; place-items: center;
+  border: 0; background: none; color: var(--ink-3);
+  cursor: pointer; border-radius: 6px;
+  transition: color .2s var(--ease), background .2s var(--ease);
+}
+.player__close:hover { color: var(--ink); background: rgba(255,255,255,.06); }
+.player__close svg {
+  width: .95rem; height: .95rem; fill: none; stroke: currentColor;
+  stroke-width: 2; stroke-linecap: round;
+}
+
+/* seek bar */
+.player__bar {
+  position: relative;
+  height: 3px; border-radius: 2px;
+  background: rgba(255,255,255,.12);
+  margin-bottom: .9rem;
+}
+.player__bar[aria-disabled="true"] { opacity: .4; pointer-events: none; }
+.player__fill {
+  position: absolute; inset: 0 auto 0 0;
+  width: 0; border-radius: inherit;
+  background: linear-gradient(90deg, rgba(167,139,250,.6), rgba(167,139,250,1));
+  box-shadow: 0 0 8px rgba(167,139,250,.5);
+}
+.player__bar:hover .player__fill { box-shadow: 0 0 12px rgba(167,139,250,.75); }
+
+/* transport row */
+.player__controls {
+  display: flex; align-items: center; gap: .55rem;
+}
+.player__cbtn {
+  flex: none;
+  width: 1.9rem; height: 1.9rem;
+  display: grid; place-items: center;
+  border: 1px solid transparent; border-radius: 50%;
+  background: none; color: var(--ink-2);
+  cursor: pointer;
+  transition: color .2s var(--ease), background .2s var(--ease), border-color .2s var(--ease);
+}
+.player__cbtn:hover:not(:disabled) { color: var(--ink); background: rgba(255,255,255,.07); }
+.player__cbtn:disabled { opacity: .3; cursor: not-allowed; }
+.player__cbtn svg {
+  width: 1rem; height: 1rem; fill: none; stroke: currentColor;
+  stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+}
+.player__cbtn--main {
+  width: 2.3rem; height: 2.3rem;
+  border-color: rgba(167,139,250,.4);
+  background: rgba(167,139,250,.14);
+  color: var(--ink);
+}
+.player__cbtn--main:hover:not(:disabled) { background: rgba(167,139,250,.24); color: #fff; }
+.player__cbtn--main svg { fill: currentColor; stroke: none; }
+.player__cbtn--main .i-pause { display: none; }
+.player.is-playing .player__cbtn--main .i-play { display: none; }
+.player.is-playing .player__cbtn--main .i-pause { display: block; }
+
+.player__time {
+  margin-left: auto;
+  font: .62rem var(--mono); color: var(--ink-3);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+
+/* volume: a real range input, always present so it stays keyboard-usable */
+.player__volwrap { display: flex; align-items: center; gap: .35rem; }
+.player__vlabel { display: grid; place-items: center; color: var(--ink-3); cursor: pointer; }
+.player__vlabel svg {
+  width: .95rem; height: .95rem; fill: none; stroke: currentColor;
+  stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;
+}
+.player__vol {
+  width: 4.5rem; height: 1rem;
+  accent-color: var(--violet);
+  cursor: pointer;
+}
+
+/* the Spotify iframe, created on demand */
+.player__embed { margin-top: .85rem; }
+.player__embed[hidden] { display: none; }
+.player__embed iframe {
+  display: block; width: 100%; height: 152px;
+  border: 0; border-radius: .6rem;
+}
+
+/* mobile: the panel is a bottom sheet rather than a floating card */
+@media (max-width: 560px) {
+  .player { right: 1rem; bottom: 1rem; }
+  .player__orb { width: 3rem; height: 3rem; }
+  .player__panel {
+    width: calc(100vw - 2rem);
+    right: -.25rem; bottom: -.25rem;
+    border-radius: 1.1rem;
+    transform-origin: 100% 100%;
+  }
+  .player__vol { width: 3.5rem; }
+}
+
+/* print — just the content, none of the theatre */
+@media print {
+  body { background: #fff; color: #000; }
+  body::before, .grain, .scanlines, .cursor, .progress,
+  .nav, .menu, .hero__field, .hero__ticker, .hero__scroll,
+  .player { display: none !important; }
+  .section { padding-block: 1.5rem; }
+  [data-reveal], .stagger > * { opacity: 1 !important; transform: none !important; }
+  a { text-decoration: underline; }
+}
+
+/* print — just the content, none of the theatre */
+@media print {
+  body { background: #fff; color: #000; }
+  body::before, .grain, .scanlines, .cursor, .progress,
+  .nav, .menu, .hero__field, .hero__ticker, .hero__scroll,
+  .player { display: none !important; }
+  .section { padding-block: 1.5rem; }
+  [data-reveal], .stagger > * { opacity: 1 !important; transform: none !important; }
+  a { text-decoration: underline; }
+}
