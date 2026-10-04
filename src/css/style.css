@@ -196,6 +196,7 @@ html {
 /* Everything below fades out on the way to the homepage. */
 .loader.is-in .loader__stage,
 .loader.is-in .loader__foot { opacity: 0; }
+.loader.is-in .loader__pct { transition: opacity 0.8s ease 0.2s; opacity: 0; }
 
 @media (prefers-reduced-motion: reduce) {
   /* No intro at all — the page is simply there. */

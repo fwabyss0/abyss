@@ -87,6 +87,7 @@
     var shown = 0;
     var target = 0;
     var done = false;
+    var nameRevealed = false;
 
     // Reduced motion: no intro at all. CSS already hides the loader,
     // so this just marks the page ready and gets out of the way.
@@ -111,29 +112,67 @@
       if (!done && shown < 99.5) requestAnimationFrame(paint);
     }
 
-    /* ---- intro: logo, then the name, character by character ---- */
-    if (anim) {
-      anim(mark, { scale: [0.86, 1], opacity: [0, 1], duration: 900, ease: 'outElastic(1, .7)' });
-      anim(glyph, { opacity: [0, 1], translateY: [14, 0], duration: 760, ease: 'outCubic' });
-      anim(halo, {
-        opacity: [0, 0.9],
-        scale: [0.7, 1.25],
-        duration: 1500,
-        loop: true,
-        alternate: true,
-        ease: 'inOutSine'
-      });
-      anim(chars, {
-        opacity: [0, 1],
-        translateY: [10, 0],
-        duration: 460,
-        delay: A.stagger(28, { start: 380 }),
-        ease: 'outQuad'
-      });
-    } else {
-      // No Anime.js: show the loader content statically.
-      [mark, glyph, halo].concat(chars).forEach(function (n) { if (n) n.style.opacity = '1'; });
+    // ---- typewriter scramble: reveal "Alish Shrestha" char by char ----
+    var NOISE = '#\$%0123456789';
+    var SCRAMBLE_CYCLES = 6;
+    var SCRAMBLE_FRAME = 38;
+    var TYPE_DELAY = 75;
+    var SCRAMBLE_START = 300;
+
+    chars.forEach(function (span) {
+      span.style.opacity = '1';
+      span.style.display = 'inline-block';
+      span.textContent = '';
+    });
+
+    function scrambleChar(span, realChar, cyclesLeft, onDone) {
+      if (cyclesLeft <= 0) {
+        if (realChar === ' ') {
+          span.innerHTML = '&nbsp;';
+        } else {
+          span.textContent = realChar;
+        }
+        span.style.color = '';
+        span.style.textShadow = '';
+        if (onDone) onDone();
+        return;
+      }
+      var noise = NOISE[Math.floor(Math.random() * NOISE.length)];
+      span.textContent = noise;
+      var progress = 1 - cyclesLeft / SCRAMBLE_CYCLES;
+      var alpha = (0.3 + progress * 0.7).toFixed(2);
+      var spread = Math.round(4 + progress * 18);
+      span.style.color = 'rgba(255,255,255,' + alpha + ')';
+      span.style.textShadow =
+        '0 0 ' + spread + 'px rgba(255,255,255,.95),' +
+        '0 0 ' + (spread * 2) + 'px rgba(255,255,255,.4)';
+      setTimeout(function () {
+        scrambleChar(span, realChar, cyclesLeft - 1, onDone);
+      }, SCRAMBLE_FRAME);
     }
+
+    function typeNext(index) {
+      if (index >= chars.length) {
+        nameRevealed = true;
+        if (statusEl) statusEl.textContent = 'Eyes open';
+        if (done) doExit();
+        return;
+      }
+      var span = chars[index];
+      var real = span.getAttribute('data-ch');
+      if (!real) { typeNext(index + 1); return; }
+
+      setTimeout(function () {
+        scrambleChar(span, real, SCRAMBLE_CYCLES, function () {
+          typeNext(index + 1);
+        });
+      }, TYPE_DELAY);
+    }
+
+    setTimeout(function () {
+      if (statusEl) statusEl.textContent = 'Decrypting';
+      typeNext(0);
+    }, SCRAMBLE_START);
 
     requestAnimationFrame(paint);
 
@@ -150,28 +189,74 @@
     });
 
     setTarget(18, 'Descending');
-    var t1 = setTimeout(function () { setTarget(58, 'The light fades'); }, 260);
-    var t2 = setTimeout(function () { setTarget(82, 'Something stirs'); }, 700);
+    var t1 = setTimeout(function () { setTarget(42, 'The light fades'); }, 500);
+    var t2 = setTimeout(function () { setTarget(68, 'Something stirs'); }, 1200);
+    var t3 = setTimeout(function () { setTarget(88, 'Almost there'); }, 2200);
 
-    var RELEASE = 900;   // how long the exit sequence is allowed to take
+    var RELEASE = 1100;
+
     if (document.readyState === 'complete') {
       setTarget(100, 'Almost there');
     } else {
       window.addEventListener('load', function () {
         setTarget(100, 'Almost there');
-        // safety: if an image never fires its callback, still finish
         setTimeout(function () { setTarget(100, 'Almost there'); }, 1200);
+      });
+    }
+
+    function doExit() {
+      if (!anim) {
+        el.parentNode && el.parentNode.removeChild(el);
+        document.documentElement.classList.add('is-loaded');
+        heroReady();
+        return;
+      }
+      if (anim.pause) anim.pause();
+      el.classList.add('is-in');
+      anim(el, {
+        opacity: [1, 0],
+        scale: [1, 1.04],
+        duration: RELEASE,
+        ease: 'inOutQuad',
+        onComplete: function () {
+          el.parentNode && el.parentNode.removeChild(el);
+          document.documentElement.classList.add('is-loaded');
+          heroReady();
+        }
       });
     }
 
     function finish() {
       if (done) return;
       done = true;
-      clearTimeout(t1); clearTimeout(t2);
+      clearTimeout(t1); clearTimeout(t2); clearTimeout(t3);
       target = 100; shown = 100;
       if (bar) bar.style.width = '100%';
       if (pctEl) pctEl.textContent = '100';
-      if (statusEl) statusEl.textContent = 'Eyes open';
+
+      if (nameRevealed) {
+        if (statusEl) statusEl.textContent = 'Eyes open';
+        doExit();
+      }
+    }
+
+    var TOTAL_BUDGET = SCRAMBLE_START + chars.length * TYPE_DELAY + SCRAMBLE_CYCLES * SCRAMBLE_FRAME + 1500;
+    setTimeout(function () {
+      if (!nameRevealed) {
+        chars.forEach(function (span) {
+          var real = span.getAttribute('data-ch');
+          if (real === ' ') span.innerHTML = '&nbsp;';
+          else span.textContent = real;
+          span.style.color = '';
+          span.style.textShadow = '';
+        });
+        nameRevealed = true;
+      }
+      if (done) {
+        if (statusEl) statusEl.textContent = 'Eyes open';
+        doExit();
+      }
+    }, TOTAL_BUDGET);
 
       if (!anim) {
         // Straight to the page, no transition to run.
