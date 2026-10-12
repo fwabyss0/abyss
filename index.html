@@ -1,65 +1,192 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Alish Shrestha | AI Student &amp; Web Developer</title>
-  <meta name="description"
-    content="Alish Shrestha — AI student, web developer and creator from Nepal. Explore his projects, skills, experience, education and portfolio.">
+  <title>Alish Shrestha — Abyss</title>
+  <meta name="description" content="Unfinished portfolio of Alish Shrestha, also known as Abyss. AI student, web developer, and printing press person. Pixels by day. Paper by deadline.">
   <meta name="author" content="Alish Shrestha">
-  <meta name="keywords"
-    content="Alish Shrestha, AI student Nepal, web developer Nepal, frontend developer, artificial intelligence student, portfolio Nepal">
-  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
-  <meta name="theme-color" content="#050507">
+  <meta name="theme-color" content="#000000">
   <link rel="canonical" href="https://www.sthaalish.com.np/">
-
-  <meta property="og:type" content="profile">
-  <meta property="og:title" content="Alish Shrestha | AI Student &amp; Web Developer">
-  <meta property="og:description"
-    content="Alish Shrestha — AI student, web developer and creator from Nepal. Explore his projects, skills, experience, education and portfolio.">
-  <meta property="og:url" content="https://www.sthaalish.com.np/">
-  <meta property="og:site_name" content="Alish Shrestha — Portfolio">
-  <meta property="og:image" content="https://www.sthaalish.com.np/assets/alish-1200.jpg">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="1253">
-  <meta property="og:image:alt" content="Alish Shrestha, AI student and web developer from Kathmandu, Nepal">
-  <meta property="og:locale" content="en_US">
-  <meta property="profile:first_name" content="Alish">
-  <meta property="profile:last_name" content="Shrestha">
-  <meta property="profile:username" content="fwabyss0">
-  <meta property="profile:gender" content="male">
-
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Alish Shrestha | AI Student &amp; Web Developer">
-  <meta name="twitter:description"
-    content="Alish Shrestha — AI student, web developer and creator from Nepal. Explore his projects, skills, experience, education and portfolio.">
-  <meta name="twitter:image" content="https://www.sthaalish.com.np/assets/alish-1200.jpg">
-  <meta name="twitter:image:alt" content="Alish Shrestha, AI student and web developer from Kathmandu, Nepal">
-
   <link rel="icon" href="/favicon.ico" sizes="any">
-  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
-  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-  <link rel="manifest" href="/site.webmanifest">
-  <meta name="msapplication-TileColor" content="#08080a">
-  <meta name="msapplication-TileImage" content="/assets/icon-192.png">
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,500&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #000;
+      --ink: #f4f4f4;
+      --mute: #8a8a8a;
+      --line: rgba(255, 255, 255, 0.18);
+    }
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
-  <link rel="stylesheet" href="/src/css/style.css">
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Space Grotesk", system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      min-height: 100dvh;
+      display: grid;
+      place-items: center;
+      padding: 1.5rem 1.25rem 2rem;
+    }
+
+    .page {
+      width: min(40rem, 100%);
+      display: flex;
+      flex-direction: column;
+      gap: 1.35rem;
+    }
+
+    .feed {
+      width: 100%;
+      height: 1px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--line) 0 10px,
+        transparent 10px 16px
+      );
+    }
+
+    h1 {
+      font-size: clamp(2.1rem, 7vw, 4.4rem);
+      font-weight: 600;
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+    }
+
+    .abyss {
+      display: inline;
+      white-space: nowrap;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 0.42em;
+      height: 0.08em;
+      margin-left: 0.08em;
+      background: var(--ink);
+      vertical-align: 0.12em;
+      animation: blink 1.05s steps(1) infinite;
+    }
+
+    @keyframes blink {
+      0%, 45% { opacity: 1; }
+      46%, 100% { opacity: 0; }
+    }
+
+    p {
+      font-size: clamp(1rem, 2.2vw, 1.15rem);
+      line-height: 1.55;
+    }
+
+    .mute { color: var(--mute); }
+
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      color: var(--mute);
+      font-size: 0.92rem;
+    }
+
+    .dot {
+      width: 0.45rem;
+      height: 0.45rem;
+      border-radius: 50%;
+      background: #d8d8d8;
+      flex-shrink: 0;
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.35; }
+      50% { opacity: 1; }
+    }
+
+    .ask {
+      margin-top: 0.35rem;
+    }
+
+    .links {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.45rem;
+      margin-top: 0.7rem;
+    }
+
+    a {
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: color 180ms ease, border-color 180ms ease;
+    }
+
+    a:hover,
+    a:focus-visible {
+      color: #fff;
+      border-bottom-color: var(--line);
+    }
+
+    .tag {
+      color: var(--mute);
+      font-size: 0.92rem;
+      letter-spacing: 0.01em;
+    }
+
+    footer {
+      color: #6e6e6e;
+      font-size: 0.82rem;
+    }
+
+    @media (min-width: 720px) and (min-height: 760px) {
+      body { overflow: hidden; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cursor, .dot { animation: none; }
+    }
+  </style>
 </head>
 <body>
-  <div id="root"></div>
-  <noscript>
-    <h1>Alish Shrestha | AI Student &amp; Web Developer</h1>
-    <p>Alish Shrestha is an AI student, web developer and creator from Nepal. He studies
-      Artificial Intelligence at Softwarica College (Coventry University) and works as
-      Manager at Print Village.</p>
-    <p>This portfolio needs JavaScript. The full text content is still available in the page source.</p>
-  </noscript>
-  <script type="module" src="/src/main.jsx"></script>
+  <main class="page">
+    <div class="feed" aria-hidden="true"></div>
+
+    <h1>
+      Hi, I'm Alish.<br>
+      But you can call me <span class="abyss">Abyss<span class="cursor" aria-hidden="true"></span></span>
+    </h1>
+
+    <div>
+      <p>Welcome to my unfinished and unmanaged portfolio.</p>
+      <p class="mute">I'd love to tell you about my projects, skills, and achievements, but I'm too busy building websites for clients and making things come out of printers.</p>
+      <p class="mute">Apparently, the one thing I can't seem to produce is my own finished website.</p>
+      <p class="mute">Classic.</p>
+    </div>
+
+    <p class="status">
+      <span class="dot" aria-hidden="true"></span>
+      Currently busy with clients, code &amp; paper jams.
+    </p>
+
+    <section class="ask">
+      <p>Need a website? Something printed? Or just want to bother me professionally?</p>
+      <div class="links">
+        <a href="tel:+9779826328462">Call me — +977 9826328462</a>
+        <a href="mailto:shrestaalish444@gmail.com">Email me — shrestaalish444@gmail.com</a>
+      </div>
+    </section>
+
+    <p class="tag">Pixels by day. Paper by deadline.</p>
+
+    <footer>© 2026 Alish Shrestha · Printed with questionable planning.</footer>
+  </main>
 </body>
 </html>
