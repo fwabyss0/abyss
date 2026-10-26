@@ -1,4 +1,7 @@
-_reference_old_portfolio_DO_NOT_EDIT/
 node_modules/
+dist/
+.vite/
 .DS_Store
 *.log
+gemini_generated_video_*.mp4
+!assets/loader.mp4

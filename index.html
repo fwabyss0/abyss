@@ -1,192 +1,416 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Alish Shrestha — Abyss</title>
-  <meta name="description" content="Unfinished portfolio of Alish Shrestha, also known as Abyss. AI student, web developer, and printing press person. Pixels by day. Paper by deadline.">
+  <title>Alish Shrestha | Abyss — AI Student &amp; Web Developer</title>
+  <meta name="description" content="Personal portfolio of Alish Shrestha (Abyss) — AI student, web developer, and creator exploring artificial intelligence, modern frontend engineering, and interactive systems.">
   <meta name="author" content="Alish Shrestha">
-  <meta name="theme-color" content="#000000">
+  <meta name="keywords" content="Alish Shrestha, Abyss, AI Student, Web Developer, Portfolio, Nepal, Softwarica College, Coventry University, Machine Learning, Interactive ASCII">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#060608">
   <link rel="canonical" href="https://www.sthaalish.com.np/">
-  <link rel="icon" href="/favicon.ico" sizes="any">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.sthaalish.com.np/">
+  <meta property="og:title" content="Alish Shrestha | Abyss — AI Student &amp; Web Developer">
+  <meta property="og:description" content="Personal portfolio of Alish Shrestha (Abyss) — AI student, web developer, and creator exploring artificial intelligence, modern frontend engineering, and interactive systems.">
+  <meta property="og:image" content="https://www.sthaalish.com.np/assets/alish-900.webp">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://www.sthaalish.com.np/">
+  <meta property="twitter:title" content="Alish Shrestha | Abyss — AI Student &amp; Web Developer">
+  <meta property="twitter:description" content="Personal portfolio of Alish Shrestha (Abyss) — AI student, web developer, and creator exploring artificial intelligence, modern frontend engineering, and interactive systems.">
+  <meta property="twitter:image" content="https://www.sthaalish.com.np/assets/alish-900.webp">
+
+  <!-- Favicons -->
+  <link rel="icon" href="assets/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+
+  <!-- Typography: Space Grotesk, Inter, JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #000;
-      --ink: #f4f4f4;
-      --mute: #8a8a8a;
-      --line: rgba(255, 255, 255, 0.18);
-    }
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html, body {
-      min-height: 100%;
-      background: var(--bg);
-      color: var(--ink);
-      font-family: "Space Grotesk", system-ui, sans-serif;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    body {
-      min-height: 100dvh;
-      display: grid;
-      place-items: center;
-      padding: 1.5rem 1.25rem 2rem;
-    }
-
-    .page {
-      width: min(40rem, 100%);
-      display: flex;
-      flex-direction: column;
-      gap: 1.35rem;
-    }
-
-    .feed {
-      width: 100%;
-      height: 1px;
-      background: repeating-linear-gradient(
-        90deg,
-        var(--line) 0 10px,
-        transparent 10px 16px
-      );
-    }
-
-    h1 {
-      font-size: clamp(2.1rem, 7vw, 4.4rem);
-      font-weight: 600;
-      letter-spacing: -0.04em;
-      line-height: 1.05;
-    }
-
-    .abyss {
-      display: inline;
-      white-space: nowrap;
-    }
-
-    .cursor {
-      display: inline-block;
-      width: 0.42em;
-      height: 0.08em;
-      margin-left: 0.08em;
-      background: var(--ink);
-      vertical-align: 0.12em;
-      animation: blink 1.05s steps(1) infinite;
-    }
-
-    @keyframes blink {
-      0%, 45% { opacity: 1; }
-      46%, 100% { opacity: 0; }
-    }
-
-    p {
-      font-size: clamp(1rem, 2.2vw, 1.15rem);
-      line-height: 1.55;
-    }
-
-    .mute { color: var(--mute); }
-
-    .status {
-      display: flex;
-      align-items: center;
-      gap: 0.55rem;
-      color: var(--mute);
-      font-size: 0.92rem;
-    }
-
-    .dot {
-      width: 0.45rem;
-      height: 0.45rem;
-      border-radius: 50%;
-      background: #d8d8d8;
-      flex-shrink: 0;
-      animation: pulse 2.4s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 0.35; }
-      50% { opacity: 1; }
-    }
-
-    .ask {
-      margin-top: 0.35rem;
-    }
-
-    .links {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.45rem;
-      margin-top: 0.7rem;
-    }
-
-    a {
-      color: var(--ink);
-      text-decoration: none;
-      border-bottom: 1px solid transparent;
-      transition: color 180ms ease, border-color 180ms ease;
-    }
-
-    a:hover,
-    a:focus-visible {
-      color: #fff;
-      border-bottom-color: var(--line);
-    }
-
-    .tag {
-      color: var(--mute);
-      font-size: 0.92rem;
-      letter-spacing: 0.01em;
-    }
-
-    footer {
-      color: #6e6e6e;
-      font-size: 0.82rem;
-    }
-
-    @media (min-width: 720px) and (min-height: 760px) {
-      body { overflow: hidden; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .cursor, .dot { animation: none; }
-    }
-  </style>
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-  <main class="page">
-    <div class="feed" aria-hidden="true"></div>
+<body class="is-loading">
+  <!-- 7-Second Fullscreen Cinematic Video Loading Screen -->
+  <aside id="loader-screen" class="loader-overlay" role="dialog" aria-modal="true" aria-label="Loading portfolio experience">
+    <video 
+      id="loader-video" 
+      class="loader-video-fullscreen" 
+      src="assets/loader.mp4#t=1" 
+      autoplay 
+      muted 
+      loop
+      playsinline 
+      webkit-playsinline
+      preload="auto"
+    >
+      <source src="assets/loader.mp4#t=1" type="video/mp4">
+    </video>
 
-    <h1>
-      Hi, I'm Alish.<br>
-      But you can call me <span class="abyss">Abyss<span class="cursor" aria-hidden="true"></span></span>
-    </h1>
+    <!-- Cinematic Vignette & Ambient Depth -->
+    <div class="loader-vignette" aria-hidden="true"></div>
 
-    <div>
-      <p>Welcome to my unfinished and unmanaged portfolio.</p>
-      <p class="mute">I'd love to tell you about my projects, skills, and achievements, but I'm too busy with clients and printers, not websites.</p>
-      <p class="mute">Apparently, the one thing I can't seem to produce is my own finished website.</p>
-      <p class="mute">Classic.</p>
+    <!-- Floating HUD Elements -->
+    <div class="loader-hud">
+      <!-- Top Status Pill -->
+      <div class="loader-hud-top">
+        <div class="loader-glass-badge">
+          <span class="hud-pulse-dot" aria-hidden="true"></span>
+          <span class="loader-brand-title">ABYSS</span>
+          <span class="hud-divider" aria-hidden="true">/</span>
+          <span class="hud-status">INITIALIZING SYSTEM</span>
+        </div>
+      </div>
+
+      <!-- Bottom Progress & Skip Controls -->
+      <div class="loader-hud-bottom">
+        <div class="loader-controls-card">
+          <div class="loader-status-row">
+            <span class="loader-caption">LOADING EXPERIENCE</span>
+            <span class="loader-countdown" id="loader-timer">7s</span>
+          </div>
+
+          <div class="loader-progress-track" aria-hidden="true">
+            <div class="loader-progress-bar" id="loader-progress-bar"></div>
+          </div>
+
+          <div class="loader-footer-row">
+            <span class="loader-subcaption">SYSTEM DEPLOYMENT // 2026</span>
+            <button type="button" class="loader-skip-btn" id="loader-skip-btn" aria-label="Skip loading intro">
+              <span>Skip Intro</span>
+              <kbd>ESC</kbd>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
+  </aside>
 
-    <p class="status">
-      <span class="dot" aria-hidden="true"></span>
-      Currently busy with clients, code &amp; paper jams.
-    </p>
+  <!-- Ambient Background & Living 3D Particle Constellation -->
+  <div class="ambient-bg" aria-hidden="true">
+    <canvas id="particles-3d-canvas" class="particles-3d-canvas"></canvas>
+    <div class="ambient-glow-1"></div>
+    <div class="ambient-glow-2"></div>
+    <div class="ambient-glow-3"></div>
+    <div class="ambient-grid"></div>
+  </div>
 
-    <section class="ask">
-      <p>Need a website? Something printed? Or just want to bother me professionally?</p>
-      <div class="links">
-        <a href="tel:+9779826328462">Call me — +977 9826328462</a>
-        <a href="mailto:shrestaalish444@gmail.com">Email me — shrestaalish444@gmail.com</a>
+  <!-- Floating Glassmorphism Navigation -->
+  <header class="nav-wrap" id="main-nav">
+    <nav class="nav-bar" aria-label="Main Navigation">
+      <a href="#hero" class="nav-logo" aria-label="Abyss home">
+        <span>ABYSS</span>
+        <span class="logo-dot" aria-hidden="true"></span>
+      </a>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#hero" class="nav-link active">Home</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#projects" class="nav-link">Projects</a></li>
+        <li><a href="#skills" class="nav-link">Skills</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+
+      <div class="nav-action">
+        <a href="#contact" class="nav-cta-btn">Connect</a>
+      </div>
+
+      <button class="nav-toggle" id="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links">
+        <span class="hamburger-line" aria-hidden="true"></span>
+      </button>
+    </nav>
+  </header>
+
+  <main id="content">
+    <!-- Hero Section -->
+    <section class="hero-section" id="hero" aria-labelledby="hero-title">
+      <div class="container">
+        <div class="hero-grid">
+          <!-- Text Introduction -->
+          <div class="hero-content reveal-on-scroll">
+            <div class="availability-badge" role="status" aria-label="Status: Available for projects &amp; collaboration">
+              <span class="status-pulse-dot" aria-hidden="true"></span>
+              <span>Available for projects &amp; collaboration</span>
+            </div>
+
+            <p class="hero-eyebrow">AI STUDENT · WEB DEVELOPER · CREATOR</p>
+
+            <h1 class="hero-title" id="hero-title">
+              Hi, I'm Alish.<br>
+              <span class="title-accent">You can call me Abyss.</span>
+            </h1>
+
+            <p class="hero-desc">
+              I build digital experiences that bring ideas to life through technology, creativity, and thoughtful design.
+            </p>
+
+            <div class="hero-actions">
+              <a href="#projects" class="glass-btn glass-btn-primary">
+                <span>Explore My Work</span>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <polyline points="19 12 12 19 5 12"></polyline>
+                </svg>
+              </a>
+
+              <a href="#contact" class="glass-btn glass-btn-secondary">
+                <span>Let's Connect</span>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+            </div>
+
+            <div class="hero-socials" id="hero-social-links" aria-label="Direct profiles">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <!-- Signature Interactive ASCII Portrait -->
+          <div class="hero-portrait-col reveal-on-scroll" data-index="1">
+            <div id="ascii-portrait-container">
+              <!-- Rendered via ASCII Engine -->
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <p class="tag">Pixels by day. Paper by deadline.</p>
+    <!-- About Section (Open Architectural Editorial Layout) -->
+    <section id="about" class="about-section" aria-labelledby="about-heading">
+      <div class="container">
+        <header class="section-header reveal-on-scroll">
+          <p class="section-eyebrow">
+            <span class="eyebrow-rule" aria-hidden="true"></span>
+            <span>01 // PERSPECTIVE &amp; TRAJECTORY</span>
+          </p>
+          <h2 class="section-title" id="about-heading">About Me</h2>
+        </header>
 
-    <footer>© 2026 Alish Shrestha · Printed with questionable planning.</footer>
+        <div class="about-editorial-grid">
+          <!-- Left Column: Manifesto & Focus -->
+          <div class="about-left-col reveal-on-scroll">
+            <blockquote class="about-manifesto-quote">
+              "I'm an AI student and developer interested in building useful digital experiences through technology, problem-solving, and creative experimentation. I enjoy exploring ideas, learning new tools, and turning concepts into practical projects."
+            </blockquote>
+
+            <div class="about-focus-stream">
+              <div class="focus-item">
+                <span class="focus-index">01</span>
+                <div class="focus-body">
+                  <h3 class="focus-title">Artificial Intelligence</h3>
+                  <p class="focus-desc">
+                    Pursuing BSc (Hons) AI at Softwarica College (Coventry University), delving into neural networks, deep learning architectures, natural language processing, and cognitive systems.
+                  </p>
+                </div>
+              </div>
+
+              <div class="focus-item">
+                <span class="focus-index">02</span>
+                <div class="focus-body">
+                  <h3 class="focus-title">Web Engineering</h3>
+                  <p class="focus-desc">
+                    Engineering high-performance, responsive interfaces with semantic HTML5, pure CSS layout systems, and clean modular JavaScript with zero unnecessary bloat.
+                  </p>
+                </div>
+              </div>
+
+              <div class="focus-item">
+                <span class="focus-index">03</span>
+                <div class="focus-body">
+                  <h3 class="focus-title">Creative Production &amp; Operations</h3>
+                  <p class="focus-desc">
+                    Managing operations, print workflows, and media production at Print Village, bridging the gap between digital code and tangible real-world output.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Open Timeline Track -->
+          <div class="about-right-col reveal-on-scroll" data-index="1">
+            <div class="timeline-header">
+              <span class="timeline-eyebrow">MILESTONES &amp; JOURNEY</span>
+            </div>
+            <div class="open-timeline-track" id="milestones-list">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section (2 x 2 Balanced Grid) -->
+    <section id="projects" class="projects-section" aria-labelledby="projects-heading">
+      <div class="container">
+        <header class="section-header reveal-on-scroll">
+          <p class="section-eyebrow">
+            <span class="eyebrow-rule" aria-hidden="true"></span>
+            <span>02 // SELECTED WORK</span>
+          </p>
+          <div class="section-header-row">
+            <h2 class="section-title" id="projects-heading">Featured Projects</h2>
+            <span class="section-header-tag">[ 2 × 2 CURATED SHOWCASE ]</span>
+          </div>
+          <p class="section-subtitle">
+            Real production applications, interactive platforms, and hardware-interfaced web tools built with clean, maintainable architecture.
+          </p>
+        </header>
+
+        <div class="projects-grid projects-grid-2x2" id="projects-grid">
+          <!-- Rendered dynamically from data.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section (2x2 Glassmorphic Technical Matrix) -->
+    <section id="skills" class="skills-section" aria-labelledby="skills-heading">
+      <div class="container">
+        <header class="section-header reveal-on-scroll">
+          <p class="section-eyebrow">
+            <span class="eyebrow-rule" aria-hidden="true"></span>
+            <span>03 // CAPABILITIES &amp; TOOLKIT</span>
+          </p>
+          <div class="section-header-row">
+            <h2 class="section-title" id="skills-heading">Skills &amp; Technologies</h2>
+            <span class="section-header-tag">[ 4 DOMAINS · 22 COMPETENCIES ]</span>
+          </div>
+          <p class="section-subtitle">
+            A transparent overview of programming languages, machine learning frameworks, development tools, and creative technologies I actively use.
+          </p>
+
+          <!-- Interactive Domain Filter Navigation -->
+          <div class="skills-filter-nav" id="skills-filter-nav" role="tablist" aria-label="Filter skills by domain">
+            <button type="button" class="skills-filter-btn active" data-filter="all" role="tab" aria-selected="true">
+              <span>All Capabilities</span>
+              <span class="filter-count">22</span>
+            </button>
+            <button type="button" class="skills-filter-btn" data-filter="programming" role="tab" aria-selected="false">
+              <span>Programming</span>
+              <span class="filter-count">5</span>
+            </button>
+            <button type="button" class="skills-filter-btn" data-filter="ai-ml" role="tab" aria-selected="false">
+              <span>AI &amp; ML</span>
+              <span class="filter-count">6</span>
+            </button>
+            <button type="button" class="skills-filter-btn" data-filter="tools" role="tab" aria-selected="false">
+              <span>Dev Tools</span>
+              <span class="filter-count">5</span>
+            </button>
+            <button type="button" class="skills-filter-btn" data-filter="creative" role="tab" aria-selected="false">
+              <span>Creative Tech</span>
+              <span class="filter-count">5</span>
+            </button>
+          </div>
+        </header>
+
+        <div class="skills-grid-2x2" id="skills-grid">
+          <!-- Rendered dynamically from data.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section (Expansive Open Layout) -->
+    <section id="contact" class="contact-section" aria-labelledby="contact-heading">
+      <div class="container">
+        <div class="contact-open-wrap reveal-on-scroll">
+          <div class="contact-headline-group">
+            <p class="section-eyebrow">
+              <span class="eyebrow-rule" aria-hidden="true"></span>
+              <span>04 // GET IN TOUCH</span>
+            </p>
+            <h2 class="contact-mega-title">Have something interesting in mind?</h2>
+            <p class="contact-lead-text">
+              I'm always interested in exploring ideas, building meaningful projects, and connecting with people who enjoy creating things.
+            </p>
+
+            <div class="contact-actions-row">
+              <a href="mailto:shrestaalish444@gmail.com?subject=Hello%20Alish%20-%20Project%20Inquiry" class="glass-btn glass-btn-primary">
+                <span>Let's Connect</span>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+              </a>
+
+              <button type="button" class="glass-btn glass-btn-secondary" id="copy-email-btn" aria-label="Copy email address to clipboard">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                <span>Copy Email</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="contact-direct-meta">
+            <div class="direct-meta-item">
+              <span class="direct-label">Email</span>
+              <a href="mailto:shrestaalish444@gmail.com" class="direct-link">shrestaalish444@gmail.com</a>
+            </div>
+
+            <div class="direct-meta-item">
+              <span class="direct-label">Phone</span>
+              <a href="tel:+9779826328462" class="direct-link">+977 9826328462</a>
+            </div>
+
+            <div class="direct-meta-item">
+              <span class="direct-label">Location</span>
+              <span class="direct-plain">Kathmandu &amp; Bhaktapur, Nepal</span>
+            </div>
+
+            <div class="direct-meta-item">
+              <span class="direct-label">Profiles</span>
+              <div class="direct-socials-row" id="contact-social-links">
+                <!-- Rendered via JS -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <!-- Footer -->
+  <footer class="footer-wrap">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="footer-monogram">ABYSS</span>
+          <span class="footer-tagline">AI Student · Web Developer · Creator</span>
+        </div>
+
+        <div class="footer-socials" id="footer-social-links">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© <span id="footer-year">2026</span> Alish Shrestha (Abyss). Built with precision &amp; care.</p>
+        <a href="#hero" class="back-to-top-btn" aria-label="Back to top">
+          <span>Back to Top</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="18 15 12 9 6 15"></polyline>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification for Clipboard -->
+  <div class="clipboard-toast" id="clipboard-toast" role="alert" aria-live="polite"></div>
+
+  <!-- Application Logic -->
+  <script type="module" src="js/app.js"></script>
 </body>
 </html>
