@@ -5,3 +5,7 @@ dist/
 *.log
 gemini_generated_video_*.mp4
 !assets/loader.mp4
+.playwright-mcp/
+.agents/
+
+

@@ -1,28 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Alish Shrestha | Abyss — AI Student &amp; Web Developer</title>
-  <meta name="description" content="Personal portfolio of Alish Shrestha (Abyss) — AI student, web developer, and creator exploring artificial intelligence, modern frontend engineering, and interactive systems.">
+  <meta name="description"
+    content="Personal portfolio of Alish Shrestha (Abyss) — AI student, web developer, and creator exploring artificial intelligence, modern frontend engineering, and interactive systems.">
   <meta name="author" content="Alish Shrestha">
-  <meta name="keywords" content="Alish Shrestha, Abyss, AI Student, Web Developer, Portfolio, Nepal, Softwarica College, Coventry University, Machine Learning, Interactive ASCII">
+  <meta name="keywords"
+    content="Alish Shrestha, Abyss, AI Student, Web Developer, Portfolio, Nepal, Softwarica College, Coventry University, Machine Learning, Interactive ASCII">
   <meta name="robots" content="index, follow">
-  <meta name="theme-color" content="#060608">
+  <meta name="theme-color" content="#1a0a2e">
   <link rel="canonical" href="https://www.sthaalish.com.np/">
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.sthaalish.com.np/">
   <meta property="og:title" content="Alish Shrestha | Abyss — AI Student &amp; Web Developer">
-  <meta property="og:description" content="Personal portfolio of Alish Shrestha (Abyss) — AI student, web developer, and creator exploring artificial intelligence, modern frontend engineering, and interactive systems.">
+  <meta property="og:description"
+    content="Personal portfolio of Alish Shrestha (Abyss) — AI student, web developer, and creator exploring artificial intelligence, modern frontend engineering, and interactive systems.">
   <meta property="og:image" content="https://www.sthaalish.com.np/assets/alish-900.webp">
 
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
   <meta property="twitter:url" content="https://www.sthaalish.com.np/">
   <meta property="twitter:title" content="Alish Shrestha | Abyss — AI Student &amp; Web Developer">
-  <meta property="twitter:description" content="Personal portfolio of Alish Shrestha (Abyss) — AI student, web developer, and creator exploring artificial intelligence, modern frontend engineering, and interactive systems.">
+  <meta property="twitter:description"
+    content="Personal portfolio of Alish Shrestha (Abyss) — AI student, web developer, and creator exploring artificial intelligence, modern frontend engineering, and interactive systems.">
   <meta property="twitter:image" content="https://www.sthaalish.com.np/assets/alish-900.webp">
 
   <!-- Favicons -->
@@ -31,348 +36,593 @@
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="manifest" href="site.webmanifest">
 
-  <!-- Typography: Space Grotesk, Inter, JetBrains Mono -->
+  <!-- Typography: Pixel + Modern -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Silkscreen:wght@400;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet">
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body class="is-loading">
-  <!-- 7-Second Fullscreen Cinematic Video Loading Screen -->
-  <aside id="loader-screen" class="loader-overlay" role="dialog" aria-modal="true" aria-label="Loading portfolio experience">
-    <video 
-      id="loader-video" 
-      class="loader-video-fullscreen" 
-      src="assets/loader.mp4#t=1" 
-      autoplay 
-      muted 
-      loop
-      playsinline 
-      webkit-playsinline
-      preload="auto"
-    >
-      <source src="assets/loader.mp4#t=1" type="video/mp4">
-    </video>
+  <!-- Minecraft-Style Loading Screen -->
+  <aside id="loader-screen" class="mc-loader-overlay" role="dialog" aria-modal="true"
+    aria-label="Loading portfolio experience">
+    <div class="mc-loader-dirt-bg" aria-hidden="true"></div>
+    <div class="mc-loader-vignette" aria-hidden="true"></div>
+    <div class="mc-loader-content">
+      <div class="mc-loader-title">
+        <h1 class="mc-minecraft-logo" aria-label="ALISH">
+          <span class="mc-mc-letter" style="--letter-idx: 0">A</span>
+          <span class="mc-mc-letter" style="--letter-idx: 1">L</span>
+          <span class="mc-mc-letter" style="--letter-idx: 2">I</span>
+          <span class="mc-mc-letter" style="--letter-idx: 3">S</span>
+          <span class="mc-mc-letter" style="--letter-idx: 4">H</span>
+        </h1>
+        <span class="mc-loader-splash" id="loader-splash-text">Abyss Edition!</span>
+      </div>
 
-    <!-- Cinematic Vignette & Ambient Depth -->
-    <div class="loader-vignette" aria-hidden="true"></div>
-
-    <!-- Floating HUD Elements -->
-    <div class="loader-hud">
-      <!-- Top Status Pill -->
-      <div class="loader-hud-top">
-        <div class="loader-glass-badge">
-          <span class="hud-pulse-dot" aria-hidden="true"></span>
-          <span class="loader-brand-title">ABYSS</span>
-          <span class="hud-divider" aria-hidden="true">/</span>
-          <span class="hud-status">INITIALIZING SYSTEM</span>
+      <!-- Centered Looping Character Walk Video Frame -->
+      <div class="mc-loader-frame" id="loader-frame">
+        <span class="mc-loader-corner mc-corner-tl" aria-hidden="true"></span>
+        <span class="mc-loader-corner mc-corner-tr" aria-hidden="true"></span>
+        <span class="mc-loader-corner mc-corner-bl" aria-hidden="true"></span>
+        <span class="mc-loader-corner mc-corner-br" aria-hidden="true"></span>
+        <div class="mc-loader-video-wrap">
+          <video id="loader-video" class="mc-loader-video" autoplay loop muted playsinline preload="auto" aria-label="Minecraft character walking animation">
+            <source src="assets/minecraft loader.mp4" type="video/mp4">
+          </video>
+          <div class="mc-loader-scanlines" aria-hidden="true"></div>
         </div>
       </div>
 
-      <!-- Bottom Progress & Skip Controls -->
-      <div class="loader-hud-bottom">
-        <div class="loader-controls-card">
-          <div class="loader-status-row">
-            <span class="loader-caption">LOADING EXPERIENCE</span>
-            <span class="loader-countdown" id="loader-timer">7s</span>
-          </div>
-
-          <div class="loader-progress-track" aria-hidden="true">
-            <div class="loader-progress-bar" id="loader-progress-bar"></div>
-          </div>
-
-          <div class="loader-footer-row">
-            <span class="loader-subcaption">SYSTEM DEPLOYMENT // 2026</span>
-            <button type="button" class="loader-skip-btn" id="loader-skip-btn" aria-label="Skip loading intro">
-              <span>Skip Intro</span>
-              <kbd>ESC</kbd>
-            </button>
-          </div>
+      <!-- Classic Retro Minecraft Loading Bar & Status -->
+      <div class="mc-loader-hud">
+        <div class="mc-loader-status-row">
+          <span class="mc-loader-status" id="loader-status-text">Generating world...</span>
+          <span class="mc-loader-percent" id="loader-percent-text">0%</span>
         </div>
+        <div class="mc-loader-bar-wrap" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="loader-progress-wrap">
+          <div class="mc-loader-bar" id="loader-progress-bar">
+            <div class="mc-loader-bar-sheen"></div>
+          </div>
+          <div class="mc-loader-bar-notches" aria-hidden="true"></div>
+        </div>
+        <p class="mc-loader-text" id="loader-timer">Connecting to realm...</p>
+      </div>
+
+      <div class="mc-loader-actions">
+        <button type="button" class="mc-btn mc-btn-stone mc-loader-skip" id="loader-skip-btn"
+          aria-label="Skip loading intro">
+          <span>Skip</span>
+          <kbd>ESC</kbd>
+        </button>
+        <a href="./?preview=loader" target="_blank" rel="noopener noreferrer" class="mc-btn mc-btn-stone mc-loader-newtab"
+          id="loader-newtab-btn" title="Open this update in a new tab" aria-label="Open this update in a new tab">
+          <span>↗ New Tab</span>
+        </a>
       </div>
     </div>
   </aside>
 
-  <!-- Ambient Background & Living 3D Particle Constellation -->
-  <div class="ambient-bg" aria-hidden="true">
+  <!-- Minecraft World Background -->
+  <div class="mc-world-bg" aria-hidden="true">
     <canvas id="particles-3d-canvas" class="particles-3d-canvas"></canvas>
-    <div class="ambient-glow-1"></div>
-    <div class="ambient-glow-2"></div>
-    <div class="ambient-glow-3"></div>
-    <div class="ambient-grid"></div>
+    <div class="mc-stars"></div>
+    <div class="mc-sky-gradient"></div>
   </div>
 
-  <!-- Floating Glassmorphism Navigation -->
-  <header class="nav-wrap" id="main-nav">
-    <nav class="nav-bar" aria-label="Main Navigation">
-      <a href="#hero" class="nav-logo" aria-label="Abyss home">
-        <span>ABYSS</span>
-        <span class="logo-dot" aria-hidden="true"></span>
+  <!-- Persistent Minecraft 9-Slot Hotbar Navigation -->
+  <header class="mc-nav-wrap" id="main-nav">
+    <nav class="mc-hotbar" aria-label="Minecraft Hotbar Navigation">
+      <a href="#hero" class="mc-hotbar-logo" aria-label="Abyss Spawn Home">
+        <span class="mc-logo-text">ABYSS</span>
+        <span class="mc-logo-dot" aria-hidden="true"></span>
       </a>
 
-      <ul class="nav-links" id="nav-links">
-        <li><a href="#hero" class="nav-link active">Home</a></li>
-        <li><a href="#about" class="nav-link">About</a></li>
-        <li><a href="#projects" class="nav-link">Projects</a></li>
-        <li><a href="#skills" class="nav-link">Skills</a></li>
-        <li><a href="#contact" class="nav-link">Contact</a></li>
+      <!-- 9 Selectable Slots (Rendered via JS from config.js) -->
+      <ul class="mc-hotbar-slots" id="nav-links">
+        <!-- Rendered via JS -->
       </ul>
 
-      <div class="nav-action">
-        <a href="#contact" class="nav-cta-btn">Connect</a>
+      <!-- HUD Utility Actions (New Tab, F3 debug, Mining minigame) -->
+      <div class="mc-hud-actions">
+        <a href="./?preview=loader" target="_blank" rel="noopener noreferrer" class="mc-btn-hud mc-btn-newtab"
+          id="open-newtab-btn" title="Open this update in a new tab" aria-label="Open in new tab">
+          <span>↗ New Tab</span>
+        </a>
+        <button type="button" class="mc-btn-hud" id="f3-toggle-btn" title="Toggle F3 Debug Overlay (F3 or click)"
+          aria-label="Toggle F3 Debug Info">
+          <span>F3</span>
+        </button>
+        <button type="button" class="mc-btn-hud" id="mining-toggle-btn"
+          title="Open Ore Mining Minigame (M key or click)" aria-label="Open Mining Minigame">
+          <span>⛏ Mine</span>
+        </button>
       </div>
 
-      <button class="nav-toggle" id="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links">
-        <span class="hamburger-line" aria-hidden="true"></span>
+      <button class="mc-nav-toggle" id="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false"
+        aria-controls="nav-links">
+        <span class="mc-hamburger" aria-hidden="true"></span>
       </button>
     </nav>
   </header>
 
+  <!-- Persistent Player Game HUD (Hearts, Hunger, XP Bar, Level) -->
+  <aside class="mc-persistent-hud" aria-label="Player Game Status">
+    <div class="mc-hud-status-row">
+      <div class="mc-hud-hearts" id="hud-hearts" aria-label="10 Hearts Full Health">
+        <!-- 10 Hearts rendered via JS -->
+      </div>
+      <div class="mc-hud-hunger" id="hud-hunger" aria-label="10 Drumsticks Full Hunger">
+        <!-- 10 Drumsticks rendered via JS -->
+      </div>
+    </div>
+    <div class="mc-hud-xp-wrap">
+      <div class="mc-hud-xp-track" title="Exploration XP Progress">
+        <div class="mc-hud-xp-fill" id="hud-xp-fill" style="width: 35%;"></div>
+      </div>
+      <span class="mc-hud-level-badge" id="hud-level-badge">Lv. 21</span>
+    </div>
+  </aside>
+
+  <!-- Main 9 Screens Container -->
   <main id="content">
-    <!-- Hero Section -->
-    <section class="hero-section" id="hero" aria-labelledby="hero-title">
-      <div class="container">
-        <div class="hero-grid">
-          <!-- Text Introduction -->
-          <div class="hero-content reveal-on-scroll">
-            <div class="availability-badge" role="status" aria-label="Status: Available for projects &amp; collaboration">
-              <span class="status-pulse-dot" aria-hidden="true"></span>
-              <span>Available for projects &amp; collaboration</span>
-            </div>
 
-            <p class="hero-eyebrow">AI STUDENT · WEB DEVELOPER · CREATOR</p>
-
-            <h1 class="hero-title" id="hero-title">
-              Hi, I'm Alish.<br>
-              <span class="title-accent">You can call me Abyss.</span>
-            </h1>
-
-            <p class="hero-desc">
-              I build digital experiences that bring ideas to life through technology, creativity, and thoughtful design.
-            </p>
-
-            <div class="hero-actions">
-              <a href="#projects" class="glass-btn glass-btn-primary">
-                <span>Explore My Work</span>
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <line x1="12" y1="5" x2="12" y2="19"></line>
-                  <polyline points="19 12 12 19 5 12"></polyline>
-                </svg>
-              </a>
-
-              <a href="#contact" class="glass-btn glass-btn-secondary">
-                <span>Let's Connect</span>
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                  <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
-              </a>
-            </div>
-
-            <div class="hero-socials" id="hero-social-links" aria-label="Direct profiles">
-              <!-- Rendered via JS -->
-            </div>
+    <!-- ============================================================
+         SCREEN 1: HERO / SPAWN WORLD (Main Menu)
+         ============================================================ -->
+    <section class="mc-spawn-section" id="hero" aria-labelledby="hero-title">
+      <div class="mc-landscape" aria-hidden="true">
+        <div class="mc-sun"></div>
+        <div class="mc-clouds">
+          <div class="mc-cloud mc-cloud-1"></div>
+          <div class="mc-cloud mc-cloud-2"></div>
+          <div class="mc-cloud mc-cloud-3"></div>
+        </div>
+        <div class="mc-terrain">
+          <div class="mc-mountain mc-mountain-1"></div>
+          <div class="mc-mountain mc-mountain-2"></div>
+          <div class="mc-mountain mc-mountain-3"></div>
+          <div class="mc-ground"></div>
+          <div class="mc-trees">
+            <div class="mc-tree mc-tree-1"></div>
+            <div class="mc-tree mc-tree-2"></div>
+            <div class="mc-tree mc-tree-3"></div>
           </div>
+        </div>
+      </div>
 
-          <!-- Signature Interactive ASCII Portrait -->
-          <div class="hero-portrait-col reveal-on-scroll" data-index="1">
-            <div id="ascii-portrait-container">
-              <!-- Rendered via ASCII Engine -->
-            </div>
+      <div class="mc-spawn-content">
+        <div class="mc-title-block reveal-on-scroll">
+          <h1 class="mc-game-title" id="hero-title">
+            <span class="mc-title-line-1">ALISH SHRESTHA</span>
+            <span class="mc-title-line-2">// ABYSS</span>
+          </h1>
+          <p class="mc-title-edition">AI Student · Web Developer · Creator Edition</p>
+        </div>
+
+        <div class="mc-main-menu reveal-on-scroll" data-index="1">
+          <a href="#about" class="mc-btn mc-btn-stone mc-menu-btn">
+            <span class="mc-btn-icon">👤</span>
+            <span>Player Profile</span>
+          </a>
+          <a href="#projects" class="mc-btn mc-btn-stone mc-menu-btn">
+            <span class="mc-btn-icon">📦</span>
+            <span>Chest Inventory</span>
+          </a>
+          <a href="#experience" class="mc-btn mc-btn-stone mc-menu-btn">
+            <span class="mc-btn-icon">🔨</span>
+            <span>Crafting Table</span>
+          </a>
+          <a href="#skills" class="mc-btn mc-btn-stone mc-menu-btn">
+            <span class="mc-btn-icon">✨</span>
+            <span>Enchantments</span>
+          </a>
+          <a href="#services" class="mc-btn mc-btn-stone mc-menu-btn">
+            <span class="mc-btn-icon">💎</span>
+            <span>Villager Trades</span>
+          </a>
+          <a href="#contact" class="mc-btn mc-btn-stone mc-menu-btn">
+            <span class="mc-btn-icon">🪶</span>
+            <span>Book &amp; Quill</span>
+          </a>
+        </div>
+
+        <div class="mc-version-bar reveal-on-scroll" data-index="2">
+          <div class="mc-availability" role="status">
+            <span class="mc-status-dot" aria-hidden="true"></span>
+            <span>Online — Available for projects &amp; collaboration</span>
+          </div>
+          <div class="mc-hero-socials" id="hero-social-links">
+            <!-- Rendered via JS -->
           </div>
         </div>
       </div>
     </section>
 
-    <!-- About Section (Open Architectural Editorial Layout) -->
-    <section id="about" class="about-section" aria-labelledby="about-heading">
-      <div class="container">
-        <header class="section-header reveal-on-scroll">
-          <p class="section-eyebrow">
-            <span class="eyebrow-rule" aria-hidden="true"></span>
-            <span>01 // PERSPECTIVE &amp; TRAJECTORY</span>
-          </p>
-          <h2 class="section-title" id="about-heading">About Me</h2>
-        </header>
+    <!-- ============================================================
+         SCREEN 2: ABOUT / PLAYER PROFILE & WRITTEN BOOK
+         ============================================================ -->
+    <section id="about" class="mc-section mc-profile-section" aria-labelledby="about-heading">
+      <div class="mc-container">
+        <div class="mc-section-header reveal-on-scroll">
+          <div class="mc-section-tag">
+            <span class="mc-tag-icon">📋</span>
+            <span>SLOT 2 // PLAYER STATS</span>
+          </div>
+          <h2 class="mc-section-title" id="about-heading">Player Profile &amp; Written Book</h2>
+          <p class="mc-section-subtitle">Character statistics, signature ASCII portrait engine, and written book
+            chronicles.</p>
+        </div>
 
-        <div class="about-editorial-grid">
-          <!-- Left Column: Manifesto & Focus -->
-          <div class="about-left-col reveal-on-scroll">
-            <blockquote class="about-manifesto-quote">
-              "I'm an AI student and developer interested in building useful digital experiences through technology, problem-solving, and creative experimentation. I enjoy exploring ideas, learning new tools, and turning concepts into practical projects."
-            </blockquote>
+        <div class="mc-profile-grid">
+          <!-- Left: Player Stats Window -->
+          <div class="mc-panel mc-player-card reveal-on-scroll">
+            <div class="mc-panel-header">
+              <span class="mc-panel-title">Player Inspection</span>
+              <span class="mc-panel-x">👤</span>
+            </div>
+            <div class="mc-panel-body">
+              <div class="mc-avatar-area">
+                <!-- Avatar Mode Tabs: Skin / ASCII -->
+                <div class="mc-avatar-mode-tabs" role="tablist" aria-label="Avatar display mode">
+                  <button type="button" class="mc-btn-avatar-mode active" id="btn-show-skin" role="tab" aria-selected="true">
+                    <span>👑 Skin</span>
+                  </button>
+                  <button type="button" class="mc-btn-avatar-mode" id="btn-show-ascii" role="tab" aria-selected="false">
+                    <span>📷 ASCII</span>
+                  </button>
+                </div>
 
-            <div class="about-focus-stream">
-              <div class="focus-item">
-                <span class="focus-index">01</span>
-                <div class="focus-body">
-                  <h3 class="focus-title">Artificial Intelligence</h3>
-                  <p class="focus-desc">
-                    Pursuing BSc (Hons) AI at Softwarica College (Coventry University), delving into neural networks, deep learning architectures, natural language processing, and cognitive systems.
-                  </p>
+                <!-- 3D Minecraft Skin Model Display -->
+                <div class="mc-skin-model-container" id="skin-model-container">
+                  <div class="mc-skin-card">
+                    <img id="profile-skin-img" src="assets/skin-front.png" alt="Abyss Crowned Pig Skin" class="mc-profile-skin-graphic" />
+                    <button type="button" class="mc-btn-flip-skin" id="btn-flip-skin" title="Flip front / back view">
+                      <span>🔄 Flip View</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- ASCII Portrait Viewer -->
+                <div class="mc-skin-viewer" id="ascii-portrait-container" style="display: none;">
+                  <!-- ASCII Portrait rendered via JS -->
+                </div>
+
+                <div class="mc-player-nameplate">
+                  <span class="mc-player-name">Alish Shrestha</span>
+                  <span class="mc-player-alias">~ Abyss ~</span>
                 </div>
               </div>
 
-              <div class="focus-item">
-                <span class="focus-index">02</span>
-                <div class="focus-body">
-                  <h3 class="focus-title">Web Engineering</h3>
-                  <p class="focus-desc">
-                    Engineering high-performance, responsive interfaces with semantic HTML5, pure CSS layout systems, and clean modular JavaScript with zero unnecessary bloat.
-                  </p>
+              <!-- Character Attributes -->
+              <div class="mc-stats-grid">
+                <div class="mc-stat-item">
+                  <span class="mc-stat-key">Role</span>
+                  <span class="mc-stat-val">AI Student &amp; Web Developer</span>
+                </div>
+                <div class="mc-stat-item">
+                  <span class="mc-stat-key">Degree</span>
+                  <span class="mc-stat-val">BSc (Hons) AI · Softwarica (Coventry University)</span>
+                </div>
+                <div class="mc-stat-item">
+                  <span class="mc-stat-key">Coordinates</span>
+                  <span class="mc-stat-val">X: 27.67, Y: 64, Z: 85.42 (Bhaktapur, Nepal)</span>
+                </div>
+                <div class="mc-stat-item">
+                  <span class="mc-stat-key">Status</span>
+                  <span class="mc-stat-val mc-stat-online">⬤ Online — Available for hire</span>
                 </div>
               </div>
 
-              <div class="focus-item">
-                <span class="focus-index">03</span>
-                <div class="focus-body">
-                  <h3 class="focus-title">Creative Production &amp; Operations</h3>
-                  <p class="focus-desc">
-                    Managing operations, print workflows, and media production at Print Village, bridging the gap between digital code and tangible real-world output.
-                  </p>
-                </div>
+              <div class="mc-profile-links" id="profile-social-links">
+                <!-- Rendered via JS -->
               </div>
             </div>
           </div>
 
-          <!-- Right Column: Open Timeline Track -->
-          <div class="about-right-col reveal-on-scroll" data-index="1">
-            <div class="timeline-header">
-              <span class="timeline-eyebrow">MILESTONES &amp; JOURNEY</span>
+          <!-- Right: Written Book Interface -->
+          <div class="mc-profile-right">
+            <div class="mc-written-book reveal-on-scroll" data-index="1" id="written-book-container">
+              <div class="mc-book-header">
+                <span class="mc-book-title" id="book-title">Chronicles of Abyss</span>
+                <span class="mc-book-author">by Alish Shrestha</span>
+              </div>
+              <div class="mc-book-page-body" id="book-page-body">
+                <!-- Populated via JS -->
+              </div>
+              <div class="mc-book-paginator">
+                <button type="button" class="mc-book-nav-btn" id="book-prev-btn" aria-label="Previous Book Page">&larr;
+                  Previous</button>
+                <span class="mc-book-page-indicator" id="book-page-indicator">Page 1 of 3</span>
+                <button type="button" class="mc-book-nav-btn" id="book-next-btn" aria-label="Next Book Page">Next
+                  &rarr;</button>
+              </div>
             </div>
-            <div class="open-timeline-track" id="milestones-list">
-              <!-- Rendered via JS -->
+
+            <!-- Focus Areas -->
+            <div class="mc-panel reveal-on-scroll" data-index="2">
+              <div class="mc-panel-header">
+                <span class="mc-panel-title">Specialization Focus</span>
+              </div>
+              <div class="mc-panel-body" id="focus-areas-list">
+                <!-- Populated via JS -->
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Projects Section (2 x 2 Balanced Grid) -->
-    <section id="projects" class="projects-section" aria-labelledby="projects-heading">
-      <div class="container">
-        <header class="section-header reveal-on-scroll">
-          <p class="section-eyebrow">
-            <span class="eyebrow-rule" aria-hidden="true"></span>
-            <span>02 // SELECTED WORK</span>
-          </p>
-          <div class="section-header-row">
-            <h2 class="section-title" id="projects-heading">Featured Projects</h2>
-            <span class="section-header-tag">[ 2 × 2 CURATED SHOWCASE ]</span>
+    <!-- ============================================================
+         SCREEN 3: SKILLS / ENCHANTMENT TABLE
+         ============================================================ -->
+    <section id="skills" class="mc-section mc-enchant-section" aria-labelledby="skills-heading">
+      <div class="mc-container">
+        <div class="mc-section-header reveal-on-scroll">
+          <div class="mc-section-tag">
+            <span class="mc-tag-icon">✨</span>
+            <span>SLOT 3 // ENCHANTMENT TABLE</span>
           </div>
-          <p class="section-subtitle">
-            Real production applications, interactive platforms, and hardware-interfaced web tools built with clean, maintainable architecture.
-          </p>
-        </header>
+          <h2 class="mc-section-title" id="skills-heading">Skills &amp; Enchantment Table</h2>
+          <p class="mc-section-subtitle">22 technical skills categorized as enchanted tomes with Roman numeral mastery
+            levels.</p>
 
-        <div class="projects-grid projects-grid-2x2" id="projects-grid">
-          <!-- Rendered dynamically from data.js -->
+          <div class="mc-enchant-filters" id="skills-filter-nav" role="tablist" aria-label="Filter skills by domain">
+            <!-- Filter buttons rendered via JS -->
+          </div>
+        </div>
+
+        <div class="mc-enchant-grid" id="skills-grid">
+          <!-- Rendered dynamically from config.js -->
         </div>
       </div>
     </section>
 
-    <!-- Skills Section (2x2 Glassmorphic Technical Matrix) -->
-    <section id="skills" class="skills-section" aria-labelledby="skills-heading">
-      <div class="container">
-        <header class="section-header reveal-on-scroll">
-          <p class="section-eyebrow">
-            <span class="eyebrow-rule" aria-hidden="true"></span>
-            <span>03 // CAPABILITIES &amp; TOOLKIT</span>
-          </p>
-          <div class="section-header-row">
-            <h2 class="section-title" id="skills-heading">Skills &amp; Technologies</h2>
-            <span class="section-header-tag">[ 4 DOMAINS · 22 COMPETENCIES ]</span>
+    <!-- ============================================================
+         SCREEN 4: PROJECTS / CHEST INVENTORY
+         ============================================================ -->
+    <section id="projects" class="mc-section mc-inventory-section" aria-labelledby="projects-heading">
+      <div class="mc-container">
+        <div class="mc-section-header reveal-on-scroll">
+          <div class="mc-section-tag">
+            <span class="mc-tag-icon">📦</span>
+            <span>SLOT 4 // CHEST LOOT</span>
           </div>
-          <p class="section-subtitle">
-            A transparent overview of programming languages, machine learning frameworks, development tools, and creative technologies I actively use.
-          </p>
+          <h2 class="mc-section-title" id="projects-heading">Project Chest Inventory</h2>
+          <p class="mc-section-subtitle">Double-chest loot inventory. Click any item slot or press Enter to inspect full
+            crafting specs and live deployment links.</p>
+        </div>
 
-          <!-- Interactive Domain Filter Navigation -->
-          <div class="skills-filter-nav" id="skills-filter-nav" role="tablist" aria-label="Filter skills by domain">
-            <button type="button" class="skills-filter-btn active" data-filter="all" role="tab" aria-selected="true">
-              <span>All Capabilities</span>
-              <span class="filter-count">22</span>
-            </button>
-            <button type="button" class="skills-filter-btn" data-filter="programming" role="tab" aria-selected="false">
-              <span>Programming</span>
-              <span class="filter-count">5</span>
-            </button>
-            <button type="button" class="skills-filter-btn" data-filter="ai-ml" role="tab" aria-selected="false">
-              <span>AI &amp; ML</span>
-              <span class="filter-count">6</span>
-            </button>
-            <button type="button" class="skills-filter-btn" data-filter="tools" role="tab" aria-selected="false">
-              <span>Dev Tools</span>
-              <span class="filter-count">5</span>
-            </button>
-            <button type="button" class="skills-filter-btn" data-filter="creative" role="tab" aria-selected="false">
-              <span>Creative Tech</span>
-              <span class="filter-count">5</span>
-            </button>
+        <div class="mc-panel mc-inventory-panel reveal-on-scroll" data-index="1">
+          <div class="mc-panel-header">
+            <span class="mc-panel-title">Large Chest — 27 Slots [Stored Builds]</span>
+            <span class="mc-panel-x">📦</span>
           </div>
-        </header>
+          <div class="mc-panel-body">
+            <div class="mc-inventory-grid" id="projects-grid">
+              <!-- Rendered dynamically from config.js -->
+            </div>
+          </div>
+        </div>
 
-        <div class="skills-grid-2x2" id="skills-grid">
-          <!-- Rendered dynamically from data.js -->
+        <!-- Project Detail Modal -->
+        <div class="mc-project-detail-overlay" id="project-detail-overlay" aria-hidden="true">
+          <div class="mc-panel mc-project-detail-panel" id="project-detail-panel">
+            <div class="mc-panel-header">
+              <span class="mc-panel-title" id="detail-panel-title">Project Details</span>
+              <button class="mc-panel-close-btn" id="detail-close-btn" aria-label="Close project details">✕</button>
+            </div>
+            <div class="mc-panel-body" id="detail-panel-body">
+              <!-- Populated via JS -->
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Contact Section (Expansive Open Layout) -->
-    <section id="contact" class="contact-section" aria-labelledby="contact-heading">
-      <div class="container">
-        <div class="contact-open-wrap reveal-on-scroll">
-          <div class="contact-headline-group">
-            <p class="section-eyebrow">
-              <span class="eyebrow-rule" aria-hidden="true"></span>
-              <span>04 // GET IN TOUCH</span>
-            </p>
-            <h2 class="contact-mega-title">Have something interesting in mind?</h2>
-            <p class="contact-lead-text">
-              I'm always interested in exploring ideas, building meaningful projects, and connecting with people who enjoy creating things.
-            </p>
+    <!-- ============================================================
+         SCREEN 5: EXPERIENCE / 3x3 CRAFTING TABLE
+         ============================================================ -->
+    <section id="experience" class="mc-section mc-crafting-section" aria-labelledby="experience-heading">
+      <div class="mc-container">
+        <div class="mc-section-header reveal-on-scroll">
+          <div class="mc-section-tag">
+            <span class="mc-tag-icon">🔨</span>
+            <span>SLOT 5 // CRAFTING BENCH</span>
+          </div>
+          <h2 class="mc-section-title" id="experience-heading">Experience Crafting Table</h2>
+          <p class="mc-section-subtitle">Academic foundations, management roles, and technical milestones combined into
+            career progression recipes.</p>
+        </div>
 
-            <div class="contact-actions-row">
-              <a href="mailto:shrestaalish444@gmail.com?subject=Hello%20Alish%20-%20Project%20Inquiry" class="glass-btn glass-btn-primary">
-                <span>Let's Connect</span>
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                  <polyline points="22,6 12,13 2,6"></polyline>
-                </svg>
-              </a>
+        <div class="mc-crafting-view reveal-on-scroll">
+          <!-- Recipe Selection Tabs -->
+          <div class="mc-recipe-tabs" id="recipe-tabs" role="tablist" aria-label="Select Experience Recipe">
+            <!-- Populated via JS -->
+          </div>
 
-              <button type="button" class="glass-btn glass-btn-secondary" id="copy-email-btn" aria-label="Copy email address to clipboard">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                </svg>
-                <span>Copy Email</span>
+          <!-- Active Crafting Bench -->
+          <div class="mc-crafting-bench" id="crafting-bench-container">
+            <!-- 3x3 Grid and Output Slot rendered via JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SCREEN 6: ACHIEVEMENTS / ADVANCEMENTS MENU
+         ============================================================ -->
+    <section id="achievements" class="mc-section mc-achievements-section" aria-labelledby="achievements-heading">
+      <div class="mc-container">
+        <div class="mc-section-header reveal-on-scroll">
+          <div class="mc-section-tag">
+            <span class="mc-tag-icon">🏆</span>
+            <span>SLOT 6 // ADVANCEMENT TREE</span>
+          </div>
+          <h2 class="mc-section-title" id="achievements-heading">Advancements &amp; Milestones</h2>
+          <p class="mc-section-subtitle">Accomplishments achieved through software development, AI research, and studio
+            operations.</p>
+        </div>
+
+        <div class="mc-achievements-grid" id="achievements-grid">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SCREEN 7: SERVICES / VILLAGER TRADING INTERFACE
+         ============================================================ -->
+    <section id="services" class="mc-section mc-trading-section" aria-labelledby="services-heading">
+      <div class="mc-container">
+        <div class="mc-section-header reveal-on-scroll">
+          <div class="mc-section-tag">
+            <span class="mc-tag-icon">💎</span>
+            <span>SLOT 7 // VILLAGER TRADES</span>
+          </div>
+          <h2 class="mc-section-title" id="services-heading">Villager Trading Post</h2>
+          <p class="mc-section-subtitle">Exchange visual emerald tokens for specialized web engineering, machine
+            learning prototyping, and creative print production.</p>
+        </div>
+
+        <div class="mc-villager-gui reveal-on-scroll" id="villager-gui-container">
+          <!-- Left: Trades List -->
+          <div class="mc-trades-list" id="villager-trades-list">
+            <!-- Populated via JS -->
+          </div>
+
+          <!-- Right: Exchange Workbench -->
+          <div class="mc-trade-workbench" id="villager-trade-workbench">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SCREEN 8: CONTACT / BOOK AND QUILL
+         ============================================================ -->
+    <section id="contact" class="mc-section mc-contact-section" aria-labelledby="contact-heading">
+      <div class="mc-container">
+        <div class="mc-section-header reveal-on-scroll">
+          <div class="mc-section-tag">
+            <span class="mc-tag-icon">🪶</span>
+            <span>SLOT 8 // BOOK &amp; QUILL</span>
+          </div>
+          <h2 class="mc-section-title" id="contact-heading">Book &amp; Quill Transmission</h2>
+          <p class="mc-section-subtitle">Write a direct message to Abyss or copy transmission coordinates.</p>
+        </div>
+
+        <!-- Book and Quill Form -->
+        <div class="mc-book-quill-form reveal-on-scroll">
+          <form id="quill-contact-form" novalidate>
+            <div class="mc-quill-field">
+              <label for="quill-sender-name" class="mc-quill-label">Sender Identity (Name)</label>
+              <input type="text" id="quill-sender-name" class="mc-quill-input" placeholder="e.g. Steve / Explorer"
+                required>
+            </div>
+
+            <div class="mc-quill-field">
+              <label for="quill-sender-email" class="mc-quill-label">Return Frequency (Email)</label>
+              <input type="email" id="quill-sender-email" class="mc-quill-input" placeholder="you@domain.com" required>
+            </div>
+
+            <div class="mc-quill-field">
+              <label for="quill-message" class="mc-quill-label">Inscribed Message</label>
+              <textarea id="quill-message" class="mc-quill-textarea"
+                placeholder="Write your project brief, collaboration proposal, or message..." required></textarea>
+            </div>
+
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1rem;">
+              <button type="submit" class="mc-btn mc-btn-emerald" id="quill-submit-btn">
+                <span>Sign &amp; Send Transmission ✉</span>
+              </button>
+              <button type="button" class="mc-btn mc-btn-stone" id="copy-email-btn"
+                aria-label="Copy email address to clipboard">
+                <span>Copy Email 📋</span>
               </button>
             </div>
+          </form>
+
+          <div
+            style="margin-top: 1.5rem; padding-top: 1rem; border-top: 2px dashed #bda882; font-size: 0.82rem; color: #5a3825;">
+            <strong>Direct Channel:</strong> <a href="mailto:shrestaalish444@gmail.com"
+              style="text-decoration: underline;">shrestaalish444@gmail.com</a> · +977 9826328462 · Kathmandu &amp;
+            Bhaktapur, Nepal
           </div>
+        </div>
+      </div>
+    </section>
 
-          <div class="contact-direct-meta">
-            <div class="direct-meta-item">
-              <span class="direct-label">Email</span>
-              <a href="mailto:shrestaalish444@gmail.com" class="direct-link">shrestaalish444@gmail.com</a>
-            </div>
+    <!-- ============================================================
+         SCREEN 9: OUTRO / THE END DIMENSION
+         ============================================================ -->
+    <section id="outro" class="mc-section mc-end-section" aria-labelledby="outro-heading">
+      <div class="mc-end-atmosphere" aria-hidden="true">
+        <div class="mc-end-stars"></div>
+        <div class="mc-end-portal"></div>
+        <div class="mc-end-pillars">
+          <div class="mc-pillar mc-pillar-1"></div>
+          <div class="mc-pillar mc-pillar-2"></div>
+          <div class="mc-pillar mc-pillar-3"></div>
+          <div class="mc-pillar mc-pillar-4"></div>
+          <div class="mc-pillar mc-pillar-5"></div>
+        </div>
+      </div>
 
-            <div class="direct-meta-item">
-              <span class="direct-label">Phone</span>
-              <a href="tel:+9779826328462" class="direct-link">+977 9826328462</a>
-            </div>
+      <div class="mc-container mc-end-content">
+        <div class="mc-end-title-block reveal-on-scroll">
+          <div class="mc-section-tag" style="justify-content: center; color: var(--mc-end-purple);">
+            <span class="mc-tag-icon">🌌</span>
+            <span>SLOT 9 // THE END PORTAL</span>
+          </div>
+          <h2 class="mc-end-title" id="outro-heading">LET'S BUILD<br>SOMETHING.</h2>
+          <p class="mc-end-subtitle">The End is not the conclusion, but the gateway to what we build next. I'm always
+            open to exploring novel architectures, AI applications, and meaningful platforms.</p>
+        </div>
 
-            <div class="direct-meta-item">
-              <span class="direct-label">Location</span>
-              <span class="direct-plain">Kathmandu &amp; Bhaktapur, Nepal</span>
-            </div>
+        <div class="mc-end-actions reveal-on-scroll" data-index="1">
+          <a href="mailto:shrestaalish444@gmail.com?subject=Transmission%20from%20The%20End%20Portal"
+            class="mc-btn mc-btn-emerald mc-end-cta">
+            <span class="mc-btn-icon">✉️</span>
+            <span>Transmit Message</span>
+          </a>
+          <a href="#hero" class="mc-btn mc-btn-stone" aria-label="Return to Overworld Spawn">
+            <span class="mc-btn-icon">🧭</span>
+            <span>Return to Spawn (1)</span>
+          </a>
+        </div>
 
-            <div class="direct-meta-item">
-              <span class="direct-label">Profiles</span>
-              <div class="direct-socials-row" id="contact-social-links">
-                <!-- Rendered via JS -->
+        <div class="mc-panel mc-contact-panel reveal-on-scroll" data-index="2">
+          <div class="mc-panel-header">
+            <span class="mc-panel-title">End Gateway Coordinates</span>
+            <span class="mc-panel-x">🌌</span>
+          </div>
+          <div class="mc-panel-body">
+            <div class="mc-contact-grid">
+              <div class="mc-contact-item">
+                <span class="mc-contact-key">Direct Email</span>
+                <a href="mailto:shrestaalish444@gmail.com"
+                  class="mc-contact-val mc-contact-link">shrestaalish444@gmail.com</a>
+              </div>
+              <div class="mc-contact-item">
+                <span class="mc-contact-key">Comms Phone</span>
+                <a href="tel:+9779826328462" class="mc-contact-val mc-contact-link">+977 9826328462</a>
+              </div>
+              <div class="mc-contact-item">
+                <span class="mc-contact-key">Base Realm</span>
+                <span class="mc-contact-val">Kathmandu &amp; Bhaktapur, Nepal</span>
+              </div>
+              <div class="mc-contact-item">
+                <span class="mc-contact-key">Verified Links</span>
+                <div class="mc-contact-socials" id="contact-social-links">
+                  <!-- Rendered via JS -->
+                </div>
               </div>
             </div>
           </div>
@@ -382,35 +632,97 @@
   </main>
 
   <!-- Footer -->
-  <footer class="footer-wrap">
-    <div class="container">
-      <div class="footer-inner">
-        <div class="footer-brand">
-          <span class="footer-monogram">ABYSS</span>
-          <span class="footer-tagline">AI Student · Web Developer · Creator</span>
+  <footer class="mc-footer-wrap">
+    <div class="mc-container">
+      <div class="mc-footer-inner">
+        <div class="mc-footer-brand">
+          <span class="mc-footer-logo">ABYSS</span>
+          <span class="mc-footer-tagline">AI Student · Web Developer · Creator</span>
         </div>
-
-        <div class="footer-socials" id="footer-social-links">
+        <div class="mc-footer-socials" id="footer-social-links">
           <!-- Rendered via JS -->
         </div>
       </div>
-
-      <div class="footer-bottom">
-        <p>© <span id="footer-year">2026</span> Alish Shrestha (Abyss). Built with precision &amp; care.</p>
-        <a href="#hero" class="back-to-top-btn" aria-label="Back to top">
-          <span>Back to Top</span>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <polyline points="18 15 12 9 6 15"></polyline>
-          </svg>
+      <div class="mc-footer-bottom">
+        <p>© <span id="footer-year">2026</span> Alish Shrestha (Abyss). Crafted with ⛏️ &amp; care.</p>
+        <a href="#hero" class="mc-back-to-top" aria-label="Back to top">
+          <span>↑ Return to Spawn</span>
         </a>
       </div>
     </div>
   </footer>
 
-  <!-- Toast Notification for Clipboard -->
-  <div class="clipboard-toast" id="clipboard-toast" role="alert" aria-live="polite"></div>
+  <!-- F3 Debug Screen Overlay -->
+  <aside class="mc-f3-debug-overlay" id="f3-debug-overlay" aria-hidden="true" role="region"
+    aria-label="F3 Debug Screen">
+    <div class="mc-debug-col mc-debug-col-left" id="f3-debug-left">
+      <!-- Populated via JS -->
+    </div>
+    <div class="mc-debug-col mc-debug-col-right" id="f3-debug-right">
+      <!-- Populated via JS -->
+    </div>
+  </aside>
 
-  <!-- Application Logic -->
+  <!-- Ore-Mining Minigame Modal (Press 'M' or click HUD) -->
+  <div class="mc-mining-modal" id="mining-modal" role="dialog" aria-modal="true" aria-labelledby="mining-title">
+    <div class="mc-mining-window">
+      <div
+        style="display: flex; justify-content: space-between; width: 100%; align-items: center; border-bottom: 2px solid var(--mc-slot-border); padding-bottom: 0.5rem;">
+        <h3 style="font-family: var(--font-pixel); font-size: 0.6rem; color: var(--mc-gold);" id="mining-title">⛏ Ore
+          Mining Minigame</h3>
+        <button type="button" class="mc-panel-close-btn" id="mining-close-btn"
+          aria-label="Close mining minigame">✕</button>
+      </div>
+
+      <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.75rem;">
+        Tap or click the ore block (or press <kbd>Space</kbd>) to mine! Mine through to collect drops and XP.
+      </p>
+
+      <div style="margin-top: 0.5rem; font-family: var(--font-pixel); font-size: 0.45rem; color: var(--mc-diamond);"
+        id="mining-ore-name">
+        Diamond Ore
+      </div>
+
+      <!-- Ore Block Area -->
+      <div class="mc-mining-canvas-area" id="mining-canvas-area" tabindex="0" role="button"
+        aria-label="Mine the ore block">
+        <div id="mining-ore-graphic" class="mc-mining-ore-svg">
+          <!-- SVG rendered via JS -->
+        </div>
+      </div>
+
+      <div class="mc-mining-progress-track">
+        <div class="mc-mining-progress-bar" id="mining-progress-bar"></div>
+      </div>
+
+      <div style="margin-top: 0.75rem; font-size: 0.82rem; color: var(--mc-xp-green); min-height: 1.4rem;"
+        id="mining-status-text">
+        Ready to mine. Click block to strike!
+      </div>
+
+      <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+        <button type="button" class="mc-btn mc-btn-stone" id="mining-switch-btn">Switch Ore</button>
+        <button type="button" class="mc-btn mc-btn-emerald" id="mining-exit-btn">Finish Mining</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Advancement Toast Notification -->
+  <aside class="mc-advancement-toast" id="advancement-toast" role="status" aria-live="polite">
+    <div class="mc-adv-toast-icon" id="adv-toast-icon">
+      <!-- Icon rendered via JS -->
+    </div>
+    <div class="mc-adv-toast-text">
+      <span class="mc-adv-toast-title">Advancement Made!</span>
+      <span class="mc-adv-toast-desc" id="adv-toast-desc">Taking Inventory</span>
+    </div>
+  </aside>
+
+  <!-- General Toast Notification (for copy / validation) -->
+  <div class="mc-toast" id="clipboard-toast" role="alert" aria-live="polite"></div>
+
+  <!-- Main Application Script -->
   <script type="module" src="js/app.js"></script>
 </body>
+
 </html>
