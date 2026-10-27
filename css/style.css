@@ -160,6 +160,7 @@ ul, ol {
 .mc-section {
   position: relative;
   padding-block: var(--section-spacing);
+  scroll-margin-top: clamp(4.5rem, 8vh, 6rem);
 }
 
 /* Section Headers */
@@ -1768,28 +1769,32 @@ body.is-loading .mc-world-bg {
    -------------------------------------------------------------------------- */
 .mc-enchant-section {
   position: relative;
+  scroll-margin-top: clamp(4.5rem, 8vh, 6.5rem);
+  padding-top: clamp(2rem, 4vh, 3.5rem);
+  padding-bottom: clamp(6.5rem, 12vh, 8.5rem);
 }
 
 .mc-enchant-section::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at center, rgba(168, 85, 247, 0.04) 0%, transparent 70%);
+  background: radial-gradient(ellipse at center, rgba(168, 85, 247, 0.05) 0%, transparent 70%);
   pointer-events: none;
 }
 
 .mc-enchant-filters {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 0.5rem;
-  margin-top: 1.5rem;
+  margin-top: 1.25rem;
 }
 
 .mc-enchant-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 0.85rem;
-  margin-top: 1.25rem;
+  gap: clamp(0.75rem, 1.5vw, 1.15rem);
+  margin-top: 1.5rem;
 }
 
 @media (max-width: 1200px) {
@@ -1805,12 +1810,13 @@ body.is-loading .mc-world-bg {
   }
 }
 
-/* Enchantment Card (Tome 01 to 04) - Compact */
+/* Enchantment Card (Tome 01 to 04) - Clean & Balanced */
 .mc-enchant-card {
   position: relative;
   display: flex;
   flex-direction: column;
-  transition: all 350ms ease;
+  height: 100%;
+  transition: all 300ms ease;
 }
 
 .mc-enchant-card.is-filtered-out {
@@ -1831,26 +1837,38 @@ body.is-loading .mc-world-bg {
   display: flex;
   flex-direction: column;
   border-width: 2px;
+  border-color: rgba(255, 255, 255, 0.08);
+  background: var(--mc-panel-bg);
 }
 
 .mc-enchant-card .mc-panel-header {
-  padding: 0.4rem 0.65rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--mc-panel-header);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.06);
 }
 
 .mc-enchant-card .mc-panel-title {
-  font-size: 0.44rem;
+  font-family: var(--font-pixel);
+  font-size: 0.46rem;
+  color: #ffffff;
+  letter-spacing: 0.03em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .mc-enchant-card .mc-panel:hover {
-  border-color: rgba(168, 85, 247, 0.3);
-  box-shadow: var(--shadow-panel), var(--shadow-glow-purple);
+  border-color: rgba(168, 85, 247, 0.4);
+  box-shadow: var(--shadow-panel), 0 0 20px rgba(168, 85, 247, 0.2);
 }
 
 .mc-enchant-card-header {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  min-height: 108px;
+  display: flex;
+  flex-direction: column;
 }
 
 .mc-enchant-card-meta {
@@ -1862,61 +1880,62 @@ body.is-loading .mc-world-bg {
 
 .mc-enchant-card-num {
   font-family: var(--font-pixel);
-  font-size: 0.38rem;
+  font-size: 0.4rem;
   color: var(--cat-accent, var(--mc-enchant-purple));
+  letter-spacing: 0.05em;
 }
 
 .mc-enchant-card-tag {
   font-family: var(--font-pixel);
-  font-size: 0.32rem;
+  font-size: 0.34rem;
   color: var(--cat-accent, var(--mc-enchant-purple));
-  background: rgba(255,255,255,0.03);
-  padding: 0.15rem 0.35rem;
-  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.18rem 0.45rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 2px;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
 }
 
 .mc-enchant-card-title {
   font-family: var(--font-pixel);
-  font-size: 0.5rem;
-  color: var(--text-primary);
-  text-shadow: 1px 1px 0 rgba(0,0,0,0.3);
-  margin-bottom: 0.25rem;
+  font-size: 0.52rem;
+  color: #ffffff;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.6);
+  margin-bottom: 0.35rem;
   line-height: 1.5;
 }
 
 .mc-enchant-card-desc {
-  font-size: 0.75rem;
+  font-size: 0.76rem;
   color: var(--text-secondary);
   line-height: 1.45;
-  margin-bottom: 0.45rem;
+  margin: 0;
 }
 
-/* Enchantment Items - Compact */
+/* Enchantment Items - Compact, Clean, Aligned */
 .mc-enchant-items {
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
-  margin-top: auto;
+  gap: 0.4rem;
 }
 
 .mc-enchant-item {
   display: flex;
   align-items: center;
-  gap: 0.45rem;
-  padding: 0.32rem 0.45rem;
-  background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(255,255,255,0.05);
+  gap: 0.55rem;
+  padding: 0.42rem 0.6rem;
+  background: rgba(14, 11, 24, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 2px;
   transition: all var(--transition-fast);
   position: relative;
 }
 
 .mc-enchant-item:hover {
-  background: rgba(168, 85, 247, 0.08);
-  border-color: rgba(168, 85, 247, 0.2);
+  background: rgba(168, 85, 247, 0.12);
+  border-color: var(--cat-accent, var(--mc-enchant-purple));
   transform: translateX(3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 .mc-enchant-item:hover .mc-enchant-badge-icon {
@@ -1925,17 +1944,18 @@ body.is-loading .mc-world-bg {
 }
 
 .mc-enchant-badge-icon {
-  width: 22px;
-  height: 22px;
+  width: 26px;
+  height: 26px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(168, 85, 247, 0.08);
-  border: 1.5px solid rgba(168, 85, 247, 0.2);
+  background: rgba(0, 0, 0, 0.45);
+  border: 1.5px solid var(--cat-accent, var(--mc-enchant-purple));
   border-radius: 2px;
   font-family: var(--font-pixel);
-  font-size: 0.32rem;
+  font-size: 0.34rem;
+  font-weight: 700;
   color: var(--cat-accent, var(--mc-enchant-purple));
   transition: all var(--transition-fast);
 }
@@ -1946,9 +1966,9 @@ body.is-loading .mc-world-bg {
 }
 
 .mc-enchant-name {
-  font-size: 0.76rem;
+  font-size: 0.78rem;
   font-weight: 600;
-  color: var(--text-primary);
+  color: #ffffff;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1956,8 +1976,8 @@ body.is-loading .mc-world-bg {
 }
 
 .mc-enchant-highlight {
-  font-size: 0.65rem;
-  color: var(--text-muted);
+  font-size: 0.66rem;
+  color: #9c99b0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1966,13 +1986,15 @@ body.is-loading .mc-world-bg {
 
 .mc-enchant-level {
   font-family: var(--font-pixel);
-  font-size: 0.3rem;
-  color: var(--text-muted);
-  background: rgba(255,255,255,0.04);
-  padding: 0.1rem 0.3rem;
-  border: 1px solid rgba(255,255,255,0.06);
+  font-size: 0.42rem;
+  color: var(--mc-gold);
+  background: rgba(245, 166, 35, 0.12);
+  padding: 0.2rem 0.45rem;
+  border: 1px solid rgba(245, 166, 35, 0.35);
   border-radius: 2px;
   flex-shrink: 0;
+  letter-spacing: 0.04em;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.6);
 }
 
 /* Enchantment tooltip on hover */
@@ -2781,7 +2803,7 @@ body.is-loading .mc-world-bg {
    23. Enhanced 9-Slot Hotbar & Slot Tooltips
    -------------------------------------------------------------------------- */
 .mc-hotbar {
-  max-width: 980px;
+  max-width: var(--container-max);
   margin-inline: auto;
 }
 

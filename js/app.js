@@ -1259,6 +1259,15 @@ function initScrollEffects() {
   }, { rootMargin: '0px 0px -40px 0px', threshold: 0.1 });
 
   reveals.forEach(el => observer.observe(el));
+
+  const navWrap = document.getElementById('main-nav');
+  if (navWrap) {
+    const handleScroll = () => {
+      navWrap.classList.toggle('nav-scrolled', window.scrollY > 30);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+  }
 }
 
 function initFooterYear() {
