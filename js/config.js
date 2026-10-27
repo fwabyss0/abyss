@@ -64,7 +64,7 @@ export const PORTFOLIO_CONFIG = {
       tag: "OVERWORLD",
       title: "ALISH SHRESTHA",
       subtitle: "// ABYSS",
-      description: "Welcome to my interactive domain. Explore my projects, skills, crafting progression, and services.",
+      description: "Welcome to my interactive domain. Explore my projects, skills, advancements, and services.",
       hotbarIcon: "spawnCompass",
       tooltip: "Press 1 or click to visit Spawn Main Menu"
     },
@@ -99,54 +99,44 @@ export const PORTFOLIO_CONFIG = {
       tooltip: "Press 4 or click to open Project Chest Inventory"
     },
     {
-      id: "experience",
-      slot: 5,
-      label: "Craft",
-      tag: "CRAFTING TABLE",
-      title: "Experience Crafting Table",
-      subtitle: "Recipes that combined education, tools, and technical milestones into career progression.",
-      hotbarIcon: "craftingTable",
-      tooltip: "Press 5 or click to inspect 3x3 Crafting Recipes"
-    },
-    {
       id: "achievements",
-      slot: 6,
+      slot: 5,
       label: "Advance",
       tag: "ADVANCEMENTS",
       title: "Achievements & Milestones",
       subtitle: "Tree of advancements unlocked through engineering, academic pursuit, and management.",
       hotbarIcon: "advancementTrophy",
-      tooltip: "Press 6 or click to view Advancements Menu"
+      tooltip: "Press 5 or click to view Advancements Menu"
     },
     {
       id: "services",
-      slot: 7,
+      slot: 6,
       label: "Trading",
       tag: "VILLAGER TRADING",
       title: "Villager Trading Post",
       subtitle: "Exchange emerald tokens for specialized engineering, AI development, and creative tech services.",
       hotbarIcon: "villagerEmerald",
-      tooltip: "Press 7 or click to trade with the Wandering Villager"
+      tooltip: "Press 6 or click to trade with the Wandering Villager"
     },
     {
       id: "contact",
-      slot: 8,
+      slot: 7,
       label: "Quill",
       tag: "BOOK & QUILL",
       title: "Book & Quill Communication",
       subtitle: "Write a transmission message or copy coordinates to establish a direct connection.",
       hotbarIcon: "bookAndQuill",
-      tooltip: "Press 8 or click to open Book & Quill"
+      tooltip: "Press 7 or click to open Book & Quill"
     },
     {
       id: "outro",
-      slot: 9,
+      slot: 8,
       label: "The End",
       tag: "THE END DIMENSION",
       title: "The End: Let's Build Together",
       subtitle: "The portal stands open. Return to world or collaborate on the next digital frontier.",
       hotbarIcon: "endCrystal",
-      tooltip: "Press 9 or click to enter The End Dimension"
+      tooltip: "Press 8 or click to enter The End Dimension"
     }
   ],
 

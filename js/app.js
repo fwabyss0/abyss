@@ -18,7 +18,6 @@ const minecraftLoaderUrl = 'assets/minecraft loader.mp4';
 // --- State Variables ---
 let currentScreenIndex = 0;
 let currentBookPage = 0;
-let currentRecipeIndex = 0;
 let currentTradeIndex = 0;
 let currentOreIndex = 0;
 let oreCurrentHits = 0;
@@ -46,7 +45,6 @@ function initApp() {
   renderSkills();
   renderProjects();
   initProjectModal();
-  renderCraftingTable();
   renderAdvancements();
   renderVillagerTrades();
   initBookQuillContact();
@@ -646,69 +644,7 @@ function initProjectModal() {
 
 /**
  * --------------------------------------------------------------------------
- * 9. Screen 5: Experience / 3x3 Crafting Table
- * --------------------------------------------------------------------------
- */
-function renderCraftingTable() {
-  const tabsContainer = document.getElementById('recipe-tabs');
-  const benchContainer = document.getElementById('crafting-bench-container');
-  if (!tabsContainer || !benchContainer) return;
-
-  const recipes = PORTFOLIO_CONFIG.craftingRecipes;
-
-  // Render Tabs
-  tabsContainer.innerHTML = recipes.map((r, idx) => `
-    <button type="button" class="mc-recipe-tab ${idx === currentRecipeIndex ? 'active' : ''}" data-recipe-idx="${idx}">
-      <span>Recipe ${idx + 1}: ${r.result.title}</span>
-    </button>
-  `).join('');
-
-  tabsContainer.querySelectorAll('.mc-recipe-tab').forEach(btn => {
-    btn.addEventListener('click', () => {
-      currentRecipeIndex = parseInt(btn.getAttribute('data-recipe-idx'), 10);
-      renderCraftingTable();
-    });
-  });
-
-  const activeRecipe = recipes[currentRecipeIndex] || recipes[0];
-
-  // Render Active 3x3 Bench and Output Card
-  benchContainer.innerHTML = `
-    <!-- 3x3 Input Grid -->
-    <div class="mc-crafting-grid-3x3" role="grid" aria-label="3 by 3 Crafting Inputs">
-      ${activeRecipe.grid.map((slot, sIdx) => `
-        <div class="mc-craft-slot" title="${slot.item}" role="gridcell" aria-label="Ingredient: ${slot.item}">
-          <div style="width: 22px; height: 22px;">${ICONS[slot.iconKey] || ''}</div>
-          <span class="slot-label-tiny">${slot.item}</span>
-        </div>
-      `).join('')}
-    </div>
-
-    <!-- Animated Crafting Arrow -->
-    <div class="mc-craft-arrow" aria-hidden="true">&rarr;</div>
-
-    <!-- Output Result Slot -->
-    <div class="mc-craft-result-card">
-      <div class="mc-craft-result-header">
-        <div class="mc-craft-result-icon">
-          ${ICONS[activeRecipe.result.iconKey] || ''}
-        </div>
-        <div>
-          <h3 class="mc-craft-result-title">${activeRecipe.result.title}</h3>
-          <div class="mc-craft-result-sub">${activeRecipe.result.subtitle}</div>
-        </div>
-      </div>
-      <div style="font-family: var(--font-pixel); font-size: 0.4rem; color: var(--mc-gold); margin-bottom: 0.6rem;">
-        📅 ${activeRecipe.result.period} · 📍 ${activeRecipe.result.location}
-      </div>
-      <p class="mc-craft-result-desc">${activeRecipe.result.description}</p>
-    </div>
-  `;
-}
-
-/**
- * --------------------------------------------------------------------------
- * 10. Screen 6: Achievements / Advancements Menu
+ * 9. Screen 5: Achievements / Advancements Menu
  * --------------------------------------------------------------------------
  */
 function renderAdvancements() {
@@ -913,11 +849,10 @@ function initHotbarKeyboard() {
     '2': '#about',
     '3': '#skills',
     '4': '#projects',
-    '5': '#experience',
-    '6': '#achievements',
-    '7': '#services',
-    '8': '#contact',
-    '9': '#outro'
+    '5': '#achievements',
+    '6': '#services',
+    '7': '#contact',
+    '8': '#outro'
   };
 
   window.addEventListener('keydown', (e) => {
