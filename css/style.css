@@ -753,30 +753,9 @@ ul, ol {
 .mc-loader-actions {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.65rem;
   margin-top: 0.35rem;
-}
-
-.mc-loader-newtab {
-  font-size: 0.55rem !important;
-  padding: 0.5rem 1rem !important;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  text-decoration: none;
-  color: #ffffff;
-}
-
-.mc-btn-newtab {
-  text-decoration: none;
-  color: var(--text-secondary);
-}
-
-.mc-btn-newtab:hover {
-  color: #ffffff;
-  border-color: var(--mc-diamond);
-  background: rgba(92, 225, 230, 0.15);
-  box-shadow: 0 0 10px rgba(92, 225, 230, 0.35);
 }
 
 body.is-loading {

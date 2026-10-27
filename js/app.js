@@ -11,9 +11,9 @@ import { ICONS } from './icons.js';
 import { AsciiPortrait } from './ascii-portrait.js';
 import { Particles3D } from './particles-3d.js';
 import { SkinCompanion } from './skin-companion.js';
-import skinFrontUrl from '../assets/skin-front.png';
-import skinBackUrl from '../assets/skin-back.png';
-import minecraftLoaderUrl from '../assets/minecraft loader.mp4';
+const skinFrontUrl = 'assets/skin-front.png';
+const skinBackUrl = 'assets/skin-back.png';
+const minecraftLoaderUrl = 'assets/minecraft loader.mp4';
 
 // --- State Variables ---
 let currentScreenIndex = 0;
@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initApp() {
+  initLoader();
   initProgression();
   initSoundFX();
   initParticles3D();
@@ -58,7 +59,6 @@ function initApp() {
   initFooterYear();
   initSkinCompanion();
   initSkinAvatarSwitcher();
-  initLoader();
 }
 
 function initSkinCompanion() {
@@ -1356,6 +1356,10 @@ function initLoader() {
     window.addEventListener('load', () => {
       isWindowLoaded = true;
     }, { once: true });
+    // Safety fallback: Never keep the user waiting more than 3.5 seconds even if slow network resources delay window.load
+    setTimeout(() => {
+      isWindowLoaded = true;
+    }, 3500);
   }
 
   const MIN_DURATION_MS = 2400; // Allows the character walk animation to loop smoothly
