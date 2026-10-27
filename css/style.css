@@ -3663,3 +3663,141 @@ body.is-loading .mc-world-bg {
   filter: blur(1px);
 }
 
+/* --------------------------------------------------------------------------
+   32. Minecraft Dimension Warp / Page Change Transition
+   -------------------------------------------------------------------------- */
+.mc-dimension-warp {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 998;
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 240ms ease-out;
+  overflow: hidden;
+}
+
+.mc-dimension-warp.is-warping {
+  opacity: 1;
+}
+
+/* Nether / End Portal Radial Aura Vignette */
+.mc-warp-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(168, 85, 247, 0.28) 0%, rgba(13, 8, 28, 0.65) 55%, rgba(0, 0, 0, 0.88) 100%);
+  animation: mc-warp-pulse 550ms ease-in-out infinite alternate;
+}
+
+@keyframes mc-warp-pulse {
+  0% { transform: scale(1); filter: brightness(1); }
+  100% { transform: scale(1.04); filter: brightness(1.2); }
+}
+
+/* Dimension Portal Scanning Lines */
+.mc-warp-portal-sheen {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(168, 85, 247, 0.15) 50%,
+    transparent 100%
+  );
+  background-size: 100% 8px;
+  animation: mc-warp-scan 800ms linear infinite;
+  mix-blend-mode: screen;
+}
+
+@keyframes mc-warp-scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+/* Centered Pixel Dimension Title Banner */
+.mc-warp-banner {
+  position: relative;
+  z-index: 2;
+  background: rgba(18, 12, 34, 0.94);
+  border: 3px solid var(--mc-slot-border);
+  box-shadow: 
+    0 0 35px rgba(168, 85, 247, 0.6),
+    inset 2px 2px 0 rgba(255, 255, 255, 0.25),
+    inset -2px -2px 0 rgba(0, 0, 0, 0.7);
+  padding: 1rem 2rem;
+  text-align: center;
+  min-width: min(90vw, 420px);
+  transform: scale(0.9) translateY(12px);
+  opacity: 0;
+  transition: transform 320ms cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 240ms ease-out;
+}
+
+.mc-dimension-warp.is-warping .mc-warp-banner {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+}
+
+.mc-warp-badge {
+  display: block;
+  font-family: var(--font-pixel);
+  font-size: 0.5rem;
+  color: var(--mc-gold);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.mc-warp-title {
+  font-family: var(--font-pixel);
+  font-size: clamp(0.75rem, 2.2vw, 1.05rem);
+  color: #ffffff;
+  margin: 0;
+  text-shadow: 2px 2px 0 #000, 0 0 14px rgba(192, 132, 252, 0.9);
+  letter-spacing: 0.05em;
+}
+
+.mc-warp-sub {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  color: var(--mc-diamond);
+  margin-top: 0.35rem;
+  letter-spacing: 0.02em;
+}
+
+/* Page Change Animation on Sections */
+.mc-section {
+  transition: filter 400ms ease, opacity 400ms ease;
+}
+
+.mc-section.mc-section-active-transition > .mc-container {
+  animation: mc-dimension-arrival 650ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes mc-dimension-arrival {
+  0% {
+    opacity: 0.45;
+    transform: scale(0.975) translateY(22px);
+    filter: brightness(1.28) saturate(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: brightness(1) saturate(1);
+  }
+}
+
+/* Hotbar Slot Activated Animation */
+.mc-hotbar-slot.slot-just-activated {
+  animation: mc-slot-warp-pulse 500ms ease-out both;
+}
+
+@keyframes mc-slot-warp-pulse {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.15) translateY(-4px); box-shadow: 0 0 18px var(--mc-enchant-purple); }
+  100% { transform: scale(1) translateY(-2px); }
+}
+
+

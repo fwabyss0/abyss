@@ -64,7 +64,7 @@ export const PORTFOLIO_CONFIG = {
       tag: "OVERWORLD",
       title: "ALISH SHRESTHA",
       subtitle: "// ABYSS",
-      description: "Welcome to my interactive domain. Explore my projects, skills, advancements, and services.",
+      description: "Welcome to my interactive domain. Explore my projects, skills, and advancements.",
       hotbarIcon: "spawnCompass",
       tooltip: "Press 1 or click to visit Spawn Main Menu"
     },
@@ -109,34 +109,14 @@ export const PORTFOLIO_CONFIG = {
       tooltip: "Press 5 or click to view Advancements Menu"
     },
     {
-      id: "services",
-      slot: 6,
-      label: "Trading",
-      tag: "VILLAGER TRADING",
-      title: "Villager Trading Post",
-      subtitle: "Exchange emerald tokens for specialized engineering, AI development, and creative tech services.",
-      hotbarIcon: "villagerEmerald",
-      tooltip: "Press 6 or click to trade with the Wandering Villager"
-    },
-    {
-      id: "contact",
-      slot: 7,
-      label: "Quill",
-      tag: "BOOK & QUILL",
-      title: "Book & Quill Communication",
-      subtitle: "Write a transmission message or copy coordinates to establish a direct connection.",
-      hotbarIcon: "bookAndQuill",
-      tooltip: "Press 7 or click to open Book & Quill"
-    },
-    {
       id: "outro",
-      slot: 8,
+      slot: 6,
       label: "The End",
       tag: "THE END DIMENSION",
       title: "The End: Let's Build Together",
       subtitle: "The portal stands open. Return to world or collaborate on the next digital frontier.",
       hotbarIcon: "endCrystal",
-      tooltip: "Press 8 or click to enter The End Dimension"
+      tooltip: "Press 6 or click to enter The End Dimension"
     }
   ],
 

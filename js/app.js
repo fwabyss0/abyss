@@ -18,7 +18,6 @@ const minecraftLoaderUrl = 'assets/minecraft loader.mp4';
 // --- State Variables ---
 let currentScreenIndex = 0;
 let currentBookPage = 0;
-let currentTradeIndex = 0;
 let currentOreIndex = 0;
 let oreCurrentHits = 0;
 let isF3Visible = false;
@@ -26,6 +25,8 @@ let isMiningOpen = false;
 let userXp = 0;
 let visitedScreens = new Set();
 let unlockedAdvancements = new Set();
+let currentActiveScreenId = 'hero';
+let warpTimer = null;
 
 document.addEventListener('DOMContentLoaded', () => {
   initApp();
@@ -46,8 +47,6 @@ function initApp() {
   renderProjects();
   initProjectModal();
   renderAdvancements();
-  renderVillagerTrades();
-  initBookQuillContact();
   renderSocialLinks();
   initNavigation();
   initHotbarKeyboard();
@@ -269,9 +268,36 @@ function playLevelUpSound() {
   } catch (e) {}
 }
 
+function playDimensionWarpSound() {
+  try {
+    const ctx = getAudioContext();
+    if (!ctx) return;
+    const now = ctx.currentTime;
+    // Mystical ascending portal chord: G4 (392Hz) -> D5 (587.33Hz) -> G5 (784Hz)
+    const notes = [392.00, 587.33, 783.99];
+    notes.forEach((freq, idx) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq, now + idx * 0.05);
+      osc.frequency.exponentialRampToValueAtTime(freq * 1.04, now + idx * 0.05 + 0.16);
+
+      gain.gain.setValueAtTime(0.04, now + idx * 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.05 + 0.20);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now + idx * 0.05);
+      osc.stop(now + idx * 0.05 + 0.22);
+    });
+  } catch (e) {}
+}
+
 function initSoundFX() {
   document.addEventListener('click', (e) => {
-    const clickable = e.target.closest('.mc-btn, .mc-hotbar-slot, .mc-inv-item, .mc-achievement, .mc-recipe-tab, .mc-trade-item-btn, .mc-book-nav-btn, .mc-btn-hud');
+    const clickable = e.target.closest('.mc-btn, .mc-hotbar-slot, .mc-inv-item, .mc-achievement, .mc-book-nav-btn, .mc-btn-hud');
     if (clickable) playClickSound();
   });
 }
@@ -671,154 +697,7 @@ function renderAdvancements() {
 
 /**
  * --------------------------------------------------------------------------
- * 11. Screen 7: Services / Villager Trading GUI
- * --------------------------------------------------------------------------
- */
-function renderVillagerTrades() {
-  const listContainer = document.getElementById('villager-trades-list');
-  const workbenchContainer = document.getElementById('villager-trade-workbench');
-  if (!listContainer || !workbenchContainer) return;
-
-  const services = PORTFOLIO_CONFIG.services;
-
-  // Render Trades List
-  listContainer.innerHTML = services.map((s, idx) => `
-    <button type="button" class="mc-trade-item-btn ${idx === currentTradeIndex ? 'active' : ''}" data-trade-idx="${idx}">
-      <div>
-        <div style="font-family: var(--font-pixel); font-size: 0.52rem; color: #ffffff; margin-bottom: 0.25rem;">
-          ${s.title}
-        </div>
-        <div style="font-size: 0.78rem; color: var(--text-muted);">${s.villagerRole}</div>
-      </div>
-      <div class="mc-trade-cost-badge">
-        <span>${ICONS.villagerEmerald}</span>
-        <span>${s.costEmeralds} Emeralds</span>
-      </div>
-    </button>
-  `).join('');
-
-  listContainer.querySelectorAll('.mc-trade-item-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      currentTradeIndex = parseInt(btn.getAttribute('data-trade-idx'), 10);
-      renderVillagerTrades();
-    });
-  });
-
-  const activeTrade = services[currentTradeIndex] || services[0];
-
-  // Render Exchange Workbench
-  workbenchContainer.innerHTML = `
-    <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.5rem;">
-      <h3 style="font-family: var(--font-pixel); font-size: 0.58rem; color: var(--mc-gold);">
-        Trade Exchange: ${activeTrade.title}
-      </h3>
-      <span style="font-size: 0.8rem; color: var(--mc-emerald);">Villager: ${activeTrade.villagerRole}</span>
-    </div>
-
-    <!-- Visual Exchange Slot Row -->
-    <div class="mc-trade-exchange-row">
-      <div class="mc-trade-slot-box">
-        <div class="slot-icon-large">${ICONS.villagerEmerald}</div>
-        <span class="slot-name">${activeTrade.costEmeralds} Emeralds</span>
-      </div>
-
-      <span style="font-family: var(--font-pixel); font-size: 0.7rem; color: var(--text-muted);">+</span>
-
-      <div class="mc-trade-slot-box">
-        <div class="slot-icon-large">${ICONS[activeTrade.costItemKey] || ''}</div>
-        <span class="slot-name">${activeTrade.costItem}</span>
-      </div>
-
-      <div class="mc-craft-arrow" style="font-size: 1.6rem; color: var(--mc-emerald);">&rarr;</div>
-
-      <div class="mc-trade-slot-box">
-        <div class="slot-icon-large" style="border-color: var(--mc-emerald); box-shadow: 0 0 12px rgba(46, 204, 113, 0.4);">
-          ${ICONS[activeTrade.offeringKey] || ''}
-        </div>
-        <span class="slot-name" style="color: var(--mc-emerald); font-weight: bold;">${activeTrade.offering}</span>
-      </div>
-    </div>
-
-    <p style="font-size: 0.9rem; color: var(--text-primary); line-height: 1.65;">
-      ${activeTrade.description}
-    </p>
-
-    <div>
-      <h4 style="font-family: var(--font-pixel); font-size: 0.45rem; color: var(--mc-diamond); margin-bottom: 0.5rem;">
-        Expected Deliverables
-      </h4>
-      <ul class="mc-trade-deliverables">
-        ${activeTrade.deliverables.map(d => `<li>${d}</li>`).join('')}
-      </ul>
-    </div>
-
-    <button type="button" class="mc-btn mc-btn-emerald" id="trade-inquire-action-btn" style="margin-top: 0.5rem;">
-      <span>Confirm Trade Request &rarr; Book &amp; Quill</span>
-    </button>
-  `;
-
-  const tradeActionBtn = document.getElementById('trade-inquire-action-btn');
-  if (tradeActionBtn) {
-    tradeActionBtn.addEventListener('click', () => {
-      const contactSection = document.getElementById('contact');
-      const messageField = document.getElementById('quill-message');
-      if (messageField) {
-        messageField.value = `Hello Abyss,\n\nI would like to trade for the "${activeTrade.title}" service (${activeTrade.offering}).\n\nProject Overview:\n`;
-      }
-      if (contactSection) {
-        contactSection.scrollIntoView({ behavior: 'smooth' });
-        showToast('Trade loaded into Book & Quill!');
-      }
-    });
-  }
-}
-
-/**
- * --------------------------------------------------------------------------
- * 12. Screen 8: Contact / Book & Quill Form
- * --------------------------------------------------------------------------
- */
-function initBookQuillContact() {
-  const form = document.getElementById('quill-contact-form');
-  const copyBtn = document.getElementById('copy-email-btn');
-
-  if (form) {
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const name = document.getElementById('quill-sender-name')?.value.trim();
-      const email = document.getElementById('quill-sender-email')?.value.trim();
-      const message = document.getElementById('quill-message')?.value.trim();
-
-      if (!name || !email || !message) {
-        showToast('Please fill out all fields in the book!');
-        return;
-      }
-
-      // Encode and launch default mailto
-      const subject = encodeURIComponent(`Transmission from ${name} via Book & Quill`);
-      const body = encodeURIComponent(`From: ${name} (${email})\n\n${message}`);
-      window.location.href = `mailto:${PORTFOLIO_CONFIG.player.email}?subject=${subject}&body=${body}`;
-
-      showToast('Opening mail client to transmit parchment...');
-      triggerAdvancement('Free the End', 'Initiated direct communication transmission');
-    });
-  }
-
-  if (copyBtn) {
-    copyBtn.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(PORTFOLIO_CONFIG.player.email);
-        showToast('✉ Copied email to clipboard!');
-      } catch (err) {
-        showToast('✉ Copied email to clipboard!');
-      }
-    });
-  }
-}
-
-/**
- * --------------------------------------------------------------------------
- * 13. Social Links
+ * 11. Social Links
  * --------------------------------------------------------------------------
  */
 function renderSocialLinks() {
@@ -838,9 +717,75 @@ function renderSocialLinks() {
   if (footerLinks) footerLinks.innerHTML = pillHtml;
 }
 
+let isProgrammaticNavigating = false;
+let progNavTimer = null;
+
+function setProgrammaticNav() {
+  isProgrammaticNavigating = true;
+  if (progNavTimer) clearTimeout(progNavTimer);
+  progNavTimer = setTimeout(() => {
+    isProgrammaticNavigating = false;
+  }, 850);
+}
+
 /**
  * --------------------------------------------------------------------------
- * 14. Hotbar Keyboard Navigation (1–9 Keys & Left/Right Arrows)
+ * 12. Minecraft Dimension Warp / Page Change Transition
+ * --------------------------------------------------------------------------
+ */
+function triggerPageChangeAnimation(screenId) {
+  if (!screenId || screenId === currentActiveScreenId) return;
+  currentActiveScreenId = screenId;
+
+  const screenData = PORTFOLIO_CONFIG.screens.find(s => s.id === screenId);
+  if (!screenData) return;
+
+  const warpEl = document.getElementById('mc-dimension-warp');
+  const badgeEl = document.getElementById('mc-warp-badge');
+  const titleEl = document.getElementById('mc-warp-title');
+  const subEl = document.getElementById('mc-warp-sub');
+
+  if (badgeEl) badgeEl.textContent = `SLOT ${screenData.slot} // ${screenData.tag}`;
+  if (titleEl) titleEl.textContent = screenData.label.toUpperCase();
+  if (subEl) subEl.textContent = screenData.title;
+
+  if (warpEl) {
+    warpEl.classList.remove('is-warping');
+    void warpEl.offsetWidth; // Force reflow
+    warpEl.classList.add('is-warping');
+
+    if (warpTimer) clearTimeout(warpTimer);
+    warpTimer = setTimeout(() => {
+      warpEl.classList.remove('is-warping');
+    }, 550);
+  }
+
+  playDimensionWarpSound();
+
+  // Apply entrance animation to target section
+  const targetSec = document.getElementById(screenId);
+  if (targetSec) {
+    targetSec.classList.remove('mc-section-active-transition');
+    void targetSec.offsetWidth;
+    targetSec.classList.add('mc-section-active-transition');
+    setTimeout(() => {
+      targetSec.classList.remove('mc-section-active-transition');
+    }, 700);
+  }
+
+  // Hotbar slot pulse
+  const activeSlot = document.querySelector(`.mc-hotbar-slot[href="#${screenId}"]`);
+  if (activeSlot) {
+    activeSlot.classList.remove('slot-just-activated');
+    void activeSlot.offsetWidth;
+    activeSlot.classList.add('slot-just-activated');
+    setTimeout(() => activeSlot.classList.remove('slot-just-activated'), 550);
+  }
+}
+
+/**
+ * --------------------------------------------------------------------------
+ * 13. Hotbar Keyboard Navigation (1–6 Keys & Left/Right Arrows)
  * --------------------------------------------------------------------------
  */
 function initHotbarKeyboard() {
@@ -850,9 +795,7 @@ function initHotbarKeyboard() {
     '3': '#skills',
     '4': '#projects',
     '5': '#achievements',
-    '6': '#services',
-    '7': '#contact',
-    '8': '#outro'
+    '6': '#outro'
   };
 
   window.addEventListener('keydown', (e) => {
@@ -861,8 +804,11 @@ function initHotbarKeyboard() {
     if (document.getElementById('project-detail-overlay')?.classList.contains('is-open')) return;
     if (isMiningOpen) return;
 
-    // Number keys 1 through 9
+    // Number keys 1 through 6
     if (slotMap[e.key]) {
+      const targetId = slotMap[e.key].replace('#', '');
+      setProgrammaticNav();
+      triggerPageChangeAnimation(targetId);
       const targetSec = document.querySelector(slotMap[e.key]);
       if (targetSec) {
         e.preventDefault();
@@ -885,7 +831,10 @@ function initHotbarKeyboard() {
   function cycleScreen(direction) {
     const screens = PORTFOLIO_CONFIG.screens;
     currentScreenIndex = (currentScreenIndex + direction + screens.length) % screens.length;
-    const target = document.querySelector(`#${screens[currentScreenIndex].id}`);
+    const targetId = screens[currentScreenIndex].id;
+    setProgrammaticNav();
+    triggerPageChangeAnimation(targetId);
+    const target = document.querySelector(`#${targetId}`);
     if (target) {
       playClickSound(680, 0.04);
       target.scrollIntoView({ behavior: 'smooth' });
@@ -895,7 +844,7 @@ function initHotbarKeyboard() {
 
 /**
  * --------------------------------------------------------------------------
- * 15. Navigation Sync & Screen Observer
+ * 14. Navigation Sync & Screen Observer
  * --------------------------------------------------------------------------
  */
 function initNavigation() {
@@ -913,17 +862,36 @@ function initNavigation() {
 
     slots.forEach(slot => {
       slot.addEventListener('click', () => {
+        const href = slot.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          setProgrammaticNav();
+          triggerPageChangeAnimation(href.slice(1));
+        }
         menuToggle.setAttribute('aria-expanded', 'false');
         navLinksContainer.classList.remove('nav-open');
       });
     });
   }
 
+  // Hero main menu links trigger page change animation
+  document.querySelectorAll('.mc-main-menu .mc-menu-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const href = btn.getAttribute('href');
+      if (href && href.startsWith('#')) {
+        setProgrammaticNav();
+        triggerPageChangeAnimation(href.slice(1));
+      }
+    });
+  });
+
   // Active section indicator & XP reward for first-time screen exploration
   const sectionObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         const id = entry.target.getAttribute('id');
+        if (!isProgrammaticNavigating) {
+          triggerPageChangeAnimation(id);
+        }
         slots.forEach(slot => {
           const href = slot.getAttribute('href');
           if (href === `#${id}`) {

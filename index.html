@@ -211,13 +211,13 @@
             <span class="mc-btn-icon">✨</span>
             <span>Enchantments</span>
           </a>
-          <a href="#services" class="mc-btn mc-btn-stone mc-menu-btn">
-            <span class="mc-btn-icon">💎</span>
-            <span>Villager Trades</span>
+          <a href="#achievements" class="mc-btn mc-btn-stone mc-menu-btn">
+            <span class="mc-btn-icon">🏆</span>
+            <span>Advancements</span>
           </a>
-          <a href="#contact" class="mc-btn mc-btn-stone mc-menu-btn">
-            <span class="mc-btn-icon">🪶</span>
-            <span>Book &amp; Quill</span>
+          <a href="#outro" class="mc-btn mc-btn-stone mc-menu-btn">
+            <span class="mc-btn-icon">🌌</span>
+            <span>The End</span>
           </a>
         </div>
 
@@ -436,91 +436,7 @@
     </section>
 
     <!-- ============================================================
-         SCREEN 6: SERVICES / VILLAGER TRADING INTERFACE
-         ============================================================ -->
-    <section id="services" class="mc-section mc-trading-section" aria-labelledby="services-heading">
-      <div class="mc-container">
-        <div class="mc-section-header reveal-on-scroll">
-          <div class="mc-section-tag">
-            <span class="mc-tag-icon">💎</span>
-            <span>SLOT 6 // VILLAGER TRADES</span>
-          </div>
-          <h2 class="mc-section-title" id="services-heading">Villager Trading Post</h2>
-          <p class="mc-section-subtitle">Exchange visual emerald tokens for specialized web engineering, machine
-            learning prototyping, and creative print production.</p>
-        </div>
-
-        <div class="mc-villager-gui reveal-on-scroll" id="villager-gui-container">
-          <!-- Left: Trades List -->
-          <div class="mc-trades-list" id="villager-trades-list">
-            <!-- Populated via JS -->
-          </div>
-
-          <!-- Right: Exchange Workbench -->
-          <div class="mc-trade-workbench" id="villager-trade-workbench">
-            <!-- Populated via JS -->
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         SCREEN 7: CONTACT / BOOK AND QUILL
-         ============================================================ -->
-    <section id="contact" class="mc-section mc-contact-section" aria-labelledby="contact-heading">
-      <div class="mc-container">
-        <div class="mc-section-header reveal-on-scroll">
-          <div class="mc-section-tag">
-            <span class="mc-tag-icon">🪶</span>
-            <span>SLOT 7 // BOOK &amp; QUILL</span>
-          </div>
-          <h2 class="mc-section-title" id="contact-heading">Book &amp; Quill Transmission</h2>
-          <p class="mc-section-subtitle">Write a direct message to Abyss or copy transmission coordinates.</p>
-        </div>
-
-        <!-- Book and Quill Form -->
-        <div class="mc-book-quill-form reveal-on-scroll">
-          <form id="quill-contact-form" novalidate>
-            <div class="mc-quill-field">
-              <label for="quill-sender-name" class="mc-quill-label">Sender Identity (Name)</label>
-              <input type="text" id="quill-sender-name" class="mc-quill-input" placeholder="e.g. Steve / Explorer"
-                required>
-            </div>
-
-            <div class="mc-quill-field">
-              <label for="quill-sender-email" class="mc-quill-label">Return Frequency (Email)</label>
-              <input type="email" id="quill-sender-email" class="mc-quill-input" placeholder="you@domain.com" required>
-            </div>
-
-            <div class="mc-quill-field">
-              <label for="quill-message" class="mc-quill-label">Inscribed Message</label>
-              <textarea id="quill-message" class="mc-quill-textarea"
-                placeholder="Write your project brief, collaboration proposal, or message..." required></textarea>
-            </div>
-
-            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1rem;">
-              <button type="submit" class="mc-btn mc-btn-emerald" id="quill-submit-btn">
-                <span>Sign &amp; Send Transmission ✉</span>
-              </button>
-              <button type="button" class="mc-btn mc-btn-stone" id="copy-email-btn"
-                aria-label="Copy email address to clipboard">
-                <span>Copy Email 📋</span>
-              </button>
-            </div>
-          </form>
-
-          <div
-            style="margin-top: 1.5rem; padding-top: 1rem; border-top: 2px dashed #bda882; font-size: 0.82rem; color: #5a3825;">
-            <strong>Direct Channel:</strong> <a href="mailto:shrestaalish444@gmail.com"
-              style="text-decoration: underline;">shrestaalish444@gmail.com</a> · +977 9826328462 · Kathmandu &amp;
-            Bhaktapur, Nepal
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         SCREEN 8: OUTRO / THE END DIMENSION
+         SCREEN 6: OUTRO / THE END DIMENSION
          ============================================================ -->
     <section id="outro" class="mc-section mc-end-section" aria-labelledby="outro-heading">
       <div class="mc-end-atmosphere" aria-hidden="true">
@@ -539,7 +455,7 @@
         <div class="mc-end-title-block reveal-on-scroll">
           <div class="mc-section-tag" style="justify-content: center; color: var(--mc-end-purple);">
             <span class="mc-tag-icon">🌌</span>
-            <span>SLOT 8 // THE END PORTAL</span>
+            <span>SLOT 6 // THE END PORTAL</span>
           </div>
           <h2 class="mc-end-title" id="outro-heading">LET'S BUILD<br>SOMETHING.</h2>
           <p class="mc-end-subtitle">The End is not the conclusion, but the gateway to what we build next. I'm always
@@ -666,6 +582,17 @@
       </div>
     </div>
   </div>
+
+  <!-- Minecraft Dimension Warp Transition Overlay -->
+  <aside id="mc-dimension-warp" class="mc-dimension-warp" aria-hidden="true" role="presentation">
+    <div class="mc-warp-vignette"></div>
+    <div class="mc-warp-portal-sheen"></div>
+    <div class="mc-warp-banner">
+      <span class="mc-warp-badge" id="mc-warp-badge">DIMENSION 1 // SPAWN</span>
+      <h3 class="mc-warp-title" id="mc-warp-title">OVERWORLD SPAWN</h3>
+      <div class="mc-warp-sub" id="mc-warp-sub">Entering realm...</div>
+    </div>
+  </aside>
 
   <!-- Advancement Toast Notification -->
   <aside class="mc-advancement-toast" id="advancement-toast" role="status" aria-live="polite">
