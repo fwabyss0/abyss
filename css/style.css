@@ -1,0 +1,1822 @@
+/* ==========================================================================
+   EDITORIAL RETRO SCRAPBOOK PORTFOLIO — ALISH SHRESTHA (ABYSS)
+   Minimalist, editorial-style portfolio with a playful retro aesthetic.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. DESIGN TOKENS & ROOT VARIABLES
+   -------------------------------------------------------------------------- */
+:root {
+  /* Typography */
+  --font-headline: 'Pixelify Sans', 'Silkscreen', monospace;
+  --font-handwriting: 'Caveat', cursive;
+  --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Space Mono', monospace;
+
+  /* Color Palette */
+  --bg-canvas: #EFEFEF;
+  --bg-canvas-subtle: #E8E8E6;
+  --card-bg: #FFFFFF;
+  --text-primary: #121212;
+  --text-secondary: #525252;
+  --text-muted: #828282;
+  --text-faint: #A3A3A3;
+
+  /* Distinctive Accent Colors */
+  --color-gear-blue: #0066FF;
+  --color-gear-blue-hover: #0052CC;
+  --color-heart-red: #FF334B;
+  --color-sticky-yellow: #FFF785;
+  --color-sticky-gradient-end: #FFF168;
+  --color-tape: rgba(255, 255, 255, 0.65);
+  --color-stamp-purple: #8B5CF6;
+  --color-stamp-emerald: #10B981;
+  --color-stamp-amber: #F59E0B;
+
+  /* Borders & Shadows */
+  --border-subtle: rgba(0, 0, 0, 0.08);
+  --border-medium: rgba(0, 0, 0, 0.15);
+  --border-strong: rgba(0, 0, 0, 0.85);
+
+  --shadow-card: 0 24px 60px -15px rgba(0, 0, 0, 0.08), 0 10px 24px -10px rgba(0, 0, 0, 0.04);
+  --shadow-card-hover: 0 30px 70px -15px rgba(0, 0, 0, 0.12), 0 12px 30px -10px rgba(0, 0, 0, 0.06);
+  --shadow-sticky: 0 4px 10px rgba(0, 0, 0, 0.06), 0 16px 28px -6px rgba(0, 0, 0, 0.1);
+  --shadow-sticker: 0 8px 22px -4px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.04);
+  --shadow-headphones: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+
+  /* Layout & Spacing */
+  --radius-card: 32px;
+  --radius-card-sm: 20px;
+  --radius-sticker: 16px;
+  --radius-pill: 9999px;
+  --max-width: 1240px;
+}
+
+/* --------------------------------------------------------------------------
+   2. GLOBAL RESETS & FOUNDATIONS
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Accessibility focus outline */
+:focus-visible {
+  outline: 2px solid var(--text-primary);
+  outline-offset: 3px;
+}
+
+/* Subtle retro paper/canvas texture */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image: radial-gradient(var(--text-primary) 1px, transparent 1px);
+  background-size: 24px 24px;
+  z-index: 999;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   3. HERO SECTION (PRIMARY REFERENCE SPECIFICATION)
+   -------------------------------------------------------------------------- */
+.hero-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1.5rem;
+  position: relative;
+}
+
+/* Large Centered White Portfolio Card */
+.hero-card {
+  width: min(92vw, 1260px);
+  min-height: clamp(620px, 88vh, 880px);
+  background: var(--card-bg);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-card);
+  padding: 2.75rem 3.5rem 3rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: visible;
+  transition: box-shadow 0.4s ease;
+}
+
+.hero-card:hover {
+  box-shadow: var(--shadow-card-hover);
+}
+
+/* --- Top Navigation Header inside Card --- */
+.hero-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  z-index: 20;
+}
+
+.hero-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  user-select: none;
+}
+
+/* Black pixel-art cube icon */
+.pixel-cube-icon {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  display: inline-block;
+  image-rendering: pixelated;
+}
+
+/* Handwritten italic label */
+.hero-brand-label {
+  font-family: var(--font-handwriting);
+  font-size: 1.4rem;
+  font-weight: 700;
+  font-style: italic;
+  letter-spacing: 0.04em;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+/* Minimalist sparkle / asterisk in upper-right */
+.hero-sparkle-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--text-primary);
+  flex-shrink: 0;
+  transition: transform 0.5s ease;
+  user-select: none;
+}
+
+.hero-sparkle-icon:hover {
+  transform: rotate(90deg) scale(1.15);
+}
+
+/* --- Main Hero Content Center Container --- */
+.hero-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 10;
+  padding: 1.5rem 0;
+}
+
+/* Main Headline: P⚙RT / FOLIO */
+.hero-headline-wrap {
+  text-align: center;
+  user-select: none;
+  animation: heroFadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hero-headline {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  font-size: clamp(4.8rem, 14vw, 11.2rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+  -webkit-font-smoothing: antialiased;
+}
+
+.hero-line-1 {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-line-2 {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Bright-Blue Gear replacing the 'O' in PORT */
+.gear-slot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 0.78em;
+  height: 0.78em;
+  margin: 0 0.05em;
+  position: relative;
+  vertical-align: middle;
+  top: -0.03em;
+  cursor: pointer;
+}
+
+.gear-svg {
+  width: 100%;
+  height: 100%;
+  color: var(--color-gear-blue);
+  transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
+  filter: drop-shadow(0 4px 10px rgba(0, 102, 255, 0.25));
+}
+
+.gear-slot:hover .gear-svg,
+.hero-headline:hover .gear-svg {
+  transform: rotate(90deg) scale(1.05);
+  color: var(--color-gear-blue-hover);
+  filter: drop-shadow(0 6px 14px rgba(0, 102, 255, 0.35));
+}
+
+/* --- Call-To-Action Button --- */
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.65rem 1.6rem;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(4px);
+  color: var(--text-primary);
+  font-family: var(--font-handwriting);
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.hero-cta:hover {
+  background: #FFFFFF;
+  border-color: var(--text-primary);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.cta-arrow {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  transition: transform 0.25s ease;
+}
+
+.hero-cta:hover .cta-arrow {
+  transform: translateY(4px);
+}
+
+/* --------------------------------------------------------------------------
+   4. FLOATING DECORATIVE OBJECTS (SCRAPBOOK AESTHETIC)
+   -------------------------------------------------------------------------- */
+.floating-item {
+  position: absolute;
+  user-select: none;
+  z-index: 15;
+  will-change: transform;
+}
+
+/* 1. UPPER-LEFT: Circular profile portrait with thin white border, shadow & heart sticker */
+.float-profile {
+  top: 15%;
+  left: 7%;
+  animation: floatProfile 5.5s ease-in-out infinite alternate;
+}
+
+.profile-sticker-frame {
+  position: relative;
+  width: clamp(90px, 9vw, 115px);
+  height: clamp(90px, 9vw, 115px);
+  border-radius: 50%;
+  padding: 4px;
+  background: #FFFFFF;
+  box-shadow: var(--shadow-sticker);
+  border: 1px solid var(--border-subtle);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.profile-sticker-frame:hover {
+  transform: scale(1.06) rotate(-3deg);
+}
+
+.profile-sticker-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center 20%;
+  display: block;
+}
+
+/* Red heart sticker overlapping profile edge */
+.profile-heart-sticker {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  width: 32px;
+  height: 32px;
+  background: var(--color-heart-red);
+  border: 3px solid #FFFFFF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(255, 51, 75, 0.4);
+  animation: heartbeatPulse 2.2s infinite ease-in-out;
+}
+
+.heart-svg {
+  width: 16px;
+  height: 16px;
+  fill: #FFFFFF;
+}
+
+/* 2. UPPER-RIGHT: Pixel-art cat sticker with expressive open mouth */
+.float-cat {
+  top: 14%;
+  right: 8%;
+  animation: floatCat 6s ease-in-out infinite alternate;
+}
+
+.cat-sticker-wrapper {
+  position: relative;
+  width: clamp(80px, 8vw, 105px);
+  cursor: pointer;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.08));
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform: rotate(4deg);
+}
+
+.cat-sticker-wrapper:hover {
+  transform: rotate(0deg) scale(1.14) translateY(-3px);
+}
+
+.cat-sticker-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  image-rendering: pixelated;
+}
+
+/* 3. LOWER-LEFT: Realistic cutout image of silver headphones */
+.float-headphones {
+  bottom: 8%;
+  left: 6%;
+  animation: floatHeadphones 6.5s ease-in-out infinite alternate;
+}
+
+.headphones-wrapper {
+  position: relative;
+  width: clamp(140px, 14vw, 185px);
+  transform: rotate(-10deg);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: pointer;
+}
+
+.headphones-wrapper:hover {
+  transform: rotate(-5deg) scale(1.05);
+}
+
+.headphones-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  mix-blend-mode: multiply;
+  filter: drop-shadow(0 16px 20px rgba(0, 0, 0, 0.1));
+}
+
+/* 4. LOWER-RIGHT: Bright yellow sticky note with imperfect paper look */
+.float-sticky-note {
+  bottom: 7%;
+  right: 6%;
+  animation: floatSticky 5.8s ease-in-out infinite alternate;
+}
+
+.sticky-note-paper {
+  position: relative;
+  background: linear-gradient(145deg, #FFF994 0%, var(--color-sticky-yellow) 40%, var(--color-sticky-gradient-end) 100%);
+  padding: 1.6rem 1.6rem 1.8rem;
+  border-radius: 3px 3px 18px 3px;
+  box-shadow: var(--shadow-sticky);
+  transform: rotate(-2.8deg);
+  max-width: clamp(230px, 22vw, 290px);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+  cursor: default;
+}
+
+.sticky-note-paper:hover {
+  transform: rotate(0deg) scale(1.03);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08), 0 20px 32px -6px rgba(0, 0, 0, 0.14);
+}
+
+/* Frosted translucent paper tape at top of note */
+.sticky-tape {
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  transform: translateX(-50%) rotate(1deg);
+  width: 68px;
+  height: 22px;
+  background: var(--color-tape);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(2px);
+  border-left: 2px dashed rgba(180, 180, 180, 0.35);
+  border-right: 2px dashed rgba(180, 180, 180, 0.35);
+  pointer-events: none;
+}
+
+/* Dog-eared bottom-right corner */
+.sticky-note-paper::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 18px;
+  height: 18px;
+  background: linear-gradient(135deg, transparent 50%, rgba(0, 0, 0, 0.08) 50%);
+  border-radius: 0 0 16px 0;
+  pointer-events: none;
+}
+
+.sticky-note-text {
+  font-family: var(--font-handwriting);
+  font-size: clamp(1.15rem, 1.25vw, 1.35rem);
+  line-height: 1.38;
+  color: #1a1a1a;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  margin: 0;
+}
+
+/* 5. ABOVE STICKY NOTE: Pixel-art envelope with heart seal */
+.float-envelope {
+  bottom: 42%;
+  right: 10%;
+  animation: floatEnvelope 5s ease-in-out infinite alternate;
+}
+
+.envelope-wrapper {
+  position: relative;
+  width: clamp(52px, 5.5vw, 68px);
+  cursor: pointer;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.08));
+  transform: rotate(6deg);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.envelope-wrapper:hover {
+  transform: rotate(-3deg) scale(1.15);
+}
+
+.envelope-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  image-rendering: pixelated;
+}
+
+/* --------------------------------------------------------------------------
+   5. KEYFRAME ANIMATIONS
+   -------------------------------------------------------------------------- */
+@keyframes heroFadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heartbeatPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  14% {
+    transform: scale(1.22);
+  }
+  28% {
+    transform: scale(1);
+  }
+  42% {
+    transform: scale(1.16);
+  }
+  70% {
+    transform: scale(1);
+  }
+}
+
+@keyframes floatProfile {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  100% {
+    transform: translateY(-9px) rotate(-1deg);
+  }
+}
+
+@keyframes floatCat {
+  0% {
+    transform: translateY(0px) rotate(4deg);
+  }
+  100% {
+    transform: translateY(-8px) rotate(6deg);
+  }
+}
+
+@keyframes floatHeadphones {
+  0% {
+    transform: translateY(0px) rotate(-10deg);
+  }
+  100% {
+    transform: translateY(-11px) rotate(-8deg);
+  }
+}
+
+@keyframes floatSticky {
+  0% {
+    transform: translateY(0px) rotate(-2.8deg);
+  }
+  100% {
+    transform: translateY(-7px) rotate(-1.5deg);
+  }
+}
+
+@keyframes floatEnvelope {
+  0% {
+    transform: translateY(0px) rotate(6deg);
+  }
+  100% {
+    transform: translateY(-9px) rotate(3deg);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6. STICKY DOCKED NAVIGATION (APPEARS UPON SCROLL)
+   -------------------------------------------------------------------------- */
+.docked-nav {
+  position: fixed;
+  top: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(-120%);
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-pill);
+  padding: 0.5rem 0.75rem 0.5rem 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.08);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.docked-nav.visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.docked-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-headline);
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  text-transform: uppercase;
+}
+
+.docked-links {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  list-style: none;
+}
+
+.docked-links a {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: color 0.2s ease;
+  position: relative;
+}
+
+.docked-links a:hover,
+.docked-links a.active {
+  color: var(--text-primary);
+}
+
+.docked-cta {
+  font-family: var(--font-handwriting);
+  font-size: 1.15rem;
+  font-weight: 700;
+  background: var(--text-primary);
+  color: #FFFFFF !important;
+  padding: 0.4rem 1.1rem;
+  border-radius: var(--radius-pill);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.docked-cta:hover {
+  background: #333333;
+  transform: translateY(-1px);
+}
+
+/* --------------------------------------------------------------------------
+   7. EDITORIAL CONTENT CONTINUATION SECTIONS
+   -------------------------------------------------------------------------- */
+.editorial-container {
+  width: min(92vw, var(--max-width));
+  margin: 0 auto;
+  padding: 3rem 0 6rem;
+}
+
+.editorial-section {
+  margin-bottom: 5.5rem;
+  position: relative;
+}
+
+/* Section Header Typography */
+.section-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+
+.section-tag {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  background: #E5E5E3;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+}
+
+.section-hand-note {
+  font-family: var(--font-handwriting);
+  font-size: 1.35rem;
+  color: var(--color-gear-blue);
+  font-weight: 600;
+}
+
+.section-title {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--text-primary);
+  margin-bottom: 2.5rem;
+}
+
+/* Base Editorial Card Panel */
+.editorial-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-card-sm);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-card);
+  padding: 2.5rem;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* --------------------------------------------------------------------------
+   8. SECTION: ABOUT ME
+   -------------------------------------------------------------------------- */
+.about-grid {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.about-sidebar-card {
+  background: #FAFAFA;
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+}
+
+.about-photo-wrap {
+  width: 140px;
+  height: 140px;
+  margin: 0 auto 1.5rem;
+  border-radius: 50%;
+  padding: 5px;
+  background: #FFFFFF;
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-sticker);
+  position: relative;
+}
+
+.about-photo {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.about-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  background: #E8F5E9;
+  color: #2E7D32;
+  padding: 0.3rem 0.8rem;
+  border-radius: var(--radius-pill);
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4CAF50;
+  animation: pulseDot 2s infinite;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.about-name {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.about-handle {
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  margin-bottom: 1.25rem;
+}
+
+.about-quick-specs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  text-align: left;
+  border-top: 1px dashed var(--border-subtle);
+  padding-top: 1.25rem;
+  font-size: 0.88rem;
+}
+
+.spec-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.spec-label {
+  color: var(--text-muted);
+}
+
+.spec-value {
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: right;
+}
+
+/* About Narrative Content */
+.about-narrative {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.about-lead {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.about-body-text {
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+/* Three Core Pillars */
+.pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+
+.pillar-card {
+  background: #FAFAFA;
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 1.4rem;
+  position: relative;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.pillar-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--border-medium);
+}
+
+.pillar-icon {
+  font-size: 1.6rem;
+  margin-bottom: 0.75rem;
+  display: inline-block;
+}
+
+.pillar-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.pillar-desc {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* --------------------------------------------------------------------------
+   9. SECTION: SELECTED PROJECTS
+   -------------------------------------------------------------------------- */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.project-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-card-sm);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+  position: relative;
+}
+
+.project-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+/* Browser Mockup Header */
+.browser-chrome {
+  background: #F4F4F4;
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.browser-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.browser-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #D4D4D4;
+}
+
+.browser-address-bar {
+  background: #FFFFFF;
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  padding: 0.2rem 0.8rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Project Visual Preview Container */
+.project-preview {
+  height: 220px;
+  background: #FAFAFA;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.project-pattern-bg {
+  position: absolute;
+  inset: 0;
+  opacity: 0.08;
+  background-size: 16px 16px;
+  background-image: linear-gradient(to right, #000 1px, transparent 1px),
+                    linear-gradient(to bottom, #000 1px, transparent 1px);
+}
+
+.project-badge-center {
+  z-index: 2;
+  text-align: center;
+  padding: 1rem;
+}
+
+.project-accent-tag {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  padding: 0.35rem 0.9rem;
+  border-radius: var(--radius-pill);
+  display: inline-block;
+  margin-bottom: 0.6rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+.project-preview-title {
+  font-family: var(--font-headline);
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-transform: uppercase;
+}
+
+/* Project Details */
+.project-body {
+  padding: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.project-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.project-category {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.project-year {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.project-heading {
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.75rem;
+  color: var(--text-primary);
+}
+
+.project-desc {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 1.4rem;
+  flex: 1;
+}
+
+.project-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.6rem;
+}
+
+.stack-pill {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  background: #F0F0EF;
+  color: var(--text-secondary);
+  padding: 0.25rem 0.65rem;
+  border-radius: 4px;
+}
+
+.project-actions {
+  display: flex;
+  gap: 0.75rem;
+  border-top: 1px dashed var(--border-subtle);
+  padding-top: 1.25rem;
+}
+
+.btn-project {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 0.55rem 1.1rem;
+  border-radius: var(--radius-pill);
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.btn-project-primary {
+  background: var(--text-primary);
+  color: #FFFFFF;
+}
+
+.btn-project-primary:hover {
+  background: #333333;
+  transform: translateY(-1px);
+}
+
+.btn-project-secondary {
+  border: 1px solid var(--border-medium);
+  color: var(--text-primary);
+  background: transparent;
+}
+
+.btn-project-secondary:hover {
+  background: #F5F5F5;
+  border-color: var(--text-primary);
+}
+
+/* --------------------------------------------------------------------------
+   10. SECTION: SKILLS & TECHNOLOGIES
+   -------------------------------------------------------------------------- */
+.skills-layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.skills-categories-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.75rem;
+}
+
+.skill-category-card {
+  background: #FAFAFA;
+  border: 1px solid var(--border-subtle);
+  border-radius: 18px;
+  padding: 1.6rem;
+}
+
+.skill-cat-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px dashed var(--border-subtle);
+  padding-bottom: 0.75rem;
+}
+
+.skill-cat-icon {
+  font-size: 1.3rem;
+}
+
+.skill-cat-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.skill-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.skill-item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.skill-info {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.skill-badge-tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: #EAEAEA;
+  color: var(--text-primary);
+  width: 28px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+
+.skill-name {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.skill-level-text {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Skills Sticky Quote */
+.skills-sticky-card {
+  background: linear-gradient(135deg, #FFF999 0%, #FFF36E 100%);
+  padding: 2rem;
+  border-radius: 4px 4px 20px 4px;
+  box-shadow: var(--shadow-sticky);
+  transform: rotate(2deg);
+  position: relative;
+}
+
+.skills-sticky-card .sticky-tape {
+  top: -10px;
+}
+
+.skills-sticky-quote {
+  font-family: var(--font-handwriting);
+  font-size: 1.45rem;
+  line-height: 1.4;
+  font-weight: 600;
+  color: #1A1A1A;
+  margin-bottom: 1.25rem;
+}
+
+.skills-sticky-author {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: #555555;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* --------------------------------------------------------------------------
+   11. SECTION: EXPERIENCE & TIMELINE
+   -------------------------------------------------------------------------- */
+.timeline-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: relative;
+}
+
+.timeline-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-card-sm);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-card);
+  padding: 2rem 2.5rem;
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 2rem;
+  align-items: start;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.timeline-card:hover {
+  transform: translateX(4px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.timeline-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.timeline-period {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-gear-blue);
+}
+
+.timeline-location {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.timeline-role-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.35rem;
+  color: var(--text-primary);
+}
+
+.timeline-organization {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 0.85rem;
+}
+
+.timeline-details {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+}
+
+/* --------------------------------------------------------------------------
+   12. SECTION: SERVICES / AREAS OF EXPERTISE
+   -------------------------------------------------------------------------- */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.service-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-card-sm);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-card);
+  padding: 2.2rem;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.service-number {
+  font-family: var(--font-headline);
+  font-size: 1.6rem;
+  color: var(--color-gear-blue);
+  margin-bottom: 1.25rem;
+}
+
+.service-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.85rem;
+}
+
+.service-desc {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  flex: 1;
+}
+
+.service-deliverables {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-top: 1px dashed var(--border-subtle);
+  padding-top: 1.25rem;
+}
+
+.service-deliverables li {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.service-deliverables li::before {
+  content: "✦";
+  color: var(--color-gear-blue);
+  font-size: 0.75rem;
+}
+
+/* --------------------------------------------------------------------------
+   13. SECTION: CONTACT & TRANSMISSION
+   -------------------------------------------------------------------------- */
+.contact-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-card);
+  padding: 3.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 3.5rem;
+}
+
+.contact-info-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+}
+
+.contact-headline {
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+
+.contact-sub {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.contact-badges-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.contact-badge-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  background: #F8F8F8;
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.contact-badge-item:hover {
+  background: #F0F0F0;
+  border-color: var(--border-medium);
+  transform: translateX(4px);
+}
+
+.badge-label-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.badge-key {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.badge-val {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+.badge-action-icon {
+  font-family: var(--font-handwriting);
+  font-size: 1.2rem;
+  color: var(--color-gear-blue);
+  font-weight: 700;
+}
+
+/* Social Link Badges */
+.social-links-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.social-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  background: #FAFAFA;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  transition: all 0.2s ease;
+}
+
+.social-pill:hover {
+  background: var(--text-primary);
+  color: #FFFFFF;
+  border-color: var(--text-primary);
+  transform: translateY(-2px);
+}
+
+/* Direct Message Composer Form */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  background: #FAFAFA;
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  padding: 2.2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-label {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border-medium);
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  background: #FFFFFF;
+  color: var(--text-primary);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--color-gear-blue);
+  box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.12);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.form-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background: var(--color-gear-blue);
+  color: #FFFFFF;
+  font-family: var(--font-handwriting);
+  font-size: 1.35rem;
+  font-weight: 700;
+  padding: 0.85rem 1.6rem;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 102, 255, 0.25);
+  margin-top: 0.5rem;
+}
+
+.form-submit-btn:hover {
+  background: var(--color-gear-blue-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 102, 255, 0.35);
+}
+
+/* --------------------------------------------------------------------------
+   14. FOOTER
+   -------------------------------------------------------------------------- */
+.editorial-footer {
+  border-top: 1px solid var(--border-subtle);
+  background: #EAEAE8;
+  padding: 3rem 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.footer-inner {
+  width: min(92vw, var(--max-width));
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.footer-brand-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.footer-logo {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--text-primary);
+  text-transform: uppercase;
+}
+
+.footer-time-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.back-to-top-btn {
+  font-family: var(--font-handwriting);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.back-to-top-btn:hover {
+  transform: translateY(-3px);
+  color: var(--color-gear-blue);
+}
+
+/* --------------------------------------------------------------------------
+   15. TOAST NOTIFICATION (CLIPBOARD FEEDBACK)
+   -------------------------------------------------------------------------- */
+.toast-notice {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 2000;
+  background: var(--text-primary);
+  color: #FFFFFF;
+  padding: 0.75rem 1.4rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.toast-notice.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --------------------------------------------------------------------------
+   16. RESPONSIVE DESIGN & BREAKPOINTS
+   -------------------------------------------------------------------------- */
+
+/* --- Tablet Breakpoint (768px to 1024px) --- */
+@media (max-width: 1024px) {
+  .hero-card {
+    padding: 2.25rem 2rem 2.5rem;
+    min-height: 720px;
+  }
+
+  .float-profile {
+    top: 10%;
+    left: 4%;
+  }
+
+  .float-cat {
+    top: 10%;
+    right: 5%;
+  }
+
+  .float-headphones {
+    bottom: 5%;
+    left: 4%;
+  }
+
+  .float-sticky-note {
+    bottom: 5%;
+    right: 4%;
+    max-width: 240px;
+  }
+
+  .float-envelope {
+    bottom: 40%;
+    right: 6%;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .skills-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-card {
+    grid-template-columns: 1fr;
+    padding: 2.5rem;
+    gap: 2.5rem;
+  }
+}
+
+/* --- Mobile Breakpoint (Below 768px) --- */
+@media (max-width: 768px) {
+  .hero-wrapper {
+    padding: 1rem 0.75rem;
+    min-height: auto;
+  }
+
+  .hero-card {
+    width: 100%;
+    min-height: auto;
+    border-radius: var(--radius-card-sm);
+    padding: 1.5rem 1.25rem 2.5rem;
+    overflow: hidden;
+  }
+
+  .hero-headline {
+    font-size: clamp(3.2rem, 15vw, 5.2rem);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-brand-label {
+    font-size: 1.2rem;
+  }
+
+  /* Reposition floating elements gracefully on mobile to prevent overlapping */
+  .float-profile {
+    position: absolute;
+    top: 4.8rem;
+    left: 1rem;
+    transform: scale(0.85);
+  }
+
+  .float-cat {
+    position: absolute;
+    top: 4.5rem;
+    right: 1rem;
+    transform: scale(0.85);
+  }
+
+  .float-envelope {
+    display: none; /* Hide auxiliary sticker on very narrow screens */
+  }
+
+  .float-headphones {
+    position: static;
+    margin: 2rem auto 1rem;
+    width: 140px;
+    animation: none;
+    transform: rotate(-6deg);
+  }
+
+  .float-sticky-note {
+    position: static;
+    margin: 1.5rem auto 0;
+    max-width: 100%;
+    animation: none;
+    transform: rotate(-1deg);
+  }
+
+  .sticky-note-paper {
+    max-width: 100%;
+  }
+
+  .docked-links {
+    display: none; /* Compact nav on mobile */
+  }
+
+  .pillars-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .skills-categories-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .timeline-card {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+
+  .editorial-card {
+    padding: 1.5rem;
+  }
+
+  .contact-card {
+    padding: 1.5rem;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   17. ACCESSIBILITY: PREFERS REDUCED MOTION
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .floating-item {
+    animation: none !important;
+  }
+
+  .gear-svg {
+    transition: none !important;
+  }
+
+  .profile-heart-sticker {
+    animation: none !important;
+  }
+}

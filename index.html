@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alish Shrestha (Abyss) — Portfolio</title>
+  <meta name="description" content="Personal portfolio of Alish Shrestha (Abyss) — AI Student, Frontend Developer & Creator based in Kathmandu & Bhaktapur, Nepal.">
+  <meta name="author" content="Alish Shrestha">
+  <link rel="canonical" href="https://www.sthaalish.com.np/">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="shortcut icon" href="assets/favicon.ico">
+
+  <!-- OpenGraph / Social Meta -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.sthaalish.com.np/">
+  <meta property="og:title" content="Alish Shrestha (Abyss) — Portfolio">
+  <meta property="og:description" content="Minimalist, editorial-style portfolio of Alish Shrestha — AI Student, Web Developer & Creator.">
+  <meta property="og:image" content="assets/alish-900.webp">
+
+  <!-- Google Fonts: Pixelify Sans (Retro Bitmap/Serif Headline), Caveat (Handwriting), Plus Jakarta Sans (Clean Modern Sans), Space Mono (Code/Metadata) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Pixelify+Sans:wght@700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- =========================================================================
+       HERO OPENING SECTION (PRIMARY REFERENCE SPECIFICATION)
+       ========================================================================= -->
+  <header class="hero-wrapper" id="hero">
+    <!-- Large White Portfolio Card -->
+    <div class="hero-card">
+
+      <!-- Top Navigation Header inside Card -->
+      <nav class="hero-header" aria-label="Hero navigation">
+        <div class="hero-brand">
+          <!-- Black Pixel-Art Cube Icon -->
+          <svg class="pixel-cube-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <!-- Top Face -->
+            <polygon points="12,2 22,7 12,12 2,7" fill="#111111" />
+            <polygon points="12,3.5 20,7.5 12,11.5 4,7.5" fill="#444444" />
+            <!-- Left Face -->
+            <polygon points="2,7 12,12 12,22 2,17" fill="#222222" />
+            <!-- Right Face -->
+            <polygon points="12,12 22,7 22,17 12,22" fill="#111111" />
+            <!-- Pixel Accents -->
+            <rect x="11" y="6" width="2" height="2" fill="#666666" />
+          </svg>
+          <span class="hero-brand-label">MY PORTFOLIO</span>
+        </div>
+
+        <!-- Minimalist Sparkle / Asterisk Icon in Upper-Right -->
+        <div class="hero-sparkle-icon" aria-hidden="true" title="Editorial Asterisk">
+          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 0L13.8 8.2L22 10L13.8 11.8L12 20L10.2 11.8L2 10L10.2 8.2L12 0Z" />
+            <circle cx="12" cy="10" r="1.5" fill="#FFFFFF" />
+          </svg>
+        </div>
+      </nav>
+
+      <!-- Center Focal Point: Headline & CTA Button -->
+      <main class="hero-center">
+        <div class="hero-headline-wrap">
+          <h1 class="hero-headline">
+            <span class="hero-line-1">
+              P<span class="gear-slot" title="Click or hover to rotate gear!">
+                <!-- Bright-Blue Gear Replacing the 'O' in PORT -->
+                <svg class="gear-svg" viewBox="0 0 100 100" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-label="Bright blue mechanical gear">
+                  <!-- Outer Gear Ring with 8 Cog Teeth -->
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="
+                    M 43,5 L 57,5 L 58,18 Q 63,20 68,23 L 78,13 L 87,22 L 77,32 Q 80,37 82,42 L 95,43 L 95,57 L 82,58 Q 80,63 77,68 L 87,78 L 78,87 L 68,77 Q 63,80 58,82 L 57,95 L 43,95 L 42,82 Q 37,80 32,77 L 22,87 L 13,78 L 23,68 Q 20,63 18,58 L 5,57 L 5,43 L 18,42 Q 20,37 23,32 L 13,22 L 22,13 L 32,23 Q 37,20 42,18 Z
+                    M 50,30 A 20,20 0 1,0 50,70 A 20,20 0 1,0 50,30 Z
+                  " />
+                  <!-- Center Hole -->
+                  <circle cx="50" cy="50" r="14" fill="#FFFFFF" />
+                </svg>
+              </span>RT
+            </span>
+            <span class="hero-line-2">FOLIO</span>
+          </h1>
+
+          <!-- Call To Action: Outlined Button -->
+          <a href="#about" class="hero-cta" id="hero-cta-btn" aria-label="Scroll to portfolio overview">
+            <span>Enter in my world</span>
+            <span class="cta-arrow" aria-hidden="true">↓</span>
+          </a>
+        </div>
+      </main>
+
+      <!-- =====================================================================
+           FLOATING DECORATIVE OBJECTS (SCRAPBOOK AESTHETIC)
+           ===================================================================== -->
+
+      <!-- 1. UPPER-LEFT: Circular illustrated profile portrait with red heart sticker -->
+      <div class="floating-item float-profile" aria-label="Profile sticker">
+        <div class="profile-sticker-frame">
+          <img src="assets/alish-900.webp" alt="Alish Shrestha portrait sticker" class="profile-sticker-img" loading="eager" width="115" height="115">
+          <div class="profile-heart-sticker" title="Made with passion">
+            <svg class="heart-svg" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. UPPER-RIGHT: Pixel-art cat sticker with expressive open mouth -->
+      <div class="floating-item float-cat" aria-label="Pixel art cat sticker">
+        <div class="cat-sticker-wrapper" title="Click me for a meow!">
+          <svg class="cat-sticker-svg" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Pixel art cat sticker with open mouth">
+            <!-- White Die-Cut Sticker Outline -->
+            <path d="M 24,10 L 32,20 L 48,20 L 56,10 L 64,22 L 68,36 L 68,58 L 62,68 L 18,68 L 12,58 L 12,36 L 16,22 Z" fill="#FFFFFF" stroke="#E5E5E5" stroke-width="4" stroke-linejoin="round" />
+            <!-- Cat Head Base (Warm Golden Cream) -->
+            <polygon points="26,14 34,22 46,22 54,14 62,24 64,36 64,56 58,64 22,64 16,56 16,36 18,24" fill="#F8B133" />
+            <!-- Left Ear Inner (Pastel Pink) -->
+            <polygon points="24,20 28,16 32,24" fill="#FFAEC9" />
+            <!-- Right Ear Inner (Pastel Pink) -->
+            <polygon points="56,20 52,16 48,24" fill="#FFAEC9" />
+            <!-- Muzzle patch (Light Cream) -->
+            <rect x="28" y="38" width="24" height="20" rx="4" fill="#FFF4D0" />
+            <!-- Eyes (Deep Charcoal with white sparkles) -->
+            <rect x="26" y="32" width="7" height="9" rx="2" fill="#1A1A1A" />
+            <rect x="27" y="33" width="3" height="3" fill="#FFFFFF" />
+            <rect x="47" y="32" width="7" height="9" rx="2" fill="#1A1A1A" />
+            <rect x="48" y="33" width="3" height="3" fill="#FFFFFF" />
+            <!-- Pink Nose -->
+            <polygon points="40,41 37,39 43,39" fill="#FF5277" />
+            <!-- Expressive Open Mouth (:D) with Tongue -->
+            <path d="M 35,46 Q 40,56 45,46 Z" fill="#99152B" />
+            <ellipse cx="40" cy="50" rx="3.5" ry="3" fill="#FF708F" />
+            <!-- Whiskers -->
+            <line x1="12" y1="42" x2="22" y2="44" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round" />
+            <line x1="12" y1="48" x2="22" y2="47" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round" />
+            <line x1="68" y1="42" x2="58" y2="44" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round" />
+            <line x1="68" y1="48" x2="58" y2="47" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- 3. LOWER-LEFT: Realistic cutout image of silver headphones with soft shadow -->
+      <div class="floating-item float-headphones" aria-label="Silver headphones cutout">
+        <div class="headphones-wrapper" title="Soundtrack of the journey">
+          <img src="assets/headphones.jpg" alt="Realistic cutout of silver metallic over-ear headphones" class="headphones-img" width="185" height="185" loading="lazy">
+        </div>
+      </div>
+
+      <!-- 4. LOWER-RIGHT: Bright yellow sticky note with imperfect paper look -->
+      <div class="floating-item float-sticky-note" aria-label="Personal introduction sticky note">
+        <aside class="sticky-note-paper">
+          <div class="sticky-tape" aria-hidden="true"></div>
+          <p class="sticky-note-text">
+            “I help startups and modern brands create clean, conversion-focused interfaces that balance usability, aesthetics, and business growth.”
+          </p>
+        </aside>
+      </div>
+
+      <!-- 5. ABOVE STICKY NOTE: Small pixel-art envelope with heart seal -->
+      <div class="floating-item float-envelope" aria-label="Pixel art envelope with heart seal">
+        <div class="envelope-wrapper" title="Open to messages">
+          <svg class="envelope-svg" viewBox="0 0 64 52" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Pixel envelope with red heart wax seal">
+            <!-- Outer Sticker Outline -->
+            <rect x="2" y="2" width="60" height="48" rx="6" fill="#FFFFFF" stroke="#E5E5E5" stroke-width="3" />
+            <!-- Envelope Body -->
+            <rect x="6" y="6" width="52" height="40" fill="#F8F8F6" stroke="#222222" stroke-width="2" />
+            <!-- Flap lines -->
+            <polyline points="6,6 32,28 58,6" stroke="#222222" stroke-width="2" stroke-linejoin="round" fill="#EFEFEA" />
+            <polyline points="6,46 25,27" stroke="#222222" stroke-width="1.8" />
+            <polyline points="58,46 39,27" stroke="#222222" stroke-width="1.8" />
+            <!-- Heart Wax Seal (Pixel Heart) -->
+            <polygon points="32,32 30,30 27,30 25,32 25,34 32,41 39,34 39,32 37,30 34,30" fill="#FF334B" />
+          </svg>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       STICKY DOCKED NAVIGATION (APPEARS UPON SCROLL)
+       ========================================================================= -->
+  <nav class="docked-nav" id="docked-nav" aria-label="Docked navigation">
+    <a href="#hero" class="docked-brand">
+      <span style="color: var(--color-gear-blue);">✦</span>
+      <span>ABYSS</span>
+    </a>
+    <ul class="docked-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="docked-cta">Say Hello ✉</a>
+  </nav>
+
+  <!-- =========================================================================
+       EDITORIAL CONTENT CONTINUATION
+       ========================================================================= -->
+  <div class="editorial-container">
+
+    <!-- -----------------------------------------------------------------------
+         SECTION 1: ABOUT ME
+         ----------------------------------------------------------------------- -->
+    <section class="editorial-section" id="about" aria-labelledby="about-heading">
+      <div class="section-meta">
+        <span class="section-tag">[ 01 // ABOUT ME ]</span>
+        <span class="section-hand-note">Who is behind Abyss?</span>
+      </div>
+      <h2 class="section-title" id="about-heading">
+        Engineering at the intersection of AI, modern web craft, and physical systems.
+      </h2>
+
+      <div class="about-grid">
+        <!-- Sidebar Card -->
+        <aside class="about-sidebar-card">
+          <div class="about-photo-wrap">
+            <img src="assets/alish-900.webp" alt="Alish Shrestha" class="about-photo" width="140" height="140" loading="lazy">
+          </div>
+          <div class="about-status-pill">
+            <span class="status-dot"></span>
+            <span>Available for projects</span>
+          </div>
+          <h3 class="about-name">Alish Shrestha</h3>
+          <p class="about-handle">// Abyss</p>
+
+          <div class="about-quick-specs">
+            <div class="spec-row">
+              <span class="spec-label">Education</span>
+              <span class="spec-value">BSc (Hons) AI</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">University</span>
+              <span class="spec-value">Coventry / Softwarica</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Operations</span>
+              <span class="spec-value">Print Village Lead</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Coordinates</span>
+              <span class="spec-value">Kathmandu &amp; Bhaktapur, NP</span>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Narrative Content -->
+        <article class="about-narrative">
+          <p class="about-lead">
+            I'm an AI student and full-stack web developer dedicated to building purposeful digital experiences where clean computational rigor meets human delight.
+          </p>
+          <p class="about-body-text">
+            Currently pursuing my <strong>BSc (Hons) in Artificial Intelligence</strong> at Softwarica College in partnership with Coventry University (UK), I explore applied machine learning, neural architectures, and intelligent agents. Concurrently, I oversee physical production operations at <strong>Print Village</strong> in Bhaktapur, coordinating print engineering and digital hardware workflows.
+          </p>
+          <p class="about-body-text">
+            This dual focus—bridging rapid digital software with tangible physical equipment—instilled in me a relentless discipline for performance, reliable delivery, and meticulous typographic craftsmanship.
+          </p>
+
+          <!-- 3 Focus Pillars -->
+          <div class="pillars-grid">
+            <div class="pillar-card">
+              <span class="pillar-icon">🧠</span>
+              <h4 class="pillar-title">Artificial Intelligence</h4>
+              <p class="pillar-desc">Neural architectures, transformer models, data analysis, and autonomous agent workflows.</p>
+            </div>
+            <div class="pillar-card">
+              <span class="pillar-icon">🌐</span>
+              <h4 class="pillar-title">Modern Web Craft</h4>
+              <p class="pillar-desc">Semantic HTML5, modern vanilla CSS, modular JavaScript, zero-bloat build speeds, and accessibility.</p>
+            </div>
+            <div class="pillar-card">
+              <span class="pillar-icon">🖨️</span>
+              <h4 class="pillar-title">Creative Tech &amp; Ops</h4>
+              <p class="pillar-desc">Managing shop operations, hardware interfaces, automated printing queues, and physical delivery.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- -----------------------------------------------------------------------
+         SECTION 2: SELECTED PROJECTS
+         ----------------------------------------------------------------------- -->
+    <section class="editorial-section" id="projects" aria-labelledby="projects-heading">
+      <div class="section-meta">
+        <span class="section-tag">[ 02 // SELECTED WORKS ]</span>
+        <span class="section-hand-note">Real software &amp; live builds</span>
+      </div>
+      <h2 class="section-title" id="projects-heading">
+        Featured platforms built for real users, hardware, and commercial reach.
+      </h2>
+
+      <div class="projects-grid">
+        <!-- Project 1: Yatra Travel Platform -->
+        <article class="project-card">
+          <div class="browser-chrome">
+            <div class="browser-dots">
+              <span class="browser-dot"></span>
+              <span class="browser-dot"></span>
+              <span class="browser-dot"></span>
+            </div>
+            <span class="browser-address-bar">https://yatrala.netlify.app</span>
+            <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--color-gear-blue);">2026</span>
+          </div>
+
+          <div class="project-preview">
+            <div class="project-pattern-bg"></div>
+            <div class="project-badge-center">
+              <span class="project-accent-tag" style="background: var(--color-stamp-purple);">Web Application</span>
+              <h3 class="project-preview-title">Yatra Travel</h3>
+            </div>
+          </div>
+
+          <div class="project-body">
+            <div class="project-meta-row">
+              <span class="project-category">Travel &amp; Itinerary Platform</span>
+              <span class="project-year">2026</span>
+            </div>
+            <h4 class="project-heading">Yatra Travel Discovery</h4>
+            <p class="project-desc">
+              A comprehensive travel discovery and itinerary exploration platform built with responsive destination listings, clean routing architecture, and fast load speeds.
+            </p>
+            <div class="project-stack">
+              <span class="stack-pill">JavaScript</span>
+              <span class="stack-pill">CSS3 Grid</span>
+              <span class="stack-pill">Responsive UX</span>
+              <span class="stack-pill">Netlify</span>
+            </div>
+            <div class="project-actions">
+              <a href="https://yatrala.netlify.app/" target="_blank" rel="noopener noreferrer" class="btn-project btn-project-primary">
+                <span>View Live Demo</span>
+                <span>↗</span>
+              </a>
+              <a href="https://github.com/fwabyss0/Yatra" target="_blank" rel="noopener noreferrer" class="btn-project btn-project-secondary">
+                <span>GitHub Source</span>
+                <span>↗</span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 2: Polaroid Printer Experience -->
+        <article class="project-card">
+          <div class="browser-chrome">
+            <div class="browser-dots">
+              <span class="browser-dot"></span>
+              <span class="browser-dot"></span>
+              <span class="browser-dot"></span>
+            </div>
+            <span class="browser-address-bar">https://polariod-printer.vercel.app</span>
+            <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--color-gear-blue);">2026</span>
+          </div>
+
+          <div class="project-preview">
+            <div class="project-pattern-bg"></div>
+            <div class="project-badge-center">
+              <span class="project-accent-tag" style="background: var(--color-gear-blue);">Hardware &amp; Web</span>
+              <h3 class="project-preview-title">Polaroid Print</h3>
+            </div>
+          </div>
+
+          <div class="project-body">
+            <div class="project-meta-row">
+              <span class="project-category">Creative Hardware Concept</span>
+              <span class="project-year">2026</span>
+            </div>
+            <h4 class="project-heading">Polaroid Printer Experience</h4>
+            <p class="project-desc">
+              An interactive instant-photo printing platform connecting custom hardware concepts with a modern web interface for tangible Polaroid-style print captures.
+            </p>
+            <div class="project-stack">
+              <span class="stack-pill">JavaScript</span>
+              <span class="stack-pill">Hardware Interface</span>
+              <span class="stack-pill">Vercel</span>
+              <span class="stack-pill">Web UI</span>
+            </div>
+            <div class="project-actions">
+              <a href="https://polariod-printer.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn-project btn-project-primary">
+                <span>View Live Demo</span>
+                <span>↗</span>
+              </a>
+              <a href="https://github.com/fwabyss0/PolariodPrinter" target="_blank" rel="noopener noreferrer" class="btn-project btn-project-secondary">
+                <span>GitHub Source</span>
+                <span>↗</span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 3: Sashon Marketing Platform -->
+        <article class="project-card">
+          <div class="browser-chrome">
+            <div class="browser-dots">
+              <span class="browser-dot"></span>
+              <span class="browser-dot"></span>
+              <span class="browser-dot"></span>
+            </div>
+            <span class="browser-address-bar">https://sashon.vercel.app</span>
+            <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--color-gear-blue);">2026</span>
+          </div>
+
+          <div class="project-preview">
+            <div class="project-pattern-bg"></div>
+            <div class="project-badge-center">
+              <span class="project-accent-tag" style="background: #F472B6;">Commercial Brand</span>
+              <h3 class="project-preview-title">Sashon Web</h3>
+            </div>
+          </div>
+
+          <div class="project-body">
+            <div class="project-meta-row">
+              <span class="project-category">Client Web Platform</span>
+              <span class="project-year">2026</span>
+            </div>
+            <h4 class="project-heading">Sashon Marketing Platform</h4>
+            <p class="project-desc">
+              High-conversion digital brand presence and marketing website crafted for commercial reach with refined interactive components and dynamic responsive layouts.
+            </p>
+            <div class="project-stack">
+              <span class="stack-pill">JavaScript</span>
+              <span class="stack-pill">Vanilla CSS</span>
+              <span class="stack-pill">Responsive Design</span>
+              <span class="stack-pill">Vercel</span>
+            </div>
+            <div class="project-actions">
+              <a href="https://sashon.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn-project btn-project-primary">
+                <span>View Live Demo</span>
+                <span>↗</span>
+              </a>
+              <a href="https://github.com/fwabyss0/sashon" target="_blank" rel="noopener noreferrer" class="btn-project btn-project-secondary">
+                <span>GitHub Source</span>
+                <span>↗</span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 4: Print Village Workflow Portal -->
+        <article class="project-card">
+          <div class="browser-chrome">
+            <div class="browser-dots">
+              <span class="browser-dot"></span>
+              <span class="browser-dot"></span>
+              <span class="browser-dot"></span>
+            </div>
+            <span class="browser-address-bar">Internal Operations Portal</span>
+            <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--color-gear-blue);">2026</span>
+          </div>
+
+          <div class="project-preview">
+            <div class="project-pattern-bg"></div>
+            <div class="project-badge-center">
+              <span class="project-accent-tag" style="background: var(--color-stamp-emerald);">Operations &amp; Production</span>
+              <h3 class="project-preview-title">Print Village</h3>
+            </div>
+          </div>
+
+          <div class="project-body">
+            <div class="project-meta-row">
+              <span class="project-category">Production Tool</span>
+              <span class="project-year">2026</span>
+            </div>
+            <h4 class="project-heading">Print Village Workflow Portal</h4>
+            <p class="project-desc">
+              Production coordination tool managing customer orders, machinery specs, inventory stock, and print queues at Print Village in Bhaktapur.
+            </p>
+            <div class="project-stack">
+              <span class="stack-pill">HTML5</span>
+              <span class="stack-pill">CSS3</span>
+              <span class="stack-pill">JavaScript</span>
+              <span class="stack-pill">Workflow Systems</span>
+            </div>
+            <div class="project-actions">
+              <a href="https://github.com/fwabyss0/Print-Village" target="_blank" rel="noopener noreferrer" class="btn-project btn-project-primary">
+                <span>GitHub Repository</span>
+                <span>↗</span>
+              </a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- -----------------------------------------------------------------------
+         SECTION 3: SKILLS & TECHNOLOGIES
+         ----------------------------------------------------------------------- -->
+    <section class="editorial-section" id="skills" aria-labelledby="skills-heading">
+      <div class="section-meta">
+        <span class="section-tag">[ 03 // TECHNICAL TOOLKIT ]</span>
+        <span class="section-hand-note">What I work with</span>
+      </div>
+      <h2 class="section-title" id="skills-heading">
+        Tools, languages, and frameworks wielded across the stack.
+      </h2>
+
+      <div class="skills-layout">
+        <!-- 4 Domain Grid -->
+        <div class="skills-categories-grid">
+          <!-- Category 1 -->
+          <div class="skill-category-card">
+            <div class="skill-cat-header">
+              <span class="skill-cat-icon">💻</span>
+              <h3 class="skill-cat-title">Programming &amp; Web</h3>
+            </div>
+            <div class="skill-items-list">
+              <div class="skill-item-row">
+                <div class="skill-info">
+                  <span class="skill-badge-tag">Py</span>
+                  <span class="skill-name">Python</span>
+                </div>
+                <span class="skill-level-text">AI &amp; Automation</span>
+              </div>
+              <div class="skill-item-row">
+                <div class="skill-info">
+                  <span class="skill-badge-tag">JS</span>
+                  <span class="skill-name">JavaScript (ES6+)</span>
+                </div>
+                <span class="skill-level-text">Modern Frontend</span>
+              </div>
+              <div class="skill-item-row">
+                <div class="skill-info">
+                  <span class="skill-badge-tag">TS</span>
+                  <span class="skill-name">TypeScript</span>
+                </div>
+                <span class="skill-level-text">Type-safe Architecture</span>
+              </div>
+              <div class="skill-item-row">
+                <div class="skill-info">
+                  <span class="skill-badge-tag">H5</span>
+                  <span class="skill-name">HTML5 Semantic</span>
+                </div>
+                <span class="skill-level-text">A11y &amp; SEO</span>
+              </div>
+              <div class="skill-item-row">
+                <div class="skill-info">
+                  <span class="skill-badge-tag">C3</span>
+                  <span class="skill-name">CSS3 / Modern CSS</span>
+                </div>
+                <span class="skill-level-text">Flex, Grid &amp; Motion</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Category 2 -->
+          <div class="skill-category-card">
+            <div class="skill-cat-header">
+              <span class="skill-cat-icon">⚡</span>
+              <h3 class="skill-cat-title">Frontend &amp; Tooling</h3>
+            </div>
+            <div class="skill-items-list">
+              <div class="skill-item-row">
+                <div class="skill-info">
+                  <span class="skill-badge-tag">Re</span>
+                  <span class="skill-name">React Ecosystem</span>
+                </div>
+                <span class="skill-level-text">Component Architecture</span>
+              </div>
+              <div class="skill-item-row">
+                <div class="skill-info">
+                  <span class="skill-badge-tag">Vi</span>
+                  <span class="skill-name">Vite Dev Server</span>
+                </div>
+                <span class="skill-level-text">Fast Bundling</span>
+              </div>
+              <div class="skill-item-row">
+                <div class="skill-info">
+                  <span class="skill-badge-tag">Nd</span>
+                  <span class="skill-name">Node.js</span>
+                </div>
+                <span class="skill-level-text">Server Runtime</span>
+              </div>
+              <div class="skill-item-row">
+                <div class="skill-info">
+                  <span class="skill-badge-tag">Gt</span>
+                  <span class="skill-name">Git &amp; GitHub</span>
+                </div>
+                <span class="skill-level-text">CI/CD &amp; Versioning</span>
+              </div>
+              <div class="skill-item-row">
+                <div class="skill-info">
+                  <span class="skill-badge-tag">API</span>
+                  <span class="skill-name">RESTful APIs</span>
+                </div>
+                <span class="skill-level-text">Integration</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Category 3 -->
+          <div class="skill-category-card">
+            <div class="skill-cat-header">
+              <span class="skill-cat-icon">🧠</span>
+              <h3 class="skill-cat-title">AI &amp; Data Science</h3>
+            </div>
+            <div class="skill-items-list">
+              <div class="skill-item-row">
+                <div class="skill-info">
+                  <span class="skill-badge-tag">TF</span>
+                  <span class="skill-name">TensorFlow</span>
+                </div>
+                <span class="skill-level-text">Deep Learning</span>
+              </div>
+              <div class="skill-item-row">
+                <div class="skill-info">
+                  <span class="skill-badge-tag">ML</span>
+                  <span class="skill-name">Machine Learning</span>
+                </div>
+                <span class="skill-level-text">Classification &amp; Stats</span>
+              </div>
+              <div class="skill-item-row">
+                <div class="skill-info">
+                  <span class="skill-badge-tag">NLP</span>
+                  <span class="skill-name">NLP &amp; Tokenization</span>
+                </div>
+                <span class="skill-level-text">Transformers</span>
+              </div>
+              <div class="skill-item-row">
+                <div class="skill-info">
+                  <span class="skill-badge-tag">CV</span>
+                  <span class="skill-name">Computer Vision</span>
+                </div>
+                <span class="skill-level-text">Feature Extraction</span>
+              </div>
+              <div class="skill-item-row">
+                <div class="skill-info">
+                  <span class="skill-badge-tag">Pd</span>
+                  <span class="skill-name">Pandas / NumPy</span>
+                </div>
+                <span class="skill-level-text">Data Wrangling</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Category 4 -->
+          <div class="skill-category-card">
+            <div class="skill-cat-header">
+              <span class="skill-cat-icon">🖨️</span>
+              <h3 class="skill-cat-title">Creative &amp; Operations</h3>
+            </div>
+            <div class="skill-items-list">
+              <div class="skill-item-row">
+                <div class="skill-info">
+                  <span class="skill-badge-tag">Pr</span>
+                  <span class="skill-name">Print Production</span>
+                </div>
+                <span class="skill-level-text">Hardware Calibration</span>
+              </div>
+              <div class="skill-item-row">
+                <div class="skill-info">
+                  <span class="skill-badge-tag">Fg</span>
+                  <span class="skill-name">Figma Prototyping</span>
+                </div>
+                <span class="skill-level-text">UI Wireframing</span>
+              </div>
+              <div class="skill-item-row">
+                <div class="skill-info">
+                  <span class="skill-badge-tag">Wf</span>
+                  <span class="skill-name">Workflow Automation</span>
+                </div>
+                <span class="skill-level-text">Process Design</span>
+              </div>
+              <div class="skill-item-row">
+                <div class="skill-info">
+                  <span class="skill-badge-tag">Qc</span>
+                  <span class="skill-name">Quality Assurance</span>
+                </div>
+                <span class="skill-level-text">Pixel &amp; Print Precision</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sticky Note Quote on the Right -->
+        <aside class="skills-sticky-card">
+          <div class="sticky-tape" aria-hidden="true"></div>
+          <p class="skills-sticky-quote">
+            “Code should be as deliberate and clean as a printed proof sheet. Every element must earn its place.”
+          </p>
+          <span class="skills-sticky-author">— Alish Shrestha (Abyss)</span>
+        </aside>
+      </div>
+    </section>
+
+    <!-- -----------------------------------------------------------------------
+         SECTION 4: EXPERIENCE & TIMELINE
+         ----------------------------------------------------------------------- -->
+    <section class="editorial-section" id="experience" aria-labelledby="experience-heading">
+      <div class="section-meta">
+        <span class="section-tag">[ 04 // TIMELINE &amp; ROLES ]</span>
+        <span class="section-hand-note">The journey so far</span>
+      </div>
+      <h2 class="section-title" id="experience-heading">
+        Where academic rigor meets hands-on production responsibility.
+      </h2>
+
+      <div class="timeline-container">
+        <!-- Milestone 1 -->
+        <div class="timeline-card">
+          <div class="timeline-meta">
+            <span class="timeline-period">2024 — Present</span>
+            <span class="timeline-location">Kathmandu, Nepal</span>
+          </div>
+          <div>
+            <h3 class="timeline-role-title">BSc (Hons) in Artificial Intelligence</h3>
+            <p class="timeline-organization">Softwarica College of IT &amp; E-Commerce (Coventry University, UK)</p>
+            <p class="timeline-details">
+              Academic pursuit focused on mathematical foundations of machine learning, deep neural network architectures, autonomous agents, and modern natural language processing systems.
+            </p>
+          </div>
+        </div>
+
+        <!-- Milestone 2 -->
+        <div class="timeline-card">
+          <div class="timeline-meta">
+            <span class="timeline-period">2024 — Present</span>
+            <span class="timeline-location">Bhaktapur, Nepal</span>
+          </div>
+          <div>
+            <h3 class="timeline-role-title">Operations &amp; Production Lead</h3>
+            <p class="timeline-organization">Print Village</p>
+            <p class="timeline-details">
+              Directing daily physical print workflows, coordinating production scheduling, integrating digital orders with machinery peripherals, and maintaining exacting quality standards for high-volume commercial deliverables.
+            </p>
+          </div>
+        </div>
+
+        <!-- Milestone 3 -->
+        <div class="timeline-card">
+          <div class="timeline-meta">
+            <span class="timeline-period">2023 — Present</span>
+            <span class="timeline-location">Remote / Global</span>
+          </div>
+          <div>
+            <h3 class="timeline-role-title">Independent Frontend &amp; AI Developer</h3>
+            <p class="timeline-organization">Abyss Engineering</p>
+            <p class="timeline-details">
+              Designing and coding high-performance web applications, interactive experiments, and applied machine learning prototypes. Emphasizing lightweight semantic markup, expressive typography, and delightful micro-interactions.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- -----------------------------------------------------------------------
+         SECTION 5: SERVICES & OFFERINGS
+         ----------------------------------------------------------------------- -->
+    <section class="editorial-section" id="services" aria-labelledby="services-heading">
+      <div class="section-meta">
+        <span class="section-tag">[ 05 // SERVICES &amp; OFFERINGS ]</span>
+        <span class="section-hand-note">How I can help</span>
+      </div>
+      <h2 class="section-title" id="services-heading">
+        High-impact capabilities available for ambitious teams &amp; brands.
+      </h2>
+
+      <div class="services-grid">
+        <!-- Service 1 -->
+        <div class="service-card">
+          <span class="service-number">01</span>
+          <h3 class="service-title">Full-Stack Web Engineering</h3>
+          <p class="service-desc">
+            High-performance web apps built with semantic HTML, modular JS, bespoke CSS architecture, ultra-fast load times, and edge deployment.
+          </p>
+          <ul class="service-deliverables">
+            <li>Responsive layouts for all screens</li>
+            <li>Zero-bloat performance optimization</li>
+            <li>Interactive state logic &amp; animations</li>
+            <li>SEO and accessibility audit</li>
+          </ul>
+        </div>
+
+        <!-- Service 2 -->
+        <div class="service-card">
+          <span class="service-number">02</span>
+          <h3 class="service-title">Applied AI &amp; Prototyping</h3>
+          <p class="service-desc">
+            Prototyping applied machine learning solutions, natural language processing pipelines, and data exploration workflows using Python &amp; TensorFlow.
+          </p>
+          <ul class="service-deliverables">
+            <li>Custom model training &amp; evaluation</li>
+            <li>Inference endpoint integration</li>
+            <li>Intelligent data processing tools</li>
+            <li>Practical AI assistant workflows</li>
+          </ul>
+        </div>
+
+        <!-- Service 3 -->
+        <div class="service-card">
+          <span class="service-number">03</span>
+          <h3 class="service-title">Creative Tech &amp; Print Systems</h3>
+          <p class="service-desc">
+            Connecting digital tools to hardware peripherals and coordinating precision physical print production workflows.
+          </p>
+          <ul class="service-deliverables">
+            <li>Hardware-web interface architecture</li>
+            <li>Print production queue systems</li>
+            <li>Physical-to-digital branding pipelines</li>
+            <li>Workflow automation consulting</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- -----------------------------------------------------------------------
+         SECTION 6: CONTACT & TRANSMISSION
+         ----------------------------------------------------------------------- -->
+    <section class="editorial-section" id="contact" aria-labelledby="contact-heading">
+      <div class="section-meta">
+        <span class="section-tag">[ 06 // TRANSMISSION ]</span>
+        <span class="section-hand-note">Get in touch</span>
+      </div>
+      <h2 class="section-title" id="contact-heading">
+        Let's build something clean, purposeful, and memorable.
+      </h2>
+
+      <div class="contact-card">
+        <!-- Direct Info Column -->
+        <div class="contact-info-col">
+          <h3 class="contact-headline">Ready to collaborate on something bold?</h3>
+          <p class="contact-sub">
+            Whether you have an upcoming project, a contract role, or an experimental idea that needs a frontend or AI prototype, my inbox is always open.
+          </p>
+
+          <div class="contact-badges-list">
+            <!-- Email Badge (Click to copy) -->
+            <div class="contact-badge-item" data-copy-text="shrestaalish444@gmail.com" data-copy-label="Email" title="Click to copy email address">
+              <div class="badge-label-group">
+                <span class="badge-key">Direct Email</span>
+                <span class="badge-val">shrestaalish444@gmail.com</span>
+              </div>
+              <span class="badge-action-icon">Copy 📋</span>
+            </div>
+
+            <!-- Phone Badge (Click to copy) -->
+            <div class="contact-badge-item" data-copy-text="+9779826328462" data-copy-label="Phone" title="Click to copy phone number">
+              <div class="badge-label-group">
+                <span class="badge-key">Direct Comms</span>
+                <span class="badge-val">+977 9826328462</span>
+              </div>
+              <span class="badge-action-icon">Copy 📋</span>
+            </div>
+
+            <!-- Base Realm -->
+            <div class="contact-badge-item" style="cursor: default;">
+              <div class="badge-label-group">
+                <span class="badge-key">Base Realm</span>
+                <span class="badge-val">Kathmandu &amp; Bhaktapur, Nepal</span>
+              </div>
+              <span class="badge-action-icon">📍</span>
+            </div>
+          </div>
+
+          <!-- Social Links -->
+          <div>
+            <span class="form-label" style="display: block; margin-bottom: 0.6rem;">Verified Social Profiles</span>
+            <div class="social-links-row">
+              <a href="https://github.com/fwabyss0" target="_blank" rel="noopener noreferrer" class="social-pill">
+                <span>GitHub</span>
+                <span>↗</span>
+              </a>
+              <a href="https://www.linkedin.com/in/alish-shrestha-4276b8379" target="_blank" rel="noopener noreferrer" class="social-pill">
+                <span>LinkedIn</span>
+                <span>↗</span>
+              </a>
+              <a href="https://www.instagram.com/aliisshhhhhh/" target="_blank" rel="noopener noreferrer" class="social-pill">
+                <span>Instagram</span>
+                <span>↗</span>
+              </a>
+              <a href="https://www.sthaalish.com.np/" target="_blank" rel="noopener noreferrer" class="social-pill">
+                <span>Website</span>
+                <span>↗</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Message Composer -->
+        <form class="contact-form" id="contact-composer-form">
+          <div class="form-group">
+            <label for="sender-name" class="form-label">Your Name</label>
+            <input type="text" id="sender-name" class="form-input" placeholder="e.g. Alex Morgan" required>
+          </div>
+          <div class="form-group">
+            <label for="sender-email" class="form-label">Your Email</label>
+            <input type="email" id="sender-email" class="form-input" placeholder="alex@startup.io" required>
+          </div>
+          <div class="form-group">
+            <label for="sender-message" class="form-label">Transmission Message</label>
+            <textarea id="sender-message" class="form-textarea" placeholder="Tell me about your project, timeline, or idea..." required></textarea>
+          </div>
+          <button type="submit" class="form-submit-btn">
+            <span>Send Transmission</span>
+            <span>✉</span>
+          </button>
+        </form>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- =========================================================================
+       EDITORIAL FOOTER
+       ========================================================================= -->
+  <footer class="editorial-footer">
+    <div class="footer-inner">
+      <div class="footer-brand-block">
+        <span class="footer-logo">ALISH SHRESTHA (ABYSS)</span>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">
+          Crafted with care, pixel precision &amp; modern web standards.
+        </p>
+      </div>
+
+      <div class="footer-time-badge">
+        <span>🕒 Nepal Time:</span>
+        <span id="nepal-live-clock" style="font-weight: 700; color: var(--text-primary);">--:--:-- NPT</span>
+      </div>
+
+      <a href="#hero" class="back-to-top-btn" aria-label="Return to top of page">
+        <span>↑ Return to Spawn</span>
+      </a>
+    </div>
+  </footer>
+
+  <!-- Toast Notification element -->
+  <div class="toast-notice" id="toast-notice" role="status" aria-live="polite"></div>
+
+  <!-- Main Application Script -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
