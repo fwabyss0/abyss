@@ -28,6 +28,185 @@
 <body>
 
   <!-- =========================================================================
+       MECHANICAL LOADING SCREEN: SCREW & BOLT LOOSENING
+       ========================================================================= -->
+  <div class="mechanical-loader" id="mechanical-loader" role="dialog" aria-modal="true" aria-label="Workshop loading calibration">
+    <div class="loader-scaffold">
+      <div class="loader-card">
+
+        <!-- Top Status Meta Bar -->
+        <div class="loader-meta-bar">
+          <div class="loader-tag">
+            <span class="loader-pulse-dot"></span>
+            <span>WORKSHOP CALIBRATION</span>
+          </div>
+          <button type="button" class="loader-skip-btn" id="loader-skip-btn" aria-label="Skip loading animation">
+            <span>Skip [Esc]</span>
+            <span aria-hidden="true">➔</span>
+          </button>
+        </div>
+
+        <!-- Animated Stage: Threaded Bolt with Loosening Nut + Unscrewing Machine Screw -->
+        <div class="loader-stage" aria-hidden="true">
+          <!-- 1. Horizontal Threaded Bolt with Unscrewing Hex Nut -->
+          <div class="bolt-assembly-wrapper">
+            <svg class="bolt-assembly-svg" viewBox="0 0 280 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Threaded bolt with loosening nut">
+              <defs>
+                <linearGradient id="bolt-head-metal" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#F1F5F9" />
+                  <stop offset="30%" stop-color="#CBD5E1" />
+                  <stop offset="70%" stop-color="#64748B" />
+                  <stop offset="100%" stop-color="#334155" />
+                </linearGradient>
+
+                <linearGradient id="bolt-shaft-metal" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#E2E8F0" />
+                  <stop offset="25%" stop-color="#F8FAFC" />
+                  <stop offset="50%" stop-color="#94A3B8" />
+                  <stop offset="85%" stop-color="#475569" />
+                  <stop offset="100%" stop-color="#1E293B" />
+                </linearGradient>
+
+                <linearGradient id="thread-ridge-highlight" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.95" />
+                  <stop offset="45%" stop-color="#94A3B8" />
+                  <stop offset="100%" stop-color="#0F172A" />
+                </linearGradient>
+
+                <linearGradient id="nut-outer-metal" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#FFFFFF" />
+                  <stop offset="20%" stop-color="#E2E8F0" />
+                  <stop offset="55%" stop-color="#94A3B8" />
+                  <stop offset="85%" stop-color="#64748B" />
+                  <stop offset="100%" stop-color="#1E293B" />
+                </linearGradient>
+
+                <filter id="nut-shadow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="2" dy="8" stdDeviation="6" flood-color="rgba(0,0,0,0.22)" />
+                </filter>
+              </defs>
+
+              <!-- Bolt Fixed Shaft -->
+              <g class="bolt-fixed-group">
+                <!-- Bolt Hex Head (Left) -->
+                <polygon points="16,36 34,26 40,38 40,82 34,94 16,84" fill="url(#bolt-head-metal)" stroke="#1E293B" stroke-width="2.5" />
+                <line x1="34" y1="26" x2="34" y2="94" stroke="#FFFFFF" stroke-opacity="0.6" stroke-width="1.8" />
+                <line x1="16" y1="36" x2="16" y2="84" stroke="#0F172A" stroke-width="2" />
+
+                <!-- Metallic Washer Disc -->
+                <rect x="40" y="32" width="7" height="56" rx="2" fill="#94A3B8" stroke="#1E293B" stroke-width="2" />
+                <line x1="43" y1="34" x2="43" y2="86" stroke="#FFFFFF" stroke-opacity="0.8" stroke-width="1.2" />
+
+                <!-- Cylindrical Threaded Shank -->
+                <rect x="47" y="39" width="185" height="42" rx="2" fill="url(#bolt-shaft-metal)" stroke="#1E293B" stroke-width="2.2" />
+
+                <!-- Helical Screw Threads (Engraved Ridges) -->
+                <g class="bolt-threads-layer" stroke="url(#thread-ridge-highlight)" stroke-width="3.5" stroke-linecap="round">
+                  <line x1="55" y1="40" x2="65" y2="80" />
+                  <line x1="68" y1="40" x2="78" y2="80" />
+                  <line x1="81" y1="40" x2="91" y2="80" />
+                  <line x1="94" y1="40" x2="104" y2="80" />
+                  <line x1="107" y1="40" x2="117" y2="80" />
+                  <line x1="120" y1="40" x2="130" y2="80" />
+                  <line x1="133" y1="40" x2="143" y2="80" />
+                  <line x1="146" y1="40" x2="156" y2="80" />
+                  <line x1="159" y1="40" x2="169" y2="80" />
+                  <line x1="172" y1="40" x2="182" y2="80" />
+                  <line x1="185" y1="40" x2="195" y2="80" />
+                  <line x1="198" y1="40" x2="208" y2="80" />
+                  <line x1="211" y1="40" x2="221" y2="80" />
+                </g>
+
+                <!-- Bolt Chamfered Tip (Right End) -->
+                <path d="M 232,39 Q 240,39 240,60 Q 240,81 232,81 Z" fill="#64748B" stroke="#1E293B" stroke-width="2.2" />
+              </g>
+
+              <!-- The Loosening Nut (Animated along the bolt) -->
+              <g class="nut-loosening-runner" filter="url(#nut-shadow)">
+                <!-- Nut Body -->
+                <path d="M 4,28 L 36,28 L 42,35 L 42,85 L 36,92 L 4,92 L -2,85 L -2,35 Z" fill="url(#nut-outer-metal)" stroke="#0F172A" stroke-width="2.5" />
+                <!-- Facet Highlights -->
+                <polygon points="4,28 36,28 38,47 0,47" fill="#CBD5E1" fill-opacity="0.4" />
+                <line x1="0" y1="47" x2="38" y2="47" stroke="#FFFFFF" stroke-opacity="0.8" stroke-width="1.6" />
+                <rect x="0" y="47" width="38" height="26" fill="#94A3B8" fill-opacity="0.3" />
+                <line x1="0" y1="73" x2="38" y2="73" stroke="#0F172A" stroke-opacity="0.5" stroke-width="1.6" />
+                <polygon points="0,73 38,73 36,92 4,92" fill="#334155" fill-opacity="0.4" />
+                <!-- Chamfer corner lines -->
+                <line x1="-2" y1="35" x2="4" y2="28" stroke="#FFFFFF" stroke-width="2" />
+                <line x1="36" y1="28" x2="42" y2="35" stroke="#94A3B8" stroke-width="1.5" />
+                <!-- Center Thread Groove Notch -->
+                <circle cx="20" cy="60" r="3.5" fill="#1E293B" opacity="0.35" />
+              </g>
+            </svg>
+          </div>
+
+          <!-- 2. Vertical Machine Screw Loosening & Lifting -->
+          <div class="screw-assembly-wrapper">
+            <svg class="screw-assembly-svg" viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Loosening vertical screw">
+              <defs>
+                <linearGradient id="screw-head-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#FFFFFF" />
+                  <stop offset="40%" stop-color="#E2E8F0" />
+                  <stop offset="75%" stop-color="#94A3B8" />
+                  <stop offset="100%" stop-color="#475569" />
+                </linearGradient>
+              </defs>
+
+              <!-- Metal Base Plate with Threaded Hole Socket -->
+              <rect x="8" y="94" width="84" height="20" rx="3" fill="#CBD5E1" stroke="#334155" stroke-width="2" />
+              <!-- Bore Hole Opening -->
+              <ellipse cx="50" cy="94" rx="18" ry="6" fill="#0F172A" stroke="#1E293B" stroke-width="2" />
+              <!-- Socket Thread Rings inside hole -->
+              <ellipse cx="50" cy="98" rx="14" ry="4" fill="none" stroke="#64748B" stroke-width="1.5" />
+
+              <!-- The Loosening & Rotating Screw Group -->
+              <g class="screw-loosening-runner">
+                <!-- Screw Threaded Shank -->
+                <rect x="42" y="38" width="16" height="52" fill="#94A3B8" stroke="#1E293B" stroke-width="2" />
+                <!-- Helical Thread Grooves on Shank -->
+                <line x1="42" y1="46" x2="58" y2="42" stroke="#FFFFFF" stroke-width="2" />
+                <line x1="42" y1="56" x2="58" y2="52" stroke="#FFFFFF" stroke-width="2" />
+                <line x1="42" y1="66" x2="58" y2="62" stroke="#FFFFFF" stroke-width="2" />
+                <line x1="42" y1="76" x2="58" y2="72" stroke="#FFFFFF" stroke-width="2" />
+                <line x1="42" y1="86" x2="58" y2="82" stroke="#FFFFFF" stroke-width="2" />
+                <path d="M 42,90 Q 50,96 58,90 Z" fill="#64748B" stroke="#1E293B" stroke-width="1.5" />
+
+                <!-- Screw Domed Pan-Head -->
+                <ellipse cx="50" cy="38" rx="26" ry="14" fill="url(#screw-head-grad)" stroke="#1E293B" stroke-width="2.5" />
+                <!-- Cross / Phillips Drive Slot on Screw Head -->
+                <g class="screw-cross-slot">
+                  <rect x="46" y="28" width="8" height="20" rx="1" fill="#0F172A" />
+                  <rect x="36" y="34" width="28" height="8" rx="1" fill="#0F172A" />
+                  <circle cx="50" cy="38" r="2.5" fill="#334155" />
+                </g>
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Progress Tracking & Information -->
+        <div class="loader-feedback-wrap">
+          <div class="loader-status-row">
+            <span class="loader-action-text" id="loader-status-text">UNTHREADING FASTENERS...</span>
+            <span class="loader-percent-num" id="loader-percent-text">00%</span>
+          </div>
+
+          <!-- Mechanical Progress Bar Track -->
+          <div class="loader-track">
+            <div class="loader-bar-fill" id="loader-bar-fill"></div>
+          </div>
+
+          <!-- Handwritten Scrapbook Note -->
+          <p class="loader-handwritten-note">
+            “Loosening up some tight bolts &amp; unboxing the portfolio...”
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
        HERO OPENING SECTION (PRIMARY REFERENCE SPECIFICATION)
        ========================================================================= -->
   <header class="hero-wrapper" id="hero">
@@ -916,6 +1095,11 @@
         <span>🕒 Nepal Time:</span>
         <span id="nepal-live-clock" style="font-weight: 700; color: var(--text-primary);">--:--:-- NPT</span>
       </div>
+
+      <!-- Re-trigger Mechanical Loading Animation -->
+      <button type="button" class="footer-replay-btn" id="replay-loader-btn" title="Replay the mechanical bolt loosening animation">
+        <span>🔩 Re-loosen Bolts</span>
+      </button>
 
       <a href="#hero" class="back-to-top-btn" aria-label="Return to top of page">
         <span>↑ Return to Spawn</span>
