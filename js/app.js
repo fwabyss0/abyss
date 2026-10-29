@@ -405,16 +405,15 @@ function initSkillProgressHover() {
 
   skillRows.forEach(row => {
     const targetPct = parseInt(row.getAttribute('data-percent') || '0', 10);
-    const roundMeterFill = row.querySelector('.round-meter-fill');
-    const roundMeterPct = row.querySelector('.round-meter-pct');
-    if (!roundMeterFill || !roundMeterPct) return;
+    const progressBar = row.querySelector('.skill-progress-bar');
+    const pctLabel = row.querySelector('.skill-pct-label');
+    if (!progressBar || !pctLabel) return;
 
     let animFrame = null;
 
     function startProgress() {
       row.classList.add('is-hovered');
-      // Trigger SVG circle stroke-dasharray animation to targetPct out of 100
-      roundMeterFill.style.strokeDasharray = `${targetPct} 100`;
+      progressBar.style.width = `${targetPct}%`;
 
       const startTime = performance.now();
       const duration = 550; // ms
@@ -426,12 +425,12 @@ function initSkillProgressHover() {
         const ease = 1 - Math.pow(1 - progress, 4);
         const currentNum = Math.round(ease * targetPct);
 
-        roundMeterPct.textContent = `${currentNum}%`;
+        pctLabel.textContent = `${currentNum}%`;
 
         if (progress < 1) {
           animFrame = requestAnimationFrame(step);
         } else {
-          roundMeterPct.textContent = `${targetPct}%`;
+          pctLabel.textContent = `${targetPct}%`;
         }
       }
 
@@ -441,9 +440,9 @@ function initSkillProgressHover() {
 
     function resetProgress() {
       row.classList.remove('is-hovered');
-      roundMeterFill.style.strokeDasharray = '0 100';
+      progressBar.style.width = '0%';
       if (animFrame) cancelAnimationFrame(animFrame);
-      roundMeterPct.textContent = '0%';
+      pctLabel.textContent = '0%';
     }
 
     // Hover events for desktop
