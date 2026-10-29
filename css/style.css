@@ -1887,7 +1887,7 @@ body.drawer-open .mobile-glass-drawer {
   -webkit-backdrop-filter: var(--glass-blur);
   border: 1px solid var(--glass-border);
   border-radius: 20px;
-  padding: 1.35rem 1.4rem;
+  padding: 1.25rem 1.15rem;
   box-shadow: 0 6px 22px -4px rgba(0, 0, 0, 0.05), inset 0 1px 1.5px 0 #FFFFFF;
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease;
   position: relative;
@@ -1959,7 +1959,7 @@ body.drawer-open .mobile-glass-drawer {
   flex-direction: column;
   justify-content: space-between;
   gap: 0.35rem;
-  padding: 0.55rem 0.75rem;
+  padding: 0.52rem 0.68rem;
   min-height: 48px;
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.65);
@@ -2000,7 +2000,7 @@ body.drawer-open .mobile-glass-drawer {
   box-shadow: 0 0 12px rgba(0, 102, 255, 0.18), inset 0 0 4px rgba(0, 102, 255, 0.03);
 }
 
-/* Compact Horizontal Layout: Left = Badge + Name; Right = Description + Percentage */
+/* Top Row: Left = Badge + Skill Name (Full width at rest); Right = Side text & Percentage (Appears on hover) */
 .skill-row-top {
   display: flex;
   align-items: center;
@@ -2016,7 +2016,7 @@ body.drawer-open .mobile-glass-drawer {
   display: flex;
   align-items: center;
   gap: 0.45rem;
-  flex: 0 1 auto;
+  flex: 1 1 auto;
   min-width: 0;
   overflow: hidden;
 }
@@ -2050,22 +2050,45 @@ body.drawer-open .mobile-glass-drawer {
 }
 
 .skill-name {
-  font-size: 0.82rem;
+  font-size: 0.83rem;
   font-weight: 600;
   color: var(--text-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   min-width: 0;
+  transition: color 0.2s ease;
 }
 
+.skill-item-row:hover .skill-name,
+.skill-item-row.is-hovered .skill-name {
+  color: var(--color-gear-blue);
+}
+
+/* Side text & percentage pill - Hidden in resting state, revealed smoothly on hover */
 .skill-meta-right {
   display: flex;
   align-items: center;
   gap: 0.35rem;
   flex-shrink: 0;
   margin-left: auto;
-  min-width: 0;
+  opacity: 0;
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  pointer-events: none;
+  transform: translateX(8px);
+  transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              max-width 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.skill-item-row:hover .skill-meta-right,
+.skill-item-row.is-hovered .skill-meta-right {
+  opacity: 1;
+  max-width: 150px;
+  pointer-events: auto;
+  transform: translateX(0);
 }
 
 .skill-level-text {
@@ -2075,9 +2098,9 @@ body.drawer-open .mobile-glass-drawer {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 120px;
+  max-width: 95px;
   text-align: right;
-  transition: color 0.25s ease;
+  transition: color 0.2s ease;
 }
 
 .skill-item-row:hover .skill-level-text,
@@ -2085,7 +2108,7 @@ body.drawer-open .mobile-glass-drawer {
   color: var(--text-secondary);
 }
 
-/* Percentage pill badge - only displays on hover */
+/* Percentage pill badge */
 .skill-pct-label {
   font-family: var(--font-mono);
   font-size: 0.68rem;
@@ -2098,33 +2121,26 @@ body.drawer-open .mobile-glass-drawer {
   font-feature-settings: "tnum";
   font-variant-numeric: tabular-nums;
   line-height: 1.2;
-  opacity: 0;
-  transform: scale(0.85);
-  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-  pointer-events: none;
-}
-
-.skill-item-row:hover .skill-pct-label,
-.skill-item-row.is-hovered .skill-pct-label {
-  opacity: 1;
-  transform: scale(1);
+  flex-shrink: 0;
 }
 
 /* Thin progress bar along the bottom */
 .skill-progress-track {
   width: 100%;
   height: 3.5px;
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(0, 0, 0, 0.04);
   border-radius: var(--radius-pill);
   overflow: hidden;
   position: relative;
   z-index: 2;
-  transition: background 0.25s ease;
+  transition: background 0.25s ease, opacity 0.25s ease;
+  opacity: 0.45;
 }
 
 .skill-item-row:hover .skill-progress-track,
 .skill-item-row.is-hovered .skill-progress-track {
   background: rgba(0, 102, 255, 0.12);
+  opacity: 1;
 }
 
 .skill-progress-bar {
