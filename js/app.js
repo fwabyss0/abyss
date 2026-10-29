@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initContactFormAndCopy();
   initLiveNepalClock();
   initSmoothScroll();
+  initSkillProgressHover();
 });
 
 /**
@@ -392,5 +393,68 @@ function initThemeLoader() {
     }
   }, intervalTime);
 }
+
+/**
+ * 9. INTERACTIVE SKILL PROFICIENCY LOADING BARS
+ * When hovering on skills like Python, JS, etc., smoothly loads
+ * the progress bar and dynamically counts up the percentage readout.
+ */
+function initSkillProgressHover() {
+  const skillRows = document.querySelectorAll('.skill-item-row');
+  if (!skillRows.length) return;
+
+  skillRows.forEach(row => {
+    const targetPct = parseInt(row.getAttribute('data-percent') || '0', 10);
+    const pctLabel = row.querySelector('.skill-pct-label');
+    const progressBar = row.querySelector('.skill-progress-bar');
+    if (!pctLabel || !progressBar) return;
+
+    let animFrame = null;
+
+    function startProgress() {
+      row.classList.add('is-hovered');
+      progressBar.style.width = `${targetPct}%`;
+
+      const startTime = performance.now();
+      const duration = 500; // ms
+
+      function step(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        // easeOutQuart
+        const ease = 1 - Math.pow(1 - progress, 4);
+        const currentNum = Math.round(ease * targetPct);
+
+        pctLabel.textContent = `${currentNum}%`;
+
+        if (progress < 1) {
+          animFrame = requestAnimationFrame(step);
+        } else {
+          pctLabel.textContent = `${targetPct}%`;
+        }
+      }
+
+      if (animFrame) cancelAnimationFrame(animFrame);
+      animFrame = requestAnimationFrame(step);
+    }
+
+    function resetProgress() {
+      row.classList.remove('is-hovered');
+      progressBar.style.width = '0%';
+      if (animFrame) cancelAnimationFrame(animFrame);
+      pctLabel.textContent = `${targetPct}%`;
+    }
+
+    // Hover events for desktop
+    row.addEventListener('mouseenter', startProgress);
+    row.addEventListener('mouseleave', resetProgress);
+
+    // Touch / tap events for mobile
+    row.addEventListener('touchstart', () => {
+      startProgress();
+    }, { passive: true });
+  });
+}
+
 
 
