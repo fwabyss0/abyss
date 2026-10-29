@@ -428,8 +428,7 @@ img {
   width: 100%;
   height: auto;
   display: block;
-  mix-blend-mode: multiply;
-  filter: drop-shadow(0 16px 20px rgba(0, 0, 0, 0.1));
+  filter: drop-shadow(0 14px 20px rgba(0, 0, 0, 0.12));
 }
 
 /* 4. LOWER-RIGHT: Bright yellow sticky note with imperfect paper look */
