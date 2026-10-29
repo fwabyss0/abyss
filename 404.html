@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — Sector Not Found | Alish Shrestha (Abyss)</title>
+  <meta name="robots" content="noindex, follow">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="shortcut icon" href="assets/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@700&family=Plus+Jakarta+Sans:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .error-page-wrapper {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      position: relative;
+      z-index: 2;
+    }
+    .error-card {
+      max-width: 520px;
+      width: 100%;
+      background: var(--card-bg);
+      border-radius: var(--radius-card);
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-card);
+      padding: 3rem 2.2rem;
+      text-align: center;
+      position: relative;
+    }
+    .error-tape {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-1.5deg);
+      width: 110px;
+      height: 26px;
+      background: var(--color-tape);
+      border-left: 2px dashed rgba(0, 0, 0, 0.15);
+      border-right: 2px dashed rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(4px);
+    }
+    .error-code {
+      font-family: var(--font-headline);
+      font-size: clamp(3.5rem, 12vw, 5.5rem);
+      line-height: 1;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+    .error-subtitle {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      color: var(--color-gear-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 1.25rem;
+      font-weight: 700;
+    }
+    .error-desc {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+    .error-home-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--text-primary);
+      color: #FFFFFF;
+      padding: 0.85rem 1.75rem;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s;
+    }
+    .error-home-btn:hover {
+      background: var(--color-gear-blue);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <div class="error-page-wrapper">
+    <div class="error-card">
+      <div class="error-tape" aria-hidden="true"></div>
+      <div class="error-code">404</div>
+      <div class="error-subtitle">Sector Not Found</div>
+      <p class="error-desc">
+        The coordinate or transmission you are looking for does not exist in this sector. It may have drifted into deep space or moved to a new destination.
+      </p>
+      <a href="/" class="error-home-btn">
+        <span>← Return to Spawn (Home)</span>
+      </a>
+    </div>
+  </div>
+</body>
+</html>

@@ -6,6 +6,8 @@
   <title>Alish Shrestha (Abyss) — Portfolio</title>
   <meta name="description" content="Personal portfolio of Alish Shrestha (Abyss) — AI Student, Frontend Developer & Creator based in Kathmandu & Bhaktapur, Nepal.">
   <meta name="author" content="Alish Shrestha">
+  <meta name="theme-color" content="#EFEFEF">
+  <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://www.sthaalish.com.np/">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link rel="shortcut icon" href="assets/favicon.ico">
@@ -15,7 +17,58 @@
   <meta property="og:url" content="https://www.sthaalish.com.np/">
   <meta property="og:title" content="Alish Shrestha (Abyss) — Portfolio">
   <meta property="og:description" content="Minimalist, editorial-style portfolio of Alish Shrestha — AI Student, Web Developer & Creator.">
-  <meta property="og:image" content="assets/alish-900.webp">
+  <meta property="og:image" content="https://www.sthaalish.com.np/assets/alish-900.webp">
+  <meta property="og:image:width" content="900">
+  <meta property="og:image:height" content="900">
+  <meta property="og:image:alt" content="Alish Shrestha (Abyss) Portfolio Portrait">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="Alish Shrestha (Abyss) Portfolio">
+
+  <!-- Twitter Meta -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://www.sthaalish.com.np/">
+  <meta name="twitter:title" content="Alish Shrestha (Abyss) — Portfolio">
+  <meta name="twitter:description" content="Minimalist, editorial-style portfolio of Alish Shrestha — AI Student, Web Developer & Creator.">
+  <meta name="twitter:image" content="https://www.sthaalish.com.np/assets/alish-900.webp">
+
+  <!-- Schema.org JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://www.sthaalish.com.np/#person",
+        "name": "Alish Shrestha",
+        "alternateName": "Abyss",
+        "url": "https://www.sthaalish.com.np/",
+        "image": "https://www.sthaalish.com.np/assets/alish-900.webp",
+        "jobTitle": "Frontend Developer & AI Student",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Kathmandu",
+          "addressRegion": "Bagmati",
+          "addressCountry": "Nepal"
+        },
+        "sameAs": [
+          "https://github.com/fwabyss0",
+          "https://www.linkedin.com/in/alish-shrestha-4276b8379",
+          "https://www.instagram.com/aliisshhhhhh/"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://www.sthaalish.com.np/#website",
+        "url": "https://www.sthaalish.com.np/",
+        "name": "Alish Shrestha (Abyss) — Portfolio",
+        "description": "Minimalist, editorial-style portfolio of Alish Shrestha — AI Student, Web Developer & Creator.",
+        "publisher": {
+          "@id": "https://www.sthaalish.com.np/#person"
+        }
+      }
+    ]
+  }
+  </script>
 
   <!-- Google Fonts: Pixelify Sans (Retro Bitmap/Serif Headline), Caveat (Handwriting), Plus Jakarta Sans (Clean Modern Sans), Space Mono (Code/Metadata) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,6 +79,17 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
+  <!-- Accessibility Skip-to-Content Link (WCAG 2.4.1) -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Scroll Reading Progress Bar -->
+  <div class="scroll-reading-bar" id="scroll-reading-bar" aria-hidden="true"></div>
+
+  <!-- =========================================================================
+       CREATIVE 3D SPATIAL BACKGROUND (CANVAS 3D & VOLUMETRIC LIGHTING)
+       ========================================================================= -->
+  <canvas id="spatial-canvas-3d" class="spatial-canvas-3d" aria-hidden="true"></canvas>
 
   <!-- =========================================================================
        THEME LOADING SCREEN: SCRAPBOOK & GEAR CALIBRATION
@@ -179,6 +243,8 @@
 
       <!-- Center Focal Point: Headline & CTA Button -->
       <main class="hero-center">
+        <!-- 3D Spatial Interactive Geometric Sculpture Canvas -->
+        <canvas class="hero-3d-sculpture-canvas" id="hero-3d-sculpture-canvas" aria-hidden="true"></canvas>
         <div class="hero-headline-wrap">
           <h1 class="hero-headline">
             <span class="hero-line-1">
@@ -199,7 +265,7 @@
           </h1>
 
           <!-- Call To Action: Outlined Button -->
-          <a href="#about" class="hero-cta" id="hero-cta-btn" aria-label="Scroll to portfolio overview">
+          <a href="#about" class="hero-cta" id="hero-cta-btn" aria-label="Enter in my world — Scroll to about overview">
             <span>Enter in my world</span>
             <span class="cta-arrow" aria-hidden="true">↓</span>
           </a>
@@ -213,7 +279,7 @@
       <!-- 1. UPPER-LEFT: Circular illustrated profile portrait with red heart sticker -->
       <div class="floating-item float-profile" aria-label="Profile sticker">
         <div class="profile-sticker-frame">
-          <img src="assets/alish-900.webp" alt="Alish Shrestha portrait sticker" class="profile-sticker-img" loading="eager" width="115" height="115">
+          <img src="assets/alish-900.webp" alt="Alish Shrestha portrait sticker" class="profile-sticker-img" loading="eager" width="115" height="115" decoding="async">
           <div class="profile-heart-sticker" title="Made with passion">
             <svg class="heart-svg" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -258,7 +324,7 @@
       <!-- 3. LOWER-LEFT: Realistic cutout image of silver headphones with soft shadow -->
       <div class="floating-item float-headphones" aria-label="Silver headphones cutout">
         <div class="headphones-wrapper" title="Soundtrack of the journey">
-          <img src="assets/headphones.png" alt="Realistic cutout of silver metallic over-ear headphones" class="headphones-img" width="185" height="185" loading="lazy">
+          <img src="assets/headphones.webp" alt="Realistic cutout of silver metallic over-ear headphones" class="headphones-img" width="185" height="185" loading="lazy" decoding="async">
         </div>
       </div>
 
@@ -369,13 +435,17 @@
           <span class="nepal-clock-drawer">--:--:-- NPT</span>
         </div>
         <div class="glass-drawer-actions">
-          <a href="mailto:shrestaalish444@gmail.com" class="drawer-action-btn primary">
-            <span>Send Email</span>
-            <span>✉</span>
+          <a href="mailto:shrestaalish444@gmail.com" class="drawer-action-btn primary" aria-label="Send Email to Alish">
+            <span>Email</span>
+            <span aria-hidden="true">✉</span>
           </a>
-          <a href="tel:+9779826328462" class="drawer-action-btn secondary">
+          <a href="https://wa.me/9779826328462?text=Hi%20Alish%2C%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20connect!" target="_blank" rel="noopener noreferrer" class="drawer-action-btn secondary" aria-label="Chat on WhatsApp">
+            <span>WhatsApp</span>
+            <span aria-hidden="true">💬</span>
+          </a>
+          <a href="tel:+9779826328462" class="drawer-action-btn secondary" aria-label="Call Alish directly">
             <span>Call</span>
-            <span>📞</span>
+            <span aria-hidden="true">📞</span>
           </a>
         </div>
       </div>
@@ -415,7 +485,7 @@
   <!-- =========================================================================
        EDITORIAL CONTENT CONTINUATION
        ========================================================================= -->
-  <div class="editorial-container">
+  <div class="editorial-container" id="main-content" tabindex="-1">
 
     <!-- -----------------------------------------------------------------------
          SECTION 1: ABOUT ME
@@ -433,7 +503,7 @@
         <!-- Sidebar Card -->
         <aside class="about-sidebar-card">
           <div class="about-photo-wrap">
-            <img src="assets/alish-900.webp" alt="Alish Shrestha" class="about-photo" width="220" height="220" loading="lazy">
+            <img src="assets/alish-900.webp" alt="Alish Shrestha" class="about-photo" width="220" height="220" loading="lazy" decoding="async">
           </div>
           <div class="about-status-pill">
             <span class="status-dot"></span>
@@ -1344,6 +1414,10 @@
                 <span>Instagram</span>
                 <span>↗</span>
               </a>
+              <a href="https://wa.me/9779826328462?text=Hi%20Alish%2C%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20connect!" target="_blank" rel="noopener noreferrer" class="social-pill" aria-label="Message on WhatsApp">
+                <span>WhatsApp</span>
+                <span aria-hidden="true">💬 ↗</span>
+              </a>
               <a href="https://www.sthaalish.com.np/" target="_blank" rel="noopener noreferrer" class="social-pill">
                 <span>Website</span>
                 <span>↗</span>
@@ -1353,23 +1427,27 @@
         </div>
 
         <!-- Interactive Message Composer -->
-        <form class="contact-form" id="contact-composer-form">
+        <form class="contact-form" id="contact-composer-form" novalidate>
           <div class="form-group">
-            <label for="sender-name" class="form-label">Your Name</label>
-            <input type="text" id="sender-name" class="form-input" placeholder="e.g. Alex Morgan" required>
+            <label for="sender-name" class="form-label">Your Name <span class="required-star" aria-hidden="true">*</span></label>
+            <input type="text" id="sender-name" name="name" class="form-input" placeholder="e.g. Alex Morgan" required aria-required="true" autocomplete="name">
+            <span class="form-field-error" id="name-error" aria-live="polite"></span>
           </div>
           <div class="form-group">
-            <label for="sender-email" class="form-label">Your Email</label>
-            <input type="email" id="sender-email" class="form-input" placeholder="alex@startup.io" required>
+            <label for="sender-email" class="form-label">Your Email <span class="required-star" aria-hidden="true">*</span></label>
+            <input type="email" id="sender-email" name="email" class="form-input" placeholder="alex@startup.io" required aria-required="true" autocomplete="email">
+            <span class="form-field-error" id="email-error" aria-live="polite"></span>
           </div>
           <div class="form-group">
-            <label for="sender-message" class="form-label">Transmission Message</label>
-            <textarea id="sender-message" class="form-textarea" placeholder="Tell me about your project, timeline, or idea..." required></textarea>
+            <label for="sender-message" class="form-label">Transmission Message <span class="required-star" aria-hidden="true">*</span></label>
+            <textarea id="sender-message" name="message" class="form-textarea" placeholder="Tell me about your project, timeline, or idea..." required aria-required="true" rows="4"></textarea>
+            <span class="form-field-error" id="message-error" aria-live="polite"></span>
           </div>
-          <button type="submit" class="form-submit-btn">
-            <span>Send Transmission</span>
-            <span>✉</span>
+          <button type="submit" class="form-submit-btn" id="form-submit-btn">
+            <span class="btn-text">Send Transmission</span>
+            <span class="btn-icon" aria-hidden="true">✉</span>
           </button>
+          <p class="form-status-msg" id="form-status-msg" role="status" aria-live="polite"></p>
         </form>
       </div>
     </section>
@@ -1383,17 +1461,17 @@
     <div class="footer-inner">
       <div class="footer-brand-block">
         <span class="footer-logo">ALISH SHRESTHA (ABYSS)</span>
-        <p style="font-size: 0.85rem; color: var(--text-muted);">
+        <p style="font-size: 0.85rem; color: var(--text-secondary);">
           Crafted with care, pixel precision &amp; modern web standards.
         </p>
       </div>
 
       <div class="footer-time-badge">
-        <span>🕒 Nepal Time:</span>
+        <span style="color: var(--text-secondary);">🕒 Nepal Time:</span>
         <span id="nepal-live-clock" style="font-weight: 700; color: var(--text-primary);">--:--:-- NPT</span>
       </div>
 
-      <a href="#hero" class="back-to-top-btn" aria-label="Return to top of page">
+      <a href="#hero" class="back-to-top-btn" aria-label="Return to Spawn (top of page)">
         <span>↑ Return to Spawn</span>
       </a>
     </div>

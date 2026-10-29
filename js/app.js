@@ -5,17 +5,23 @@
  * ==========================================================================
  */
 
+import { initCreative3DElevation } from './creative3d.js';
+import { initAnalytics } from './analytics.js';
+
 document.addEventListener('DOMContentLoaded', () => {
   initThemeLoader();
   initDockedNavigation();
   initMobileGlassDrawer();
   initMobileBottomDock();
+  initScrollReadingBar();
   initGearInteraction();
   initCatInteraction();
   initContactFormAndCopy();
   initLiveNepalClock();
   initSmoothScroll();
   initSkillProgressHover();
+  initCreative3DElevation();
+  initAnalytics();
 });
 
 /**
@@ -149,6 +155,28 @@ function initMobileBottomDock() {
 }
 
 /**
+ * 1D. SCROLL READING PROGRESS BAR
+ */
+function initScrollReadingBar() {
+  const bar = document.getElementById('scroll-reading-bar');
+  if (!bar) return;
+
+  function updateProgress() {
+    const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+    if (totalHeight <= 0) {
+      bar.style.width = '0%';
+      return;
+    }
+    const progress = Math.min(Math.max((window.scrollY / totalHeight) * 100, 0), 100);
+    bar.style.width = `${progress}%`;
+  }
+
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  window.addEventListener('resize', updateProgress, { passive: true });
+  updateProgress();
+}
+
+/**
  * 2. GEAR INTERACTION & PHYSICS
  */
 function initGearInteraction() {
@@ -204,30 +232,153 @@ function initCatInteraction() {
  * 4. CONTACT MESSAGE FORM & 1-CLICK CLIPBOARD COPY
  */
 function initContactFormAndCopy() {
-  // Form submission via mailto link
   const form = document.getElementById('contact-composer-form');
   if (form) {
-    form.addEventListener('submit', (e) => {
+    const nameInput = document.getElementById('sender-name');
+    const emailInput = document.getElementById('sender-email');
+    const messageInput = document.getElementById('sender-message');
+    const submitBtn = document.getElementById('form-submit-btn');
+    const statusMsg = document.getElementById('form-status-msg');
+    const nameError = document.getElementById('name-error');
+    const emailError = document.getElementById('email-error');
+    const messageError = document.getElementById('message-error');
+
+    // Email validation regex (RFC 5322 compliant subset)
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+    function clearErrors() {
+      if (nameError) nameError.textContent = '';
+      if (emailError) emailError.textContent = '';
+      if (messageError) messageError.textContent = '';
+      if (statusMsg) {
+        statusMsg.textContent = '';
+        statusMsg.className = 'form-status-msg';
+      }
+      [nameInput, emailInput, messageInput].forEach(input => {
+        if (input) input.classList.remove('is-invalid');
+      });
+    }
+
+    // Clear error on user typing
+    [nameInput, emailInput, messageInput].forEach(input => {
+      if (input) {
+        input.addEventListener('input', () => {
+          input.classList.remove('is-invalid');
+          const errorSpan = document.getElementById(`${input.name}-error`);
+          if (errorSpan) errorSpan.textContent = '';
+        });
+      }
+    });
+
+    let isSubmitting = false;
+
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const nameInput = document.getElementById('sender-name');
-      const emailInput = document.getElementById('sender-email');
-      const messageInput = document.getElementById('sender-message');
+      if (isSubmitting) return;
+
+      clearErrors();
 
       const name = nameInput ? nameInput.value.trim() : '';
       const email = emailInput ? emailInput.value.trim() : '';
       const message = messageInput ? messageInput.value.trim() : '';
 
-      if (!message) {
-        showToast('Please enter a message first! ✍️');
+      let hasError = false;
+
+      if (!name || name.length < 2) {
+        if (nameError) nameError.textContent = 'Please enter your name (at least 2 characters).';
+        if (nameInput) nameInput.classList.add('is-invalid');
+        hasError = true;
+      }
+
+      if (!email || !emailRegex.test(email)) {
+        if (emailError) emailError.textContent = 'Please enter a valid email address.';
+        if (emailInput) emailInput.classList.add('is-invalid');
+        hasError = true;
+      }
+
+      if (!message || message.length < 10) {
+        if (messageError) messageError.textContent = 'Please provide a message with at least 10 characters.';
+        if (messageInput) messageInput.classList.add('is-invalid');
+        hasError = true;
+      }
+
+      if (hasError) {
+        if (nameInput && nameInput.classList.contains('is-invalid')) nameInput.focus();
+        else if (emailInput && emailInput.classList.contains('is-invalid')) emailInput.focus();
+        else if (messageInput && messageInput.classList.contains('is-invalid')) messageInput.focus();
         return;
       }
 
-      const recipient = 'shrestaalish444@gmail.com';
-      const subject = encodeURIComponent(`Portfolio Inquiry from ${name || 'Collaborator'}`);
-      const body = encodeURIComponent(`Hi Alish,\n\n${message}\n\nFrom: ${name} (${email})`);
+      isSubmitting = true;
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        const btnText = submitBtn.querySelector('.btn-text');
+        if (btnText) btnText.textContent = 'Preparing Transmission...';
+      }
 
-      window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
-      showToast('Opening your email client... 🚀');
+      const endpoint = form.getAttribute('action');
+
+      if (endpoint && endpoint !== '#' && !endpoint.startsWith('mailto:')) {
+        try {
+          const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify({ name, email, message })
+          });
+
+          if (response.ok) {
+            form.reset();
+            if (statusMsg) {
+              statusMsg.textContent = 'Transmission received successfully! I will reply soon. ✨';
+              statusMsg.className = 'form-status-msg success';
+            }
+            showToast('Transmission received! ✨');
+          } else {
+            throw new Error(`Server returned ${response.status}`);
+          }
+        } catch (err) {
+          if (statusMsg) {
+            statusMsg.textContent = 'Online dispatch unavailable. Launching direct email client as fallback...';
+            statusMsg.className = 'form-status-msg error';
+          }
+          const recipient = 'shrestaalish444@gmail.com';
+          const subject = encodeURIComponent(`Portfolio Inquiry from ${name}`);
+          const body = encodeURIComponent(`Hi Alish,\n\n${message}\n\nFrom: ${name} (${email})`);
+          window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
+        } finally {
+          isSubmitting = false;
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            const btnText = submitBtn.querySelector('.btn-text');
+            if (btnText) btnText.textContent = 'Send Transmission';
+          }
+        }
+      } else {
+        const recipient = 'shrestaalish444@gmail.com';
+        const subject = encodeURIComponent(`Portfolio Inquiry from ${name}`);
+        const body = encodeURIComponent(`Hi Alish,\n\n${message}\n\nFrom: ${name} (${email})`);
+
+        if (statusMsg) {
+          statusMsg.textContent = 'Launching your default email client with your prefilled transmission... 🚀';
+          statusMsg.className = 'form-status-msg success';
+        }
+        showToast('Launching email client... 🚀');
+
+        setTimeout(() => {
+          window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
+          setTimeout(() => {
+            isSubmitting = false;
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              const btnText = submitBtn.querySelector('.btn-text');
+              if (btnText) btnText.textContent = 'Send Transmission';
+            }
+          }, 1500);
+        }, 300);
+      }
     });
   }
 

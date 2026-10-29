@@ -1,0 +1,25 @@
+# Alish Shrestha (Abyss) — Portfolio
+
+> AI Student, Frontend Developer & Creative Technologist based in Kathmandu & Bhaktapur, Nepal.
+
+## Summary
+Alish Shrestha (known as Abyss) is a software engineer and AI student passionate about modern web engineering, responsive user interfaces, applied artificial intelligence, and creative web interactions.
+
+## Core Projects
+- **Yatra Travel Discovery**: AI-assisted travel discovery and itinerary planning platform.
+- **Polaroid Printer Experience**: Interactive retro photo printing web application.
+- **Sashon Marketing Platform**: Modern marketing and digital presence web application.
+- **Print Village Portal**: Workflow and printing operations management system.
+
+## Technical Toolkit
+- **Languages & Core**: Python, JavaScript, TypeScript, HTML5, CSS3.
+- **Frontend & Tooling**: React, Vite, Node.js, Git, GitHub Actions, Tailwind CSS, Responsive Design.
+- **AI & Data Science**: Machine Learning, NumPy, Pandas, Data Visualization.
+
+## Verified Links
+- **Website**: https://www.sthaalish.com.np/
+- **GitHub**: https://github.com/fwabyss0
+- **LinkedIn**: https://www.linkedin.com/in/alish-shrestha-4276b8379
+- **Instagram**: https://www.instagram.com/aliisshhhhhh/
+- **Email**: shrestaalish444@gmail.com
+- **Phone**: +977 9826328462
