@@ -28,6 +28,116 @@
 <body>
 
   <!-- =========================================================================
+       THEME LOADING SCREEN: SCRAPBOOK & GEAR CALIBRATION
+       ========================================================================= -->
+  <div class="theme-loader" id="theme-loader" role="dialog" aria-modal="true" aria-label="Loading portfolio">
+    <div class="theme-loader-card">
+      <div class="loader-tape" aria-hidden="true"></div>
+
+      <!-- Top Header Bar inside Loader Card -->
+      <div class="loader-top-bar">
+        <div class="loader-brand">
+          <svg class="pixel-cube-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <polygon points="12,2 22,7 12,12 2,7" fill="#111111" />
+            <polygon points="12,3.5 20,7.5 12,11.5 4,7.5" fill="#444444" />
+            <polygon points="2,7 12,12 12,22 2,17" fill="#222222" />
+            <polygon points="12,12 22,7 22,17 12,22" fill="#111111" />
+            <rect x="11" y="6" width="2" height="2" fill="#666666" />
+          </svg>
+          <span class="loader-brand-title">MY PORTFOLIO</span>
+        </div>
+        <button type="button" class="loader-skip-pill" id="loader-skip-btn" aria-label="Skip loading animation">
+          <span>Skip [Esc]</span>
+          <span aria-hidden="true">➔</span>
+        </button>
+      </div>
+
+      <!-- Center Gear & Floating Scrapbook Badges -->
+      <div class="loader-center-stage" aria-hidden="true">
+        <!-- Floating Mini Cat Sticker (peeking from top right) -->
+        <div class="loader-mini-sticker mini-cat" title="Cat sticker">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 12,5 L 16,10 L 24,10 L 28,5 L 32,11 L 34,18 L 34,29 L 31,34 L 9,34 L 6,29 L 6,18 L 8,11 Z" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="2"/>
+            <polygon points="13,7 17,11 23,11 27,7 31,12 32,18 32,28 29,32 11,32 8,28 8,18 9,12" fill="#F8B133"/>
+            <polygon points="12,10 14,8 16,12" fill="#FFAEC9"/>
+            <polygon points="28,10 26,8 24,12" fill="#FFAEC9"/>
+            <rect x="13" y="16" width="3" height="4" rx="1" fill="#1A1A1A"/>
+            <rect x="24" y="16" width="3" height="4" rx="1" fill="#1A1A1A"/>
+            <polygon points="20,20 18,19 22,19" fill="#FF5277"/>
+            <path d="M 18,23 Q 20,28 22,23 Z" fill="#99152B"/>
+            <ellipse cx="20" cy="25" rx="1.8" ry="1.5" fill="#FF708F"/>
+          </svg>
+        </div>
+
+        <!-- Floating Mini Envelope (lower left) -->
+        <div class="loader-mini-sticker mini-envelope" title="Envelope sticker">
+          <svg viewBox="0 0 36 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="1" y="1" width="34" height="26" rx="3" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="2"/>
+            <rect x="3" y="3" width="30" height="22" fill="#F8F8F6" stroke="#222222" stroke-width="1.5"/>
+            <polyline points="3,3 18,15 33,3" stroke="#222222" stroke-width="1.5" fill="#EFEFEA"/>
+            <polygon points="18,18 16,16 14,16 13,17 13,18 18,23 23,18 23,17 22,16 20,16" fill="#FF334B"/>
+          </svg>
+        </div>
+
+        <!-- Floating Mini Heart Badge (top left) -->
+        <div class="loader-mini-sticker mini-heart" title="Heart sticker">
+          <div class="loader-heart-circle">
+            <svg viewBox="0 0 24 24" fill="#FFFFFF">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Meshed Gears Assembly (Hero Motif) -->
+        <div class="gears-interlocking-wrap">
+          <!-- Main Electric Blue Gear (Clockwise) -->
+          <svg class="loader-gear-primary" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="loaderGearGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#38BDF8"/>
+                <stop offset="100%" stop-color="#0066FF"/>
+              </linearGradient>
+            </defs>
+            <path fill="url(#loaderGearGrad)" fill-rule="evenodd" clip-rule="evenodd" d="
+              M 43,5 L 57,5 L 58,18 Q 63,20 68,23 L 78,13 L 87,22 L 77,32 Q 80,37 82,42 L 95,43 L 95,57 L 82,58 Q 80,63 77,68 L 87,78 L 78,87 L 68,77 Q 63,80 58,82 L 57,95 L 43,95 L 42,82 Q 37,80 32,77 L 22,87 L 13,78 L 23,68 Q 20,63 18,58 L 5,57 L 5,43 L 18,42 Q 20,37 23,32 L 13,22 L 22,13 L 32,23 Q 37,20 42,18 Z
+              M 50,30 A 20,20 0 1,0 50,70 A 20,20 0 1,0 50,30 Z
+            "/>
+            <!-- Center Core Sparkle ✦ -->
+            <path d="M 50,38 L 52.5,47.5 L 62,50 L 52.5,52.5 L 50,62 L 47.5,52.5 L 38,50 L 47.5,47.5 Z" fill="#FFFFFF"/>
+          </svg>
+
+          <!-- Interlocking Secondary Mini Gear (Counter-Clockwise) -->
+          <svg class="loader-gear-secondary" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#1E293B" fill-rule="evenodd" clip-rule="evenodd" d="
+              M 26,4 L 34,4 L 34.5,12 Q 37.5,13.5 40.5,15.5 L 47,10 L 52,15 L 46.5,21.5 Q 48.5,24.5 50,27.5 L 58,28 L 58,36 L 50,36.5 Q 48.5,39.5 46.5,42.5 L 52,49 L 47,54 L 40.5,48.5 Q 37.5,50.5 34.5,52 L 34,60 L 26,60 L 25.5,52 Q 22.5,50.5 19.5,48.5 L 13,54 L 8,49 L 13.5,42.5 Q 11.5,39.5 10,36.5 L 2,36 L 2,28 L 10,27.5 Q 11.5,24.5 13.5,21.5 L 8,15 L 13,10 L 19.5,15.5 Q 22.5,13.5 25.5,12 Z
+              M 30,20 A 10,10 0 1,0 30,40 A 10,10 0 1,0 30,20 Z
+            "/>
+            <circle cx="30" cy="30" r="5" fill="#FFFFFF"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Loader Feedback Area -->
+      <div class="loader-feedback-wrap">
+        <div class="loader-status-row">
+          <span class="loader-action-text" id="loader-status-text">POLISHING PIXELS...</span>
+          <span class="loader-percent-num" id="loader-percent-text">00%</span>
+        </div>
+
+        <!-- Themed Progress Track -->
+        <div class="loader-track">
+          <div class="loader-bar-fill" id="loader-bar-fill"></div>
+        </div>
+
+        <p class="loader-handwritten-note">
+          “Sticking notes, winding gears &amp; entering my world...”
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =========================================================================
        HERO OPENING SECTION (PRIMARY REFERENCE SPECIFICATION)
        ========================================================================= -->
   <header class="hero-wrapper" id="hero">

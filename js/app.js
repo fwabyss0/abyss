@@ -6,6 +6,7 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  initThemeLoader();
   initDockedNavigation();
   initGearInteraction();
   initCatInteraction();
@@ -219,4 +220,80 @@ function initSmoothScroll() {
     });
   }
 }
+
+/**
+ * 8. THEME LOADING SCREEN: SCRAPBOOK & GEAR CALIBRATION
+ */
+function initThemeLoader() {
+  const loader = document.getElementById('theme-loader');
+  const barFill = document.getElementById('loader-bar-fill');
+  const percentText = document.getElementById('loader-percent-text');
+  const statusText = document.getElementById('loader-status-text');
+  const skipBtn = document.getElementById('loader-skip-btn');
+
+  if (!loader) return;
+
+  // Respect reduced motion accessibility
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReducedMotion) {
+    loader.classList.add('loader-hidden');
+    return;
+  }
+
+  let progress = 0;
+  let timer = null;
+  const duration = 1900; // 1.9s for a brisk, satisfying intro
+  const intervalTime = 30;
+  const step = 100 / (duration / intervalTime);
+
+  function dismissLoader() {
+    clearInterval(timer);
+    loader.classList.add('loader-hidden');
+  }
+
+  // Skip button click handler
+  if (skipBtn) {
+    skipBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      dismissLoader();
+    });
+  }
+
+  // Keyboard shortcut: Press Escape to skip instantly
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !loader.classList.contains('loader-hidden')) {
+      dismissLoader();
+    }
+  });
+
+  // Start progress sequence
+  timer = setInterval(() => {
+    progress += step;
+    if (progress >= 100) {
+      progress = 100;
+      clearInterval(timer);
+      if (barFill) barFill.style.width = '100%';
+      if (percentText) percentText.textContent = '100%';
+      if (statusText) statusText.textContent = 'WELCOME TO MY WORLD!';
+      setTimeout(dismissLoader, 350);
+    } else {
+      const rounded = Math.floor(progress);
+      if (barFill) barFill.style.width = `${rounded}%`;
+      if (percentText) percentText.textContent = `${rounded < 10 ? '0' + rounded : rounded}%`;
+
+      if (statusText) {
+        if (rounded < 25) {
+          statusText.textContent = 'ASSEMBLING CANVAS...';
+        } else if (rounded < 55) {
+          statusText.textContent = 'WINDING GEARS...';
+        } else if (rounded < 82) {
+          statusText.textContent = 'POLISHING PIXELS...';
+        } else {
+          statusText.textContent = 'PREPARING SCRAPBOOK...';
+        }
+      }
+    }
+  }, intervalTime);
+}
+
 
