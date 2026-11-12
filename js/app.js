@@ -7,8 +7,10 @@
 
 import { initCreative3DElevation } from './creative3d.js';
 import { initAnalytics } from './analytics.js';
+import { initVenomTheme } from './venomTheme.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+  initVenomTheme();
   initThemeLoader();
   initDockedNavigation();
   initMobileGlassDrawer();

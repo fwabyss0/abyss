@@ -11,6 +11,21 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@700&family=Plus+Jakarta+Sans:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <script>
+    (function() {
+      try {
+        const saved = localStorage.getItem('abyss_theme_preference');
+        const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (saved === 'dark' || (!saved && systemDark)) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          document.documentElement.classList.add('dark-theme');
+        } else {
+          document.documentElement.setAttribute('data-theme', 'light');
+          document.documentElement.classList.remove('dark-theme');
+        }
+      } catch (e) {}
+    })();
+  </script>
   <style>
     .error-page-wrapper {
       min-height: 100vh;
@@ -88,6 +103,20 @@
   </style>
 </head>
 <body>
+  <!-- Venom Symbiote Transition Canvas Layer -->
+  <canvas id="venom-transition-canvas" class="venom-transition-canvas" aria-hidden="true"></canvas>
+
+  <!-- Persistent Floating Theme Switcher at Top-Right Corner -->
+  <div class="theme-floating-wrap" id="theme-floating-wrap">
+    <button type="button" class="theme-toggle-btn theme-toggle-floating" id="theme-toggle-floating" aria-label="Toggle dark and light theme" title="Toggle theme [T]">
+      <span class="theme-icon-wrap" aria-hidden="true">
+        <svg class="theme-icon moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </span>
+    </button>
+  </div>
+
   <div class="error-page-wrapper">
     <div class="error-card">
       <div class="error-tape" aria-hidden="true"></div>
@@ -101,5 +130,12 @@
       </a>
     </div>
   </div>
+
+  <script type="module">
+    import { initVenomTheme } from './js/venomTheme.js';
+    document.addEventListener('DOMContentLoaded', () => {
+      initVenomTheme();
+    });
+  </script>
 </body>
 </html>
